@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Carousel</title>
+    <style>
+        .carousel-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .carousel-wrapper {
+            display: flex;
+            transition: transform 0.3s ease;
+        }
+        
+        .carousel-item {
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .carousel-item img {
+            width: 100%;
+            display: block;
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+        
+        .nav-button {
+            background-color: rgba(255, 255, 255, 0.5);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+        
+        .nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .dots-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        
+        .dot.active {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel-container">
+        <div class="carousel-wrapper">
+            <div class="carousel-item">
+                <img src="https://trungtran.vn/upload_images/images/products/ideapad/large/AFjsGW4d9w2JxAux46SRfE1YC-4609.jpg" alt="Laptop Image 1">
+            </div>
+            <div class="carousel-item">
+                <img src="https://trungtran.vn/upload_images/images/products/ideapad/large/Thgwj8so64yoHt2LPxjMmaVdi-4920.jpg" alt="Laptop Image 2">
+            </div>
+            <div class="carousel-item">
+                <img src="https://trungtran.vn/upload_images/images/products/ideapad/large/KBnoly7iZNpcteqvdfu5vgdkO-4890.jpg" alt="Laptop Image 3">
+            </div>
+            <div class="carousel-item">
+                <img src="https://trungtran.vn/upload_images/images/products/ideapad/large/Zxha18PSp1iOKUtroV5dYqxVt-4895.jpg" alt="Laptop Image 4">
+            </div>
+            <div class="carousel-item">
+                <img src="https://trungtran.vn/upload_images/images/products/ideapad/large/hRhrrkBD72IfKQLgLNeeAUgw5-4678.jpg" alt="Laptop Image 5">
+            </div>
+            <div class="carousel-item">
+                <img src="https://trungtran.vn/upload_images/images/products/ideapad/large/dN1h6CX5S0j1Ig8gs0WUtZrAE-9016.jpg" alt="Laptop Image 6">
+            </div>
+            <div class="carousel-item">
+                <img src="https://trungtran.vn/upload_images/images/products/ideapad/large/tSS4AJNlLE5mNd6WM5yvoT822-4651.jpg" alt="Laptop Image 7">
+            </div>
+        </div>
+        
+        <div class="carousel-nav">
+            <button class="nav-button prev-button">&lt;</button>
+            <button class="nav-button next-button">&gt;</button>
+        </div>
+    </div>
+    
+    <div class="dots-container"></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const carouselWrapper = document.querySelector('.carousel-wrapper');
+            const carouselItems = document.querySelectorAll('.carousel-item');
+            const prevButton = document.querySelector('.prev-button');
+            const nextButton = document.querySelector('.next-button');
+            const dotsContainer = document.querySelector('.dots-container');
+            
+            let currentIndex = 0;
+            const totalItems = carouselItems.length;
+            
+            // Create dots
+            for (let i = 0; i < totalItems; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (i === currentIndex) {
+                    dot.classList.add('active');
+                }
+                dot.addEventListener('click', () => {
+                    goToSlide(i);
+                });
+                dotsContainer.appendChild(dot);
+            }
+            
+            // Functions
+            function updateCarousel() {
+                carouselWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+                
+                // Update dots
+                document.querySelectorAll('.dot').forEach((dot, index) => {
+                    if (index === currentIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+            
+            function goToSlide(index) {
+                currentIndex = index;
+                updateCarousel();
+            }
+            
+            function goToNextSlide() {
+                currentIndex = (currentIndex + 1) % totalItems;
+                updateCarousel();
+            }
+            
+            function goToPrevSlide() {
+                currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+                updateCarousel();
+            }
+            
+            // Event listeners
+            nextButton.addEventListener('click', goToNextSlide);
+            prevButton.addEventListener('click', goToPrevSlide);
+            
+            // Optional: Auto-play
+            let intervalId;
+            
+            function startAutoPlay() {
+                intervalId = setInterval(goToNextSlide, 5000);
+            }
+            
+            function stopAutoPlay() {
+                clearInterval(intervalId);
+            }
+            
+            // Start autoplay
+            startAutoPlay();
+            
+            // Pause autoplay on hover
+            const carouselContainer = document.querySelector('.carousel-container');
+            carouselContainer.addEventListener('mouseenter', stopAutoPlay);
+            carouselContainer.addEventListener('mouseleave', startAutoPlay);
+        });
+    </script>
+</body>
+</html>

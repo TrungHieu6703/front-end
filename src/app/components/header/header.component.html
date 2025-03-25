@@ -1,0 +1,83 @@
+<header class="header">
+  <div class="logo">
+    <img src="https://trungtran.vn/images/config/logo_trung_tran_2_1732504425.svg" alt="Logo" />
+  </div>
+
+  <nav class="nav">
+    <a href="#">Giới thiệu</a>
+
+    <div class="menu-item" (mouseenter)="showDropdown('laptop')" (mouseleave)="hideDropdown()">
+      <a href="#">Laptop</a>
+      <ul class="dropdown" *ngIf="activeDropdown === 'laptop'" >
+        <li *ngFor="let brand of brands">
+          <h4>{{ brand.name }}</h4>
+          <ul>
+            <li *ngFor="let productLine of brand.productLines"><a href="#">{{ productLine }}</a></li>
+          </ul>
+        <li>
+          <h4>Theo nhu cầu</h4>
+          <ul>
+            <li><a href="#">Mỏng Nhẹ</a></li>
+            <li><a href="#">Workstations</a></li>
+            <li><a href="#">Siêu phẩm</a></li>
+            <li><a href="#">Đồ Họa, Kỹ thuật</a></li>
+            <li><a href="#">Học tập, Văn phòng</a></li>
+            <li><a href="#">Lập trình</a></li>
+            <li><a href="#">Game</a></li>
+          </ul>
+        </li>
+        <li>
+          <h4>Liên hệ để được tư vấn</h4>
+          <p>093.669.33.88</p>
+        </li>
+      </ul>
+    </div>
+    
+
+    <div class="menu-item" (mouseenter)="showDropdown('phukien')" (mouseleave)="hideDropdown()">
+      <a href="#">Phụ kiện</a>
+      <ul class="dropdown" *ngIf="activeDropdown === 'phukien'">
+        <li>
+          <ul>
+            <li><a href="#">Tai nghe, loa</a></li>
+            <li><a href="#">Cáp</a></li>
+            <li><a href="#">Ghế công thái học</a></li>
+          </ul>
+        </li>
+        <li>
+          <ul>
+            <li><a href="#">RAM</a></li>
+            <li><a href="#">Bàn phím</a></li>
+            <li><a href="#">SSD</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <a href="#">Khuyến mãi</a>
+  </nav>
+
+  <div class="search">
+    <input type="text" placeholder="Tìm kiếm laptop và phụ kiện..." />
+    <button>
+      <i class="pi pi-search" style="font-size: 1.3rem"></i>
+    </button>
+  </div>
+
+  <div class="icons">
+    <div class="icon">
+      <i class="pi pi-heart" style="font-size: 1.9rem"></i>
+      <span class="badge">0 </span>
+    </div>
+    <div class="icon">
+      <i class="pi pi-shopping-cart" style="font-size: 1.9rem"></i>
+      <span class="badge">0</span>
+    </div>
+    <div class="icon">
+      <i class="pi pi-user" style=" font-size: 1.9rem"></i>
+    </div>
+  </div>
+</header>
+
+
+

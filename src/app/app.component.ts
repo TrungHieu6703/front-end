@@ -1,0 +1,18 @@
+import { ChangeDetectorRef, Component, ViewEncapsulation, type AfterViewInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { ReactiveFormsModule } from '@angular/forms';
+
+@Component({
+	selector: 'app-root',
+	standalone: true,
+	imports: [CommonModule, CKEditorModule, RouterOutlet, ReactiveFormsModule],
+	templateUrl: './app.component.html',
+	styleUrls: ['./app.component.css'],
+	encapsulation: ViewEncapsulation.None
+})
+export class AppComponent {
+
+
+}

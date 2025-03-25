@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>So Sánh Sản Phẩm</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+<div class="compare-container active">
+    <div class="container">
+        <div class="title">
+            <a href="javascript:void(0)" class="btn-compare-less">
+                Thu gọn <i class="fa fa-angle-down"></i>
+            </a>
+        </div>
+        <div class="grid-container" >
+
+            <!-- Ô thêm sản phẩm -->
+            <div *ngFor="let product of listCompare; let i = index">
+                <!-- Nếu sản phẩm là null, hiển thị nút "Thêm sản phẩm" -->
+                <div class="item item_add" *ngIf="product === null">
+                    <a href="#" data-toggle="modal" data-target="#modalCompare" title="Thêm sản phẩm">
+                        <svg class="add_svg" width="60" height="60" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0.5" y="0.5" width="69" height="69" fill="white" stroke="#CCCCCC" stroke-dasharray="3 3"></rect>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M36 25H34V33.999H25V35.999H34V45H36V35.999H45V33.999H36V25Z" fill="#C4C4C4"></path>
+                        </svg>
+                        Thêm sản phẩm
+                    </a>
+                </div>
+        
+                <!-- Nếu sản phẩm không phải null, hiển thị thông tin sản phẩm -->
+                <div class="item" *ngIf="product !== null">
+                    <img [src]="product.image" alt="{{ product.name }}">
+                    <a href="#">{{ product.name }}</a>
+                    <button class="remove-btn" (click)="removeItem(i)" >
+                        X
+                    </button>
+                </div>
+            </div>
+            <!-- Hành động -->
+            <div class="itemm actions">
+                <a href="#" class="compare_all">So sánh ngay</a>
+                <a href="javascript:void(0)" class="remove_all_compare">Xóa tất cả sản phẩm</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

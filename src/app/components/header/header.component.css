@@ -1,0 +1,168 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 1000;
+  display: flex;
+  height: 90px;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 10px 20px;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0, 56, 240, 0.1);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+/* 0 2px 5px rgba(0, 0, 0, 0.1); */
+.logo img {
+  height: 50px;
+  width: 200px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 0; /* Giữ nguyên khoảng cách giữa các thẻ <a> */
+}
+
+.nav a {
+  text-decoration: none;
+  color: #606060;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px 15px; /* Giữ nguyên padding */
+  display: flex;
+  align-items: center;
+}
+
+.nav a:hover {
+  color: #0056b3;
+}
+
+/* ===== MENU ITEM ===== */
+.menu-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.menu-item > a {
+  padding: 10px 15px; /* Giữ nguyên padding */
+  display: flex;
+  align-items: center;
+}
+
+/* ===== DROPDOWN ===== */
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: -200%;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 15px;
+  min-width: 900px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  z-index: 100;
+  list-style: none;
+  display: none;
+}
+
+.menu-item:hover .dropdown {
+  display: flex;
+}
+
+/* ===== GIỮ DROPDOWN KHI DI CHUYỂN CHUỘT ===== */
+.menu-item:hover .dropdown,
+.dropdown:hover {
+  display: flex;
+}
+
+/* ===== BỎ PHẦN VÙNG NGOÀI HOVER ===== */
+.menu-item:hover {
+  background: none;
+}
+
+/* ===== STYLE CHO DROPDOWN ===== */
+.dropdown-column {
+  flex: 1;
+  min-width: 180px;
+}
+
+.dropdown h4 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown ul li {
+  padding: 5px 0;
+}
+
+.dropdown ul li a {
+  text-decoration: none;
+  font-size: 14px;
+  color: #606060;
+  display: block;
+  padding: 5px 10px;
+}
+
+.dropdown ul li a:hover {
+  color: #0056b3;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+}
+
+/* ===== SEARCH ===== */
+.search {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 5px 10px;
+  box-shadow: 0 2px 5px rgba(0, 184, 240, 0.368);
+}
+
+.search input {
+  border: none;
+  outline: none;
+  width: 200px;
+}
+
+.search button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #0056b3;
+}
+
+/* ===== ICONS ===== */
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.icon {
+  position: relative;
+  cursor: pointer;
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #0079F2;
+  color: white;
+  font-size: 12px;
+  border-radius: 50%;
+  padding: 3px 6px;
+}

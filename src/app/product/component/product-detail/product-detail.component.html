@@ -1,0 +1,120 @@
+<div class="product-detail-container">
+    <div class="p-grid">
+      <!-- Phần hình ảnh sản phẩm -->
+      <div class="p-col-12 p-md-6">
+        <div class="product-images">
+          <div class="main-image">
+            <p-image [src]="product.images[selectedImageIndex]" [alt]="product.name" [preview]="true"></p-image>
+          </div>
+          <div class="thumbnail-images">
+            <div class="p-grid">
+              <div class="p-col-3" *ngFor="let image of product.images; let i = index">
+                <div class="thumbnail" [ngClass]="{'selected': selectedImageIndex === i}" (click)="selectImage(i)">
+                  <img [src]="image" [alt]="product.name + ' - hình ' + (i + 1)">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phần thông tin sản phẩm -->
+      <div class="p-col-12 p-md-6">
+        <div class="product-info">
+          <h1 class="product-name">{{product.name}}</h1>
+          
+          <div class="product-status">
+            <span class="status-label">Tình trạng:</span>
+            <span class="status-value available">{{product.status}}</span>
+            <span class="divider">|</span>
+            <span class="status-label">Bảo hành:</span>
+            <span class="status-value">{{product.warranty}}</span>
+          </div>
+
+          <div class="product-price">
+            <div class="current-price">{{formatPrice(product.price)}}₫</div>
+            <div class="original-price">
+              <span class="old-price">{{formatPrice(product.originalPrice)}}₫</span>
+              <span class="discount-badge">-{{product.discountPercent}}%</span>
+            </div>
+          </div>
+
+          <div class="product-short-desc">
+            <p>{{product.shortDescription}}</p>
+          </div>
+
+          <div class="product-options" *ngIf="product.options && product.options.length > 0">
+            <h3>Cấu hình</h3>
+            <div class="option-list">
+              <div *ngFor="let option of product.options" 
+                   class="option-item" 
+                   [ngClass]="{'selected': selectedOption === option.id}"
+                   (click)="selectOption(option.id)">
+                <div class="option-name">{{option.name}}</div>
+                <div class="option-price">{{formatPrice(option.price)}}₫</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-highlights">
+            <h3>Điểm nổi bật</h3>
+            <ul>
+              <li *ngFor="let highlight of product.highlights">{{highlight}}</li>
+            </ul>
+          </div>
+
+          <div class="product-gifts" *ngIf="product.gift && product.gift.length > 0">
+            <h3>Quà tặng kèm</h3>
+            <ul>
+              <li *ngFor="let gift of product.gift">{{gift}}</li>
+            </ul>
+          </div>
+
+          <div class="product-actions">
+            <p-button label="Mua ngay" icon="pi pi-shopping-cart" styleClass="p-button-raised p-button-danger buy-now"></p-button>
+            <p-button label="Thêm vào giỏ" icon="pi pi-plus" styleClass="p-button-raised add-to-cart"></p-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phần thông số kỹ thuật -->
+    <div class="p-grid mt-4">
+      <div class="p-col-12">
+        <p-tabView>
+          <p-tabPanel header="Thông số kỹ thuật">
+            <div class="specifications">
+              <p-table [value]="product.specifications" styleClass="spec-table">
+                <ng-template pTemplate="body" let-spec>
+                  <tr>
+                    <td class="spec-name">{{spec.name}}</td>
+                    <td class="spec-value">{{spec.value}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel header="Mô tả">
+            <div class="product-description">
+              <p>
+                Lenovo IdeaPad Slim 3 (82XR002TVN) là mẫu laptop mỏng nhẹ lý tưởng cho công việc và giải trí hàng ngày.
+                Với bộ vi xử lý AMD Ryzen 7 8745HS mạnh mẽ, 16GB RAM và ổ SSD 512GB tốc độ cao, chiếc laptop này mang
+                đến hiệu suất vượt trội cho mọi tác vụ từ văn phòng đến đồ họa cơ bản.
+              </p>
+              <p>
+                Màn hình 14 inch Full HD IPS với độ sáng 300 nits và lớp phủ chống chói giúp hiển thị rõ nét
+                trong mọi điều kiện ánh sáng. Thiết kế siêu mỏng chỉ 17.9mm và nhẹ 1.37kg giúp bạn dễ dàng
+                mang theo khi di chuyển.
+              </p>
+              <p>
+                Laptop được trang bị hệ thống tản nhiệt hiệu quả, bàn phím có đèn nền, camera FHD với màn trập
+                bảo vệ quyền riêng tư và hệ thống âm thanh Dolby Audio sống động. Với thời lượng pin lên đến 8 giờ,
+                đây là người bạn đồng hành lý tưởng cho công việc và học tập.
+              </p>
+            </div>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+    </div>
+  </div>
+`

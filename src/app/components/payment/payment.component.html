@@ -1,0 +1,208 @@
+<div class="main">
+    <div class="main-container">
+        <div class="content-detail" style="background-color: rgb(248,250,252);">
+            <div class="detail-left">
+                <p-card>
+                    <div class="bnt_info">
+                        <a href="" style="font-size: 16px;">THÔNG TIN KHÁCH HÀNG</a>
+                    </div>
+                    <div class="cachthuc">
+                        <div class="h3_title">
+                            <h3>Chọn cách thức mua hàng</h3>
+                        </div>
+                        <div class="typeReceive">
+                            <div class="bnt_cachthuc">
+                                <img src="https://trungtran.vn/modules/products/assets/images/home_cart.png" alt="">
+                                <span>Giao tận nơi</span>
+                            </div>
+                            <div class="bnt_cachthuc">
+                                <img src="https://trungtran.vn/modules/products/assets/images/cuahang.png" alt="">
+                                <span>Nhận tại cửa hàng</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gender_cart">
+                        <div class="card flex justify-content-center">
+                            <div class="flex flex-wrap gap-3">
+                                <div class="flex align-items-center">
+                                    <p-radioButton name="pizza" value="Cheese" [(ngModel)]="ingredient"
+                                        inputId="ingredient1" />
+                                    <label for="ingredient1" class="ml-2">
+                                        Anh
+                                    </label>
+                                </div>
+
+                                <div class="flex align-items-center">
+                                    <p-radioButton name="pizza" value="Mushroom" [(ngModel)]="ingredient"
+                                        inputId="ingredient2" />
+                                    <label for="ingredient2" class="ml-2">
+                                        Chị
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info_form">
+                        <div class="col-md-6 col-xs-12">
+                            <div class="card flex justify-content-center">
+                                <div class="flex flex-column gap-2">
+                                    <label for="username">Username</label>
+                                    <input pInputText id="username" aria-describedby="username-help"
+                                        [(ngModel)]="value" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="card flex justify-content-center">
+                                <div class="flex flex-column gap-2">
+                                    <label for="username">Username</label>
+                                    <input pInputText id="username" aria-describedby="username-help"
+                                        [(ngModel)]="value" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="card flex justify-content-center">
+                                <div class="flex flex-column gap-2">
+                                    <label for="username">Username</label>
+                                    <input pInputText id="username" aria-describedby="username-help"
+                                        [(ngModel)]="value" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="card flex justify-content-center">
+                                <div class="flex flex-column gap-2">
+                                    <label for="username">Username</label>
+                                    <input pInputText id="username" aria-describedby="username-help"
+                                        [(ngModel)]="value" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="card flex justify-content-center">
+                                <div class="flex flex-column gap-2">
+                                    <label for="username">Username</label>
+                                    <input pInputText id="username" aria-describedby="username-help"
+                                        [(ngModel)]="value" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="card flex justify-content-center">
+                                <div class="flex flex-column gap-2">
+                                    <label for="username">Username</label>
+                                    <input pInputText id="username" aria-describedby="username-help"
+                                        [(ngModel)]="value" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="type_address">
+                        <p>Loại địa chỉ</p>
+                        <div class="card flex justify-content-center">
+                            <div class="flex flex-wrap gap-3">
+                                <div class="flex align-items-center">
+                                    <p-radioButton name="pizza" value="Cheese" [(ngModel)]="ingredient"
+                                        inputId="ingredient1" />
+                                    <label for="ingredient1" class="ml-2">
+                                        NHÀ RIÊNG ( giao hàng tất cả thời gian )
+                                    </label>
+                                </div>
+
+                                <div class="flex align-items-center">
+                                    <p-radioButton name="pizza" value="Mushroom" [(ngModel)]="ingredient"
+                                        inputId="ingredient2" />
+                                    <label for="ingredient2" class="ml-2">
+                                        CƠ QUAN ( giao hàng giờ hành chính )
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="note">
+                        <div class="col-md-6 col-xs-12">
+                            <div class="card flex justify-content-center">
+                                <div class="flex flex-column gap-2 w-full">
+                                    <input pInputText id="username" aria-describedby="username-help"
+                                        placeholder="Yêu cầu khác (không bắt buộc)" [(ngModel)]="value" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </p-card>
+
+                <p-card>
+                    <div class="bnt_info">
+                        <a href="" style="font-size: 16px;">PHƯƠNG THỨC THANH TOÁN</a>
+                    </div>
+                </p-card>
+            </div>
+            <div class="detail-right">
+                <p-card>
+                    <div class="p-grid">
+                        <div class="p-col-12">
+                            <h2>SẢN PHẨM ĐÃ CHỌN</h2>
+                        </div>
+                        <div class="cart-item">
+                            <button class="remove-btn">×</button>
+                            <div class="cart-content">
+                                <img src="https://trungtran.vn/images/products/2025/resized/lenovo_legion_y7000_2024_thumbnail_front.png"
+                                    alt="Laptop Lenovo Legion Y7000">
+                                <div class="cart-details">
+                                    <h2 class="product-title">Lenovo Legion Y7000 2024 i7 13650HX RAM 24GB SSD 512GB RTX
+                                        4060 15.6" FHD 144Hz</h2>
+                                    <div class="price">
+                                        <span class="discounted-price">23.990.000đ</span>
+                                        <del class="original-price">28.500.000đ</del>
+                                    </div>
+                                </div>
+                                <div class="quantity-selector">
+                                    <button class="qty-btn">−</button>
+                                    <input type="number" value="1" min="1">
+                                    <button class="qty-btn">+</button>
+                                </div>
+                                <div class="ma_giam  ma_giam_pc">
+                                    <p class="text_giam">Mã ưu đãi</p>
+                                    <div class="nhap_giam">
+                                        <input type="text" name="code_down" id="code_down"
+                                            placeholder="Nhập mã giảm giá">
+                                        <a href="javascript:void(0)" class="add_code_price" id="add_code_price">Áp
+                                            dụng</a>
+                                        <input type="hidden" name="inputcode" id="inputcode" value="0">
+                                    </div>
+                                </div>
+                                <div class="total-price-products">
+                                    <p class="">Tạm tính (1) sản phẩm:
+                                        <span class="price_tam">23.990.000đ</span>
+                                    </p>
+                                    <p class="">Phí vận chuyển:
+                                        <span>Liên hệ</span>
+                                    </p>
+                                    <p class="">Mã giảm giá:
+                                        <span id="code_dis" class="code_dis">0đ</span>
+                                    </p>
+                                </div>
+                                <p class="total_end">Tổng tiền:
+                                    <span class="total_money">23.990.000đ</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="btn-area">
+                            <a href="javascript:void(0)" id="cod-btn" class="payment-btn  cod-btn-payment"
+                                title="Đặt hàng" >
+                                Đặt hàng </a>
+                            <p class="p_text_dieukhoan">
+                                <span class="span_check"><input type="checkbox" id="dieukhoan" name="dieukhoan"
+                                        value="1"></span>
+                                <span class="span_dk">Bằng cách đặt hàng, bạn đồng ý với <a
+                                        href="javascript:void(0)">Điều khoản sử dụng</a> của
+                                    trungtran.vn</span>
+                            </p>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+        </div>
+    </div>
+</div>

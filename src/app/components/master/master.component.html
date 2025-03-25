@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-12 text-center">
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" (click)="changeTab('role')">role</button>
+            <button type="button" class="btn btn-primary" (click)="changeTab('designation')">designation</button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12" *ngIf="field == 'role'">
+        <app-role></app-role>
+    </div>
+    <div class="col-12" *ngIf="field == 'designation'">
+        <app-designation></app-designation>
+    </div>
+</div>

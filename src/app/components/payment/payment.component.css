@@ -1,0 +1,244 @@
+body {
+    margin: 0;
+    padding: 0;
+
+}
+
+.info_form {
+    display: flex;
+    gap: 20px;
+    /* Khoảng cách giữa các phần tử */
+    flex-wrap: wrap;
+    /* Đảm bảo nếu màn hình nhỏ, các phần tử sẽ xuống dòng */
+}
+
+.col-md-6 {
+    flex: 1;
+    /* Chia đều không gian */
+    min-width: 310px;
+    /* Giới hạn chiều rộng tối thiểu để tránh vỡ layout */
+}
+
+
+.main {
+    height: max-content;
+}
+
+.main-container {
+
+    max-width: 1150px;
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+
+.container {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    /* Sử dụng flexbox để chia đôi */
+}
+
+.left {
+    width: 50%;
+    background-color: black;
+
+}
+
+.right {
+    width: 50%;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+}
+
+.card {
+    display: flex;
+    justify-content: center;
+}
+
+.content-detail {
+    align-items: start;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+    /* Khoảng cách giữa 2 card */
+
+    .detail-left {
+        max-width: 67%;
+        width: 100%;
+    }
+
+    .detail-right {
+        position: sticky;
+        top: 20px; /* You can adjust this value to control when it sticks */
+        max-width: 32%;
+        width: 100%;
+        align-self: flex-start; 
+    }
+
+    p-card {
+        white-space: normal;
+
+    }
+}
+
+.detail-left p-card {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.spec-table tr:nth-child(odd) {
+    background-color: rgb(248, 250, 252);
+}
+
+.spec-table tr:nth-child(even) {
+    background-color: rgb(255, 255, 255);
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 15px;
+    position: relative;
+    max-width: 600px;
+    margin: auto;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #888;
+}
+
+.cart-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.cart-content img {
+    width: 100px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.cart-details {
+    flex: 1;
+    padding: 0 15px;
+}
+
+.product-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+}
+
+.price {
+    margin-top: 5px;
+}
+
+.discounted-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff6600;
+}
+
+.original-price {
+    font-size: 14px;
+    color: #999;
+    margin-left: 10px;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+}
+
+.qty-btn {
+    background: #ddd;
+    border: none;
+    width: 25px;
+    height: 25px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.quantity-selector input {
+    width: 40px;
+    text-align: center;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    margin: 0 5px;
+}
+/* Tổng tiền */
+.total_end {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.total_money {
+    color: #ff6600;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Nút Đặt hàng */
+.payment-btn {
+    display: block;
+    width: 100%;
+    max-width: 300px; /* Giới hạn chiều rộng */
+    background: linear-gradient(to right, #0084ff, #0073e6);
+    color: #fff;
+    text-align: center;
+    padding: 12px 0;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.payment-btn:hover {
+    background: linear-gradient(to right, #0073e6, #005bb5);
+}
+
+/* Điều khoản sử dụng */
+.p_text_dieukhoan {
+    font-size: 14px;
+    color: #666;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.span_check input {
+    margin-right: 8px;
+}
+
+.span_dk a {
+    color: #0084ff;
+    text-decoration: none;
+}
+
+.span_dk a:hover {
+    text-decoration: underline;
+}
+

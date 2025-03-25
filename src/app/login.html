@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Main container styles */
+.grid-members {
+    display: flex;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 850px;
+    height: 560px;
+    margin: 0 auto;
+    background-color: #fff;
+}
+
+/* Left section with illustration and benefits */
+.grid-members .grid-item:first-child {
+    background-color: rgb(249,146,15);
+    padding: 40px 20px;
+    width: 50%;
+    height: 100%;
+    position: relative;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.grid-members .grid-item:first-child img {
+    width: 100%;
+    max-width: 300px;
+    display: block;
+    margin: 0 auto;
+}
+
+.grid-members .grid-item:first-child p {
+    color: #0066CC;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 30px 0 20px;
+    text-align: left;
+}
+
+/* Benefits list */
+.grid-members .grid-item:first-child ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.grid-members .grid-item:first-child ul li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 16px;
+}
+
+.grid-members .grid-item:first-child ul li svg {
+    margin-right: 10px;
+    min-width: 16px;
+}
+
+/* Right section with login form */
+.grid-members .grid-item:last-child {
+    padding: 40px;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Tab navigation */
+.top-title {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 30px;
+}
+
+.top-title a {
+    padding: 10px 15px;
+    font-size: 18px;
+    color: #888;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+.top-title a.active {
+    color: #0066CC;
+    border-bottom: 2px solid #0066CC;
+    font-weight: bold;
+}
+
+/* Form styles */
+.box {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+}
+
+.form-control:focus {
+    border-color: #0066CC;
+}
+
+.box-right {
+    text-align: right;
+}
+
+.forgot-password {
+    color: #0066CC;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* Login button */
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #0066CC;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+.submit-btn:hover {
+    background-color: #0055b3;
+}
+
+/* Footer note */
+.note {
+    font-size: 14px;
+    color: #666;
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 850px) {
+    .grid-members {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+    }
+    
+    .grid-members .grid-item:first-child,
+    .grid-members .grid-item:last-child {
+        width: 100%;
+        height: auto;
+    }
+}
+
+/* More specific responsive adjustments for very small screens */
+@media (max-width: 480px) {
+    .grid-members {
+        border-radius: 0;
+    }
+    
+    .grid-members .grid-item:first-child,
+    .grid-members .grid-item:last-child {
+        padding: 20px;
+    }
+    
+    .top-title a {
+        font-size: 16px;
+        padding: 8px 10px;
+    }
+    
+    .form-control {
+        padding: 10px;
+    }
+}
+
+/* Title for member benefits section */
+.quyền-lợi-thành-viên {
+    color: #0066CC;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+    </style>
+</head>
+<body>
+    <main >
+        <div class="grid-members" >
+            <div class="grid-item">
+                <img src="https://trungtran.vn/modules/members/assets/images/log.svg" alt="log" class="img-responsive"
+                    >
+                <p>Quyền lợi thành viên</p>
+                <ul>
+                    <li>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M14.6663 7.38668V8.00001C14.6655 9.43763 14.2 10.8365 13.3392 11.9879C12.4785 13.1393 11.2685 13.9817 9.88991 14.3893C8.51129 14.7969 7.03785 14.7479 5.68932 14.2497C4.3408 13.7515 3.18944 12.8307 2.40698 11.6247C1.62452 10.4187 1.25287 8.99205 1.34746 7.55755C1.44205 6.12305 1.99781 4.75756 2.93186 3.66473C3.86591 2.57189 5.1282 1.81027 6.53047 1.49344C7.93274 1.17662 9.39985 1.32157 10.713 1.90668"
+                                stroke="#20863D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M14.6667 2.66669L8 9.34002L6 7.34002" stroke="#20863D" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        Mua hàng khắp thế giới cực dễ dàng, nhanh chóng
+                    </li>
+                    <li>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M14.6663 7.38668V8.00001C14.6655 9.43763 14.2 10.8365 13.3392 11.9879C12.4785 13.1393 11.2685 13.9817 9.88991 14.3893C8.51129 14.7969 7.03785 14.7479 5.68932 14.2497C4.3408 13.7515 3.18944 12.8307 2.40698 11.6247C1.62452 10.4187 1.25287 8.99205 1.34746 7.55755C1.44205 6.12305 1.99781 4.75756 2.93186 3.66473C3.86591 2.57189 5.1282 1.81027 6.53047 1.49344C7.93274 1.17662 9.39985 1.32157 10.713 1.90668"
+                                stroke="#20863D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M14.6667 2.66669L8 9.34002L6 7.34002" stroke="#20863D" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        Theo dõi chi tiết đơn hàng, địa chỉ thanh toán dễ dàng
+                    </li>
+                    <li>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M14.6663 7.38668V8.00001C14.6655 9.43763 14.2 10.8365 13.3392 11.9879C12.4785 13.1393 11.2685 13.9817 9.88991 14.3893C8.51129 14.7969 7.03785 14.7479 5.68932 14.2497C4.3408 13.7515 3.18944 12.8307 2.40698 11.6247C1.62452 10.4187 1.25287 8.99205 1.34746 7.55755C1.44205 6.12305 1.99781 4.75756 2.93186 3.66473C3.86591 2.57189 5.1282 1.81027 6.53047 1.49344C7.93274 1.17662 9.39985 1.32157 10.713 1.90668"
+                                stroke="#20863D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M14.6667 2.66669L8 9.34002L6 7.34002" stroke="#20863D" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        Nhận nhiều chương trình ưu đãi hấp dẫn từ chúng tôi
+                    </li>
+                </ul>
+            </div>
+            <div class="grid-item" >
+                <div class="top-title">
+                    <a href="https://trungtran.vn/account/login" title="Đăng nhập" class="active" >Đăng nhập</a>
+                    <a href="https://trungtran.vn/account/register" title="Đăng ký">Đăng ký</a>
+                </div>
+                <form action="" method="post" class="frmLogin" id="frmLogin" data-gtm-form-interact-id="0">
+                    <div class="box">
+                        <input type="text" class="form-control" name="log_email" id="log_email"
+                            placeholder="Email đăng nhập*" data-gtm-form-interact-field-id="0" >
+                    </div>
+                    <div class="box">
+                        <input type="password" class="form-control" name="log_pass" id="log_pass" placeholder="Mật khẩu*">
+                    </div>
+                    <div class="box box-right">
+                        <a href="https://trungtran.vn/quen-mat-khau" title="Quên mật khẩu?" class="forgot-password">
+                            Quên mật khẩu? </a>
+                    </div>
+                    <div class="box">
+                        <a href="javascript:void(0)" class="submitLogin submit-btn">
+                            Đăng nhập </a>
+                    </div>
+                </form>
+                <p class="note">Trung Trần cam kết bảo mật và sẽ không bao giờ đăng hay chia sẻ thông tin mà chưa có được sự
+                    đồng ý của bạn.</p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

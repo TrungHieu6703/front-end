@@ -1,0 +1,42 @@
+<div class="p-4 border-1 surface-border surface-card border-round flex flex-column">
+  <div class="relative mx-auto">
+    <img class="border-round w-full" [src]="product.image" [alt]="product.name" style="max-width: 300px;" />
+  </div>
+  <div class="pt-4">
+    <div class="flex flex-row justify-content-between align-items-start gap-2">
+      <div>
+        <span class="font-medium text-secondary text-sm">{{ product.category }}</span>
+        <div class="text-sm font-medium text-500 mt-1" style="width: 246.5px; height: 64px;">
+          {{ product.name }}
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-column gap-2 mt-4">
+      <span class="text-xl font-semibold" style="color: rgb(255,94,34)">{{ product.price }}</span>
+      <div class="love_same">
+        <p class="p-same" style="color: rgb(131,131,131);">1 phiên bản</p>
+        <span class="right" (click)="love()">
+          <p class="pi pi-heart" style="color: rgb(255,94,34);"></p>
+          <p class="yeu_thich" style="font-size: small">Yêu thích</p>
+        </span>
+      </div>
+      <div class="ab flex flex-column gap-3">
+        <div class="thongso" style="background-color: rgb(239,239,239); border-radius: 8%; padding: 10px; display: flex; align-items: center; font-size: medium; color: rgb(136,136,136)">
+          <p>CPU: &nbsp;Intel Core5 220H<br>
+            RAM: Từ 24GB DDR5 nâng cấp được<br>
+            Màn hình: &nbsp;14″,2.8K (2880x1800)OLED<br>
+            Đồ họa:&nbsp;Intel® Graphics (onboard)</p>
+        </div>
+        <div class="bnt_sp">
+          <a class="left"><p class="pi pi-cart-plus"></p></a>
+          <a class="right" (click)="addToListCompare()">
+            <span *ngIf="isCompared; else notCompared">Đã thêm so sánh</span>
+          </a>
+          <ng-template #notCompared>
+            <span>So sánh</span>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

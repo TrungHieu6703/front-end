@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <app-header></app-header>
+    <div class="main">
+        <div class="main-container">
+            <div class="container flex">
+                <div class="left" style="background-color: rgb(255,255,255); padding: 30px">
+                        <h1 style="font-size: 22px;">Lenovo IdeaPad Slim 3 2025 Ryzen 7 8745HS RAM 16GB SSD 512GB FHD+ (Lenovo XiaoXin 14c AHP10)</h1>
+                        <span class="subtitle">New 100% - Bảo Hành 12 tháng tại Trung Trần</span>
+                        <div class="card">
+                            <p-galleria 
+                                [value]="images" 
+                                [showIndicators]="true" 
+                                [showThumbnails]="false" 
+                                [changeItemOnIndicatorHover]="true" 
+                                [responsiveOptions]="responsiveOptions" 
+                                [containerStyle]="{ 'max-width': '420px' }"> 
+                                    <ng-template pTemplate="item" let-item>
+                                        <div class="image-container">
+                                            <img [src]="item.itemImageSrc" style="height: 250px; max-width: 100%; object-fit: contain;" />
+                                        </div>
+                                    </ng-template>
+                            </p-galleria>
+                        </div>
+                    </div>
+                    <div class="right" style="background-color: rgb(248,250,252)">
+                        <h1 class="product-title">Laptop ASUS ROG Strix G15 (2024)</h1>
+                        <div class="product-rating">
+                            <div class="stars">★★★★★</div>
+                            <span>4.8 (128 đánh giá)</span>
+                        </div>
+                        
+                        <div class="price">
+                            32.990.000đ <span class="original-price">35.990.000đ</span>
+                            <span class="discount">-8%</span>
+                        </div>
+                        
+                        <div class="availability">
+                            ✓ Còn hàng - Giao hàng trong 24h
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button class="btn btn-primary">Mua ngay</button>
+                            <button class="btn btn-secondary">Thêm vào giỏ</button>
+                        </div>
+                        
+                        <div class="promotion-section">
+                            <h3 class="promotion-title">Ưu đãi đặc biệt</h3>
+                            <div class="promotion-items">
+                                <div class="promotion-item">
+                                    <div class="promotion-icon">🎁</div>
+                                    <div>Tặng balo gaming ROG trị giá 1.200.000đ</div>
+                                </div>
+                                <div class="promotion-item">
+                                    <div class="promotion-icon">🎁</div>
+                                    <div>Chuột gaming ASUS ROG Gladius III trị giá 1.900.000đ</div>
+                                </div>
+                                <div class="promotion-item">
+                                    <div class="promotion-icon">🎁</div>
+                                    <div>Giảm 50% khi mua Office Home & Student 2024</div>
+                                </div>
+                                <div class="promotion-item">
+                                    <div class="promotion-icon">🎁</div>
+                                    <div>Trả góp 0% lãi suất trong 12 tháng</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div >
+                    <h2 style="text-align: center; font-size: 32px;" >Thông Số Chính</h2>
+                </div>
+                <div class="content-detail" style="background-color: rgb(248,250,252);"> 
+                    <div class="detail-left">
+                        <p-card >
+                            <app-editor></app-editor>
+                        </p-card>
+                    </div>
+                    <div class="detail-right" >
+                        <p-card>
+                          <div style="height: 90px;">
+                            <h2 style="text-align: center; align-items: center; font-size: 17px; color: rgb(9,139,246)" >Thông Số kỹ thuật</h2>
+                          </div>
+                          <div class="p-grid">
+                            <div class="p-col-12">
+                              <table class="w-full spec-table">
+                                <tbody>
+                                  <tr>
+                                    <td class="font-medium p-2">CPU (Bộ vi xử lý)</td>
+                                    <td class="p-2" style="color: rgb(131, 135, 142); font-weight: 400;">
+                                      AMD Zen 4 Ryzen 7 8745HS (8 nhân 16 luồng, xung nhịp cơ bản 3.8GHz, tối đa với Turbo Boost tới 5.1GHz, 8MB L2 Cache, 16MB L3 Cache, Default TDP 45W)
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td class="font-medium p-2">Ram (Bộ nhớ trong)</td>
+                                    <td class="p-2">
+                                      16GB (8GB onboard + 8GB in slot), DDR5 5600MHz, có 1 khe RAM cho phép nâng cấp được
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td class="font-medium p-2">Ổ cứng</td>
+                                    <td class="p-2">
+                                      512GB SSD NVMe PCIe Gen 4.0 (Có thể nâng cấp lên 2TB)
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td class="font-medium p-2">Card đồ họa</td>
+                                    <td class="p-2">
+                                      NVIDIA GeForce RTX 4060 8GB GDDR6
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td class="font-medium p-2">Màn hình</td>
+                                    <td class="p-2">
+                                      15.6 inch, IPS, Full HD (1920 x 1080), 144Hz, 300 nits, 100% sRGB
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </p-card>
+                      </div>  
+                </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

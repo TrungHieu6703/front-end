@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Main container */
+.grid-members {
+    display: flex;
+    border-radius: 12px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    width: 1150px;
+    height: 564.56px;
+    margin: 0 auto;
+    background-color: #fff;
+}
+
+/* Left sidebar */
+.grid-members .grid-item:first-child {
+    width: 280px;
+    border-right: 1px solid #eee;
+    padding: 0;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* User profile section in sidebar */
+.user-menu-side {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.user-name {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.user-name img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.name {
+    display: flex;
+    flex-direction: column;
+}
+
+.span_name {
+    font-weight: bold;
+    color: #333;
+    font-size: 16px;
+}
+
+.span_phone {
+    color: #777;
+    font-size: 14px;
+    margin-top: 3px;
+}
+
+/* Navigation menu */
+.user-menu-side ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.user-menu-side ul li {
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.user-menu-side ul li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: #666;
+    text-decoration: none;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+.user-menu-side ul li a i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+    color: #999;
+}
+
+.user-menu-side ul li.selected a {
+    background-color: #f0f7ff;
+    color: #0066CC;
+    border-left: 3px solid #0066CC;
+}
+
+.user-menu-side ul li.selected a i {
+    color: #0066CC;
+}
+
+.user-menu-side ul li:not(.selected):hover a {
+    background-color: #f9f9f9;
+}
+
+/* Right content area */
+.grid-members .grid-item:last-child {
+    flex: 1;
+    padding: 30px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* Form heading */
+.member-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* Form layout */
+.user-content-side {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.box-user {
+    margin-bottom: 20px;
+    float: left;
+    padding: 0 15px;
+}
+
+.col-md-6 {
+    width: 50%;
+}
+
+.col-md-12 {
+    width: 100%;
+}
+
+.label-input {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 14px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 15px;
+    color: #333;
+    box-sizing: border-box;
+}
+
+.form-control:focus {
+    border-color: #0066CC;
+    outline: none;
+}
+
+.form-control:disabled {
+    background-color: #f9f9f9;
+    color: #777;
+}
+
+/* Avatar section */
+.box-user-img .inline-img {
+    display: flex;
+    align-items: center;
+}
+
+.image_preview {
+    margin-right: 15px;
+}
+
+.lgup.rounded-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #eee;
+    border: 1px solid #ddd;
+}
+
+.thaydoi {
+    display: inline-block;
+    color: #0066CC;
+    text-decoration: none;
+    padding: 8px 20px;
+    border: 1px solid #0066CC;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.thaydoi:hover {
+    background-color: #f0f7ff;
+}
+
+/* Checkbox */
+.box-user-check {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.box-user-check input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.box-user-check .label-input {
+    margin-bottom: 0;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+/* Hidden password fields */
+.group_field {
+    display: none;
+}
+
+/* Show password fields when checkbox is checked */
+#changepass:checked ~ .group_field {
+    display: block;
+}
+
+/* Clear fix */
+.clearfix {
+    clear: both;
+}
+
+/* Submit button */
+.box-submit {
+    text-align: center;
+    padding-top: 10px;
+    width: 100%;
+}
+
+.submit-btn {
+    display: inline-block;
+    background-color: #0066CC;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.submit-btn:hover {
+    background-color: #0055b3;
+}
+
+/* Hide file input */
+.hide {
+    display: none;
+}
+
+/* Sửa lỗi CSS cho input field để flex wrap đẹp hơn */
+
+/* Đặt form với display flex */
+.user-content-side form {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px; /* Tạo margin âm để bù trừ padding của box-user */
+}
+
+/* Sửa lại box-user để bỏ float và sử dụng flex */
+.box-user {
+    margin-bottom: 20px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    float: none; /* Bỏ float */
+}
+
+/* Vẫn giữ nguyên kích thước 50% cho cột 6 */
+.col-md-6 {
+    width: 50%;
+}
+
+/* Kích thước 100% cho cột 12 */
+.col-md-12 {
+    width: 100%;
+}
+
+/* Cải thiện hiển thị password fields trong group_field */
+.group_field {
+    display: none;
+    width: 100%;
+}
+
+/* Khi checkbox được check, hiển thị group_field với flex */
+#changepass:checked ~ .group_field {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+/* Không cần clearfix khi sử dụng flex */
+.clearfix {
+    display: none;
+}
+
+/* Submit button chiếm full width */
+.box-submit {
+    text-align: center;
+    padding-top: 10px;
+    width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .col-md-6 {
+        width: 100%;
+    }
+}
+
+/* Responsive styles */
+@media (max-width: 1150px) {
+    .grid-members {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-members {
+        flex-direction: column;
+    }
+    
+    .grid-members .grid-item:first-child {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .box-user.col-md-6 {
+        width: 100%;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="grid-members" >
+        <div class="grid-item" >
+            <div class="user-menu-side">
+                <div class="user-name">
+                    <img onerror="this.src='https://trungtran.vn/images/logo-user.png'"
+                        src="https://trungtran.vn/images/logo-user.png" alt="avatar" class="img-responsive" >
+                    <div class="name">
+                        <span class="span_name">Đỗ Trung Hiếu</span>
+                        <span class="span_phone">0389296703</span>
+                    </div>
+                </div>
+                <ul>
+                    <li class="selected">
+                        <a href="https://trungtran.vn/trang-ca-nhan" >
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            Thông tin tài khoản </a>
+                    </li>
+                    <li class="">
+                        <a href="https://trungtran.vn/quan-ly-don-hang" >
+                            <i class="fa fa-wpforms" aria-hidden="true"></i>
+                            Quản lý đơn hàng </a>
+                    </li>
+                    <li class="">
+                        <a href="https://trungtran.vn/chinh-sach">
+                            <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                            Chính sách </a>
+                    </li>
+                    <li>
+                        <a href="https://trungtran.vn/dang-xuat">
+                            <i class="fa fa-power-off" aria-hidden="true"></i>
+                            Đăng xuất </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="user-content-side">
+                <h2 class="member-title">Thông tin tài khoản</h2>
+                <form action="" method="post" name="frmUser" id="frmUser" enctype="multipart/form-data">
+    
+                    <div class="box-user col-md-6">
+                        <label class="label-input" for="u_name">Họ và tên</label>
+                        <input type="text" name="u_name" id="u_name" value="Đỗ Trung Hiếu" placeholder="Họ và tên"
+                            class="form-control">
+                    </div>
+                    <div class="box-user col-md-6">
+                        <label class="label-input" for="u_tel">Điện thoại</label>
+                        <input type="text" name="u_tel" id="u_tel" value="0389296703" placeholder="Điện thoại"
+                            class="form-control">
+                    </div>
+                    <div class="box-user col-md-6">
+                        <label class="label-input" for="u_email">Email</label>
+                        <input type="text" name="u_email" id="u_email" value="trunghieudo2003@gmail.com" placeholder="Email"
+                            class="form-control" disabled="" readonly="">
+                    </div>
+                    <div class="box-user col-md-6">
+                        <label class="label-input" for="birthday">Ngày sinh</label>
+                        <input type="text" name="birthday" id="birthday" value="21/03/2025" placeholder="Ngày sinh"
+                            class="form-control">
+    
+                    </div>
+                    <div class="box-user box-user-img col-md-12" >
+                        <label class="label-input" for="image">Ảnh đai diện</label>
+                        <div class="inline-img">
+                            <div class="items-item image-area-single image_preview" id="image_preview">
+    
+                                <img id="previewing" class="img-responsive lgup rounded-circle" src="" alt=""
+                                    >
+    
+                            </div>
+                            <a href="javascript:void(0)" class="lgup thaydoi">Thay đổi</a>
+                        </div>
+    
+                    </div>
+                    <div class="box-user box-user-check col-md-12  ">
+                        <input type="checkbox" id="changepass" name="changepass" value="1"
+                >
+                        <label for="changepass" class="label-input">Thay đổi mật khẩu </label>
+                    </div>
+                    <div class="clearfix">
+    
+                    </div>
+                    <div class="group_field " >
+                        <div class="box-user col-md-6">
+                            <label class="label-input" for="u_email">Nhập mật khẩu cũ</label>
+    
+                            <input type="password" name="password_old" id="password_old" value=""
+                                placeholder="Nhập mật khẩu cũ" class="form-control">
+                        </div>
+                        <div class="box-user col-md-6">
+                            <label class="label-input" for="u_email">Mật khẩu mới</label>
+    
+                            <input type="password" name="password_new" id="password_new" value="" placeholder="Mật khẩu mới"
+                                class="form-control">
+                        </div>
+    
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="box-user box-submit">
+                        <a href="javascript:void(0)" class="submit-btn"
+                            onclick="if (!window.__cfRLUnblockHandlers) return false; checkUpdateUser()">Lưu thay đổi</a>
+                    </div>
+                    <script type="text/javascript">
+                        var loadFile2 = function (event) {
+                            var reader = new FileReader();
+                            reader.onload = function () {
+                                var output = document.getElementById('previewing');
+                                output.src = reader.result;
+                                $('#ava_u').val('1');
+                            };
+                            reader.readAsDataURL(event.target.files[0]);
+                        };
+                    </script>
+                    <input type="hidden" name="check_logo" id="check_logo" value="0">
+                    <input class="hide" type="file" name="image" id="file" required=""
+                        onchange="if (!window.__cfRLUnblockHandlers) return false;">
+                    <input type="hidden" name="ava_u" id="ava_u" value="">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

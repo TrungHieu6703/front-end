@@ -1,0 +1,87 @@
+<!-- <app-header></app-header>
+<div class="mb-4 p-8">
+  <p-card >
+    <div class="card">
+      <p-dataView #dv [value]="products" [layout]="'grid'" [rows]="8" [paginator]="true">
+        <ng-template let-products pTemplate="grid">
+          <div class="grid grid-nogutter">
+            <div class="col-12 sm:col-6 md:col-3 lg:col-3 xl:col-3 p-2" *ngFor="let product of products">
+              <div class="p-4 border-1 surface-border surface-card border-round flex flex-column">
+                  <div class="relative mx-auto">
+                    <img class="border-round w-full" [src]="product.image" [alt]="product.name" style="max-width: 300px;" />
+                  </div>
+                <div class="pt-4">
+                  <div class="flex flex-row justify-content-between align-items-start gap-2">
+                    <div>
+                      <span class="font-medium text-secondary text-sm">{{ product.category }}</span>
+                      <div class="text-sm font-medium text-500 mt-1" style="width: 246.5px; height: 64px;">
+                        {{ product.name }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex flex-column gap-2 mt-4">
+                    <span class="text-xl font-semibold" style="color: rgb(255,94,34)">{{product.price }}</span>
+                    <div class="love_same">
+                      <p class="p-same" style="color: rgb(131,131,131);" >1 phiên bản</p>
+                      <span class="right" (click)="love()">
+                        <p class="pi pi-heart" style="color: rgb(255,94,34);" ></p>
+                        <p class="yeu_thich" style="font-size: small">Yêu thích</p>
+                      </span>
+                    </div>
+                    <div class="ab flex flex-column gap-3" >
+                      <div class="thongso" style="background-color: rgb(239,239,239); border-radius: 8%; padding: 10px; display: flex; align-items: center; font-size: medium; color: rgb(136,136,136)">
+                        <p>CPU: &nbsp;Intel Core5 220H<br>
+                          RAM: Từ 24GB DDR5 nâng cấp được<br>
+                          Màn hình: &nbsp;14″,2.8K (2880x1800)OLED<br>
+                          Đồ họa:&nbsp;Intel® Graphics (onboard)</p>
+                      </div>
+                      <div class="bnt_sp">
+                          <a class="left"><p class="pi pi-cart-plus"></p></a>
+                          <a class="right" (click)="addToListCompare(product)">
+                            <span *ngIf="isCompared(product); else notCompared">Đã thêm so sánh</span>
+                          </a>
+                          <ng-template #notCompared>
+                            <span>So sánh</span>
+                          </ng-template>
+                      </div>
+                    </div>
+                  </div>
+                
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-dataView>
+    </div>
+
+  </p-card>
+</div>
+<app-compare [listCompare]="listCompare"></app-compare> -->
+
+
+<app-header></app-header>
+<div class="mb-4 p-8">
+  <p-card>
+    <div class="card">
+      <p-dataView #dv [value]="products" [layout]="'grid'" [rows]="8" [paginator]="true">
+        <ng-template let-product pTemplate="grid">
+          <div class="grid grid-nogutter">
+          <div class="col-12 sm:col-6 md:col-3 lg:col-3 xl:col-3 p-2" *ngFor="let product of products">
+            <app-laptop-item 
+              [product]="product" 
+              [isCompared]="isCompared(product)"
+              (addToCompare)="addToListCompare($event)"
+              >
+            </app-laptop-item>
+
+
+            <!-- (loveEvent)="love(product)"  -->
+          </div>
+        </div>
+        </ng-template>
+      </p-dataView>  
+    </div>
+  </p-card>
+</div>
+<app-compare [listCompare]="listCompare"></app-compare>

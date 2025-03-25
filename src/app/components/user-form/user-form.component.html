@@ -1,0 +1,19 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form-container" style="display: flex; flex-direction: column; gap: 10px;">
+  <div formArrayName="users">
+    <div *ngFor="let user of usersFormArray.controls; let i = index" [formGroupName]="i" class="user-card">
+      <h3>User {{ i + 1 }}</h3>
+
+      <div class="p-grid">
+        <div class="p-col-12 p-md-6">
+          <label for="attributeValueId-{{i}}">Attribute</label>
+          <input type="text" id="attributeValueId-{{i}}" pInputText formControlName="attributeValueId" class="p-inputtext" />
+        </div>
+
+        <div class="p-col-12 p-md-6">
+          <label for="value-{{i}}">Value</label>
+          <input type="text" id="value-{{i}}" pInputText formControlName="value" class="p-inputtext" />
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
