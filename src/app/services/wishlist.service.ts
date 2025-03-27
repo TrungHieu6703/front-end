@@ -1,47 +1,65 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+interface Product {
+  name: string;
+  image: string;
+  price: string;
+  is_compare: boolean;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class WishlistService {
-  private cookieKey = 'wishlist';
-  wishlist: any[] = [];
+    private wishlistSubject = new BehaviorSubject<Product[]>([]);
+    wishlist$: Observable<Product[]> = this.wishlistSubject.asObservable();
 
-  constructor(private cookieService: CookieService) {
-    this.loadWishlistFromCookies();
-  }
+    private wishlistCountSubject = new BehaviorSubject<number>(0);
+    wishlistCount$ = this.wishlistCountSubject.asObservable(); // Observable để theo dõi số lượng
 
-  // 🔹 Đọc danh sách wishlist từ cookies
-  private loadWishlistFromCookies() {
-    const cookieData = this.cookieService.get(this.cookieKey);
-    if (cookieData) {
-      this.wishlist = JSON.parse(cookieData);
+    get wishlistCount(): number {
+        return this.wishlistSubject.value.length;
     }
-  }
 
-  // 🔹 Lưu wishlist vào cookies
-  private saveWishlistToCookies() {
-    this.cookieService.set(this.cookieKey, JSON.stringify(this.wishlist), 7); // Lưu trong 7 ngày
-  }
-
-  // 🔥 Thêm sản phẩm vào wishlist mà không ghi đè dữ liệu cũ
-  addToWishlist(product: any) {
-    // Kiểm tra xem sản phẩm đã tồn tại trong wishlist chưa
-    if (!this.wishlist.some(item => item.id === product.id)) {
-      this.wishlist.push(product);
-      this.saveWishlistToCookies();
+    constructor(private cookieService: CookieService) {
+        this.loadWishlist();
     }
-  }
 
-  // 🔥 Xóa sản phẩm khỏi wishlist
-  removeFromWishlist(productId: number) {
-    this.wishlist = this.wishlist.filter(item => item.id !== productId);
-    this.saveWishlistToCookies();
-  }
+    private saveWishlist() {
+        const currentWishlist = this.wishlistSubject.value;
+        this.cookieService.set('wishlist', JSON.stringify(currentWishlist));
+    }
 
-  // 🔥 Lấy danh sách wishlist
-  getWishlist() {
-    return [...this.wishlist]; // Trả về bản sao để tránh thay đổi trực tiếp
-  }
+    private loadWishlist() {
+        const wishlistData = this.cookieService.get('wishlist');
+        const loadedWishlist = wishlistData ? JSON.parse(wishlistData) : [];
+        this.wishlistSubject.next(loadedWishlist);
+        this.wishlistCountSubject.next(loadedWishlist.length); // Cập nhật số lượng
+    }
+
+    toggleWishlist(product: Product) {
+        const currentWishlist = this.wishlistSubject.value;
+        const existingProductIndex = currentWishlist.findIndex(item => item.name === product.name);
+
+        let updatedWishlist;
+        if (existingProductIndex > -1) {
+            updatedWishlist = currentWishlist.filter(item => item.name !== product.name);
+        } else {
+            updatedWishlist = [...currentWishlist, product];
+        }
+
+        this.wishlistSubject.next(updatedWishlist);
+        this.wishlistCountSubject.next(updatedWishlist.length); // Cập nhật số lượng
+        this.saveWishlist();
+    }
+
+    isInWishlist(productName: string): boolean {
+        return this.wishlistSubject.value.some(item => item.name === productName);
+    }
+
+    getWishlist(): Product[] {
+        return this.wishlistSubject.value;
+    }
 }

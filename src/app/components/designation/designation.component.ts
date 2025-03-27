@@ -11,6 +11,9 @@ import { ButtonModule } from 'primeng/button';
 import { CompareComponent } from '../compare/compare.component';
 import { HeaderComponent } from '../header/header.component';
 import { LaptopItemComponent } from '../laptop-item/laptop-item.component';
+import { WishlistService } from '../../services/wishlist.service';
+import { CompareButtonComponent } from '../compare-button/compare-button.component';
+import { SharedService } from '../../services/shared.service';
 @Component({
   selector: 'app-designation',
   standalone: true,
@@ -26,17 +29,24 @@ import { LaptopItemComponent } from '../laptop-item/laptop-item.component';
     ButtonModule,
     CompareComponent,
     HeaderComponent,
-    LaptopItemComponent
+    LaptopItemComponent,
+    CompareButtonComponent
   ],
-  providers: [],
+  providers: [WishlistService],
   templateUrl: './designation.component.html',
   styleUrl: './designation.component.css'
 })
 export class DesignationComponent {
 
 
+  isVisibleCompare = false;
+  isVisibleCompareLess = true;
 
-  badge_favourite: number = 0;
+  constructor(private wishlistService: WishlistService, private sharedService : SharedService) {
+    this.sharedService.CompareState$.subscribe((state) => (this.isVisibleCompare = state));
+    this.sharedService.CompareBtnState$.subscribe((state) => (this.isVisibleCompareLess = state));
+  }
+
   isCompareVisible = false;
   layout: 'list' | 'grid' = 'grid';
 

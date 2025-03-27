@@ -1,0 +1,32 @@
+.btn-compare {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: rgba(0,0,0,0.1) 3px 3px 4px;
+    border-radius: 30px;
+    color: #20863D;
+    font-size: 14px;
+    width: 140px;
+    height: 44px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.btn-compare.active {
+    display: flex;
+}
+
+.btn-compare svg {
+    margin-right: 12px;
+}
+
+@media screen and (max-width: 568px) {
+    .btn-compare {
+        bottom: 57px;
+    }
+}

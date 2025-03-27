@@ -18,6 +18,8 @@ import { HomeDataComponent } from './components/home-data/home-data.component';
 import { ProductDetailComponent } from './product/component/product-detail/product-detail.component';
 import { CompareComponent } from './components/compare/compare.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import { WishlistComponent } from './components/wishlist/wishlist.component';
+import { DynamicProductComponent } from './components/dynamic-product/dynamic-product.component';
 export const routes: Routes = [
 
     {
@@ -66,4 +68,6 @@ export const routes: Routes = [
     { path: 'product-detail', component: FirstComponent },
     { path: 'compare', component: CompareComponent },
     { path: 'gio-hang', component: PaymentComponent },
+    { path: 'yeu-thich', component: WishlistComponent },
+    { path: 'dynamic-product', component: DynamicProductComponent },
 ];

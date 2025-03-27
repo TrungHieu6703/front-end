@@ -84,4 +84,5 @@
     </div>
   </p-card>
 </div>
-<app-compare [listCompare]="listCompare"></app-compare>
+<app-compare *ngIf="isVisibleCompare" [listCompare]="listCompare"></app-compare>
+<app-compare-button *ngIf="isVisibleCompareLess"></app-compare-button>

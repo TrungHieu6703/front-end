@@ -1,33 +1,25 @@
-import { Component, Input } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+import { Component } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
 @Component({
-  selector: 'app-compare',
+  selector: 'app-compare-button',
   standalone: true,
-  imports: [NgFor,NgIf],
-  templateUrl: './compare.component.html',
-  styleUrl: './compare.component.css'
+  imports: [],
+  templateUrl: './compare-button.component.html',
+  styleUrl: './compare-button.component.css'
 })
-export class CompareComponent {
+export class CompareButtonComponent {
   isVisibleCompare = false;
   isVisibleCompareLess = true;
-
 
   constructor (private sharedService: SharedService) {
     this.sharedService.CompareBtnState$.subscribe((state) => (this.isVisibleCompare = state));
     this.sharedService.CompareBtnState$.subscribe((state) => (this.isVisibleCompareLess = state));
   }
 
-  btnCompareLess(){
+  btnCompare(){
     this.sharedService.toggleCompareStateVisibility()
     this.sharedService.toggleCompareBtnStateVisibility()
   }
 
-  @Input() listCompare!: ({ image: string; name: string } | null)[];
 
-  @Input() badge_favourite?: number;
-
-  removeItem(i: any){
-    this.listCompare[i] = null
-  }
 }
