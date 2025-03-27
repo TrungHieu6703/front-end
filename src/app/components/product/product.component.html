@@ -47,11 +47,11 @@
     <input type="file" name="files" id="files" multiple (change)="onFileChange($event)">
 
     <!-- Attributes -->
-    <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form-container" style="display: flex; flex-direction: column; gap: 10px;">
+    <!-- <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form-container" style="display: flex; flex-direction: column; gap: 10px;">
       <div formArrayName="users">
         <div *ngFor="let user of usersFormArray.controls; let i = index" [formGroupName]="i" class="user-card">
           <h3>User {{ i + 1 }}</h3>
-    
+          <div (click)="removeAttribute(i)">X</div>
           <div class="p-grid">
             <div class="p-col-12 p-md-6">
               <label for="attributeValueId-{{i}}">Attribute</label>
@@ -66,7 +66,9 @@
         </div>
       </div>
     </form>
-    <p-button label="Submit" (onClick)="submitClicked()"></p-button>
+    <button type="button" (click)="addAttribute()">Thêm mới thuộc tính</button> -->
+    <app-dynamic-product></app-dynamic-product>
+    <p-button label="Submit" (onClick)="submitClicked1()"></p-button>
   </ng-template>
 
 </p-card>

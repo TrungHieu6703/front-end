@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { SharedService } from '../../services/shared.service';
+import { DynamicProductComponent } from '../dynamic-product/dynamic-product.component';
 @Component({
   selector: 'app-compare',
   standalone: true,
-  imports: [NgFor,NgIf],
+  imports: [NgFor,NgIf, DynamicProductComponent],
   templateUrl: './compare.component.html',
   styleUrl: './compare.component.css'
 })

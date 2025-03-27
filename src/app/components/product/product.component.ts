@@ -1,5 +1,5 @@
 import { CardModule } from 'primeng/card';
-import { Component, inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { FormsModule } from '@angular/forms';
@@ -16,6 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgIf, NgFor } from '@angular/common';
 import { FormArray } from '@angular/forms';
+import { DynamicProductComponent } from '../dynamic-product/dynamic-product.component';
+
 interface Product {
   name: string;
   price: number;
@@ -29,20 +31,30 @@ interface Product {
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [CardModule, TableModule, ToggleButtonModule,
+  imports: [CardModule, TableModule, ToggleButtonModule,DynamicProductComponent,
     FormsModule, EditorModule, ButtonModule,
     InputTextModule, EditorComponent, FileUploadModule,
     ToastModule, CommonModule, ReactiveFormsModule, NgFor, InputTextModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })
-export class ProductComponent {
+export class ProductComponent implements AfterViewInit {
+  @ViewChild(DynamicProductComponent) dynamicProductComponent!: DynamicProductComponent;
+
+  ngAfterViewInit(): void {
+    console.log('child component', this.dynamicProductComponent)
+  }
+
+  submitClicked1(){
+    console.log( this.dynamicProductComponent.handleSubmit())
+  }
+
   product: Product = {
     name: 'Thinkpad Form Upload',
     price: 1,
     quantity: 1,
-    brand: 'e00aa964-f4dc-11ef-8faf-0242ac110002',
-    category: 'e019c981-f4dc-11ef-8faf-0242ac110002',
+    brand: '664a7a9c-0283-11f0-8579-0242ac110002',
+    category: '1e4de469-0280-11f0-8579-0242ac110002',
     coupon: '8261e4d5-f025-11ef-a4f3-0242ac110002',
     description: 'Spring-app',
     attributes: [
@@ -187,6 +199,10 @@ export class ProductComponent {
       return this.userForm.get('users') as FormArray;
     }
   
+    removeAttribute(i:number){
+      this.usersFormArray.removeAt(i)
+    }
+
     // Initialize form with N users
     initializeUsers(count: number) {
       for (let i = 0; i < count; i++) {
@@ -208,6 +224,9 @@ export class ProductComponent {
       formData.append("attributes", attributesBlob);
     }
     
+    addAttribute(){
+      this.addUser()
+    }
   
     onSubmit() {
       if (this.userForm.valid) {
@@ -217,5 +236,7 @@ export class ProductComponent {
         console.log('Form is invalid');
       }
     }
+
+
 }
 

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { forkJoin, map } from 'rxjs';
 import { DataService, CategoryType, AttributeType, AttributeValue, ProductAttributeValue } from '../../services/data.service'
-
 @Component({
   selector: 'app-dynamic-product',
   standalone: true,
@@ -57,7 +56,7 @@ import { DataService, CategoryType, AttributeType, AttributeValue, ProductAttrib
                     class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
                   >
                     <option value="">-- Chọn {{ attribute.name }} --</option>
-                    <option *ngFor="let option of attribute.options" [value]="option.value">
+                    <option *ngFor="let option of attribute.options" [value]="option.id">
                       {{ option.value }}
                     </option>
                   </select>
@@ -141,7 +140,7 @@ import { DataService, CategoryType, AttributeType, AttributeValue, ProductAttrib
       </ng-container>
     </form>
   `,
-  styles: []
+  styleUrl: './dynamic-product.component.css'
 })
 export class DynamicProductComponent implements OnInit {
   categories: CategoryType[] = [];
@@ -188,7 +187,7 @@ export class DynamicProductComponent implements OnInit {
         // Khởi tạo giá trị nhập cho mỗi thuộc tính
         this.attributes = fullAttributes.map(attr => ({
           attributeId: attr.id,
-          value: '',
+          value: '', // Sẽ là ID của attribute_value khi chọn
           description: ''
         }));
       });
@@ -255,8 +254,6 @@ export class DynamicProductComponent implements OnInit {
       categoryId: this.categoryId,
       attributes: this.attributes
     });
-    alert('Dữ liệu sản phẩm đã được gửi đi: ' + 
-      JSON.stringify({ categoryId: this.categoryId, attributes: this.attributes }, null, 2)
-    );
+    return JSON.stringify({ categoryId: this.categoryId, attributes: this.attributes }, null, 2)
   }
 }

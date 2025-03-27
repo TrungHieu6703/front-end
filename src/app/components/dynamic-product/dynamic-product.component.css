@@ -1,0 +1,82 @@
+/* Áp dụng toàn bộ form */
+form {
+    max-width: 600px;
+    margin: auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Tiêu đề */
+  h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  /* Label */
+  label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #444;
+  }
+  
+  /* Input & Select */
+  input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background: #fafafa;
+    font-size: 0.9rem;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  input:focus, select:focus {
+    border-color: #4F46E5;
+    background: #fff;
+    box-shadow: 0 0 5px rgba(79, 70, 229, 0.5);
+  }
+  
+  /* Nút Thêm */
+  button[type="button"] {
+    background-color: #4F46E5;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  button[type="button"]:hover {
+    background-color: #4338CA;
+  }
+  
+  /* Nút Xóa */
+  button.text-red-700 {
+    background-color: #FEE2E2;
+    color: #B91C1C;
+  }
+  
+  button.text-red-700:hover {
+    background-color: #FECACA;
+  }
+  
+  /* Nút Submit */
+  button[type="submit"] {
+    width: 100%;
+    background: #4F46E5;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  button[type="submit"]:hover {
+    background: #4338CA;
+  }
+  

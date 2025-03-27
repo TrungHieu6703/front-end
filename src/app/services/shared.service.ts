@@ -16,7 +16,6 @@ export class SharedService  {
     CompareState$ = this.CompareState.asObservable();
   
     toggleCompareStateVisibility() {
-        console.log('>>>>>>>>')
       this.CompareState.next(!this.CompareState.value);
     }
 
@@ -24,7 +23,6 @@ export class SharedService  {
     CompareBtnState$ = this.CompareBtnState.asObservable();
 
     toggleCompareBtnStateVisibility() {
-        console.log('>>>>>>>>')
       this.CompareBtnState.next(!this.CompareBtnState.value);
     }
 }
