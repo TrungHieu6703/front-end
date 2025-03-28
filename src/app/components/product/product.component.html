@@ -45,79 +45,10 @@
     <!-- Upload Image Product -->
 
     <input type="file" name="files" id="files" multiple (change)="onFileChange($event)">
+    <app-dynamic-product></app-dynamic-product> 
+    <p-button label="Submit" (onClick)="submitClicked()"></p-button> 
 
-    <!-- Attributes -->
-    <!-- <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form-container" style="display: flex; flex-direction: column; gap: 10px;">
-      <div formArrayName="users">
-        <div *ngFor="let user of usersFormArray.controls; let i = index" [formGroupName]="i" class="user-card">
-          <h3>User {{ i + 1 }}</h3>
-          <div (click)="removeAttribute(i)">X</div>
-          <div class="p-grid">
-            <div class="p-col-12 p-md-6">
-              <label for="attributeValueId-{{i}}">Attribute</label>
-              <input type="text" id="attributeValueId-{{i}}" pInputText formControlName="attributeValueId" class="p-inputtext" />
-            </div>
-    
-            <div class="p-col-12 p-md-6">
-              <label for="value-{{i}}">Value</label>
-              <input type="text" id="value-{{i}}" pInputText formControlName="value" class="p-inputtext" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-    <button type="button" (click)="addAttribute()">Thêm mới thuộc tính</button> -->
-    <app-dynamic-product></app-dynamic-product>
-    <p-button label="Submit" (onClick)="submitClicked1()"></p-button>
+ 
   </ng-template>
 
 </p-card>
-
-<!-- <p-fileUpload 
-        name="demo[]" 
-        url="https://www.primefaces.org/cdn/api/upload.php" 
-        (onUpload)="onUpload($event)" 
-        [multiple]="true" 
-        accept="image/*" 
-        maxFileSize="1000000">
-            <ng-template pTemplate="content">
-                <ul *ngIf="uploadedFiles.length">
-                    <li *ngFor="let file of uploadedFiles">
-                        {{ file.name }} - {{ file.size }} bytes
-                    </li>
-                </ul>
-            </ng-template>
-    </p-fileUpload>  -->
-
-
-
-    <!-- <div class="card">
-      <p-editor [(ngModel)]="data" [style]="{ height: '120px' }" />
-  </div> 
-    <input type="file" name="files" id="files" (change)="onFileChange($event)" required>
-    <label for="">Thuộc tính</label>
-  <div>
-    <input 
-      name="" placeholder="ID Giá trị thuộc tính1" required>
-    <input name="attribute1" placeholder="Giá trị1" required>
-  </div>
-  <div>
-    <input 
-      name="" placeholder="ID Giá trị thuộc tính2" required>
-    <input name="attribute2" placeholder="Giá trị2" required>
-  </div> -->
-
-   <!-- <p-button label="Submit" (onClick)="submitClicked()"></p-button>  
-
-
-   <div class="card flex justify-content-center">
-    <p-toast />
-
-
-
-
-
-</div> -->
-  <!-- <input type="file" name="file" id="file" (change)="onFileSelected($event)">  -->
-  
-

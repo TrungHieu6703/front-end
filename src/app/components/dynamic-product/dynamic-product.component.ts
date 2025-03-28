@@ -7,139 +7,7 @@ import { DataService, CategoryType, AttributeType, AttributeValue, ProductAttrib
   selector: 'app-dynamic-product',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  template: `
-    <form (ngSubmit)="handleSubmit()" class="space-y-6">
-      <!-- Category Selection -->
-      <div>
-        <label for="category" class="block text-sm font-medium text-gray-700">
-          Loại sản phẩm
-        </label>
-        <select 
-          id="category"
-          [(ngModel)]="categoryId"
-          name="category"
-          (ngModelChange)="onCategoryChange($event)"
-          class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-        >
-          <option value="">-- Chọn loại sản phẩm --</option>
-          <option *ngFor="let category of categories" [value]="category.id">
-            {{ category.name }}
-          </option>
-        </select>
-      </div>
-
-      <!-- Attributes Section -->
-      <ng-container *ngIf="categoryId">
-        <div class="mt-6">
-          <h3 class="text-lg font-medium text-gray-900">
-            Thuộc tính sản phẩm
-          </h3>
-          <div class="mt-4 space-y-4">
-            <!-- Attribute Fields -->
-            <div *ngFor="let attribute of currentAttributes" class="mb-6">
-              <div class="flex gap-2 mb-2">
-                <div class="flex-1">
-                  <label 
-                    [attr.for]="'attribute-' + attribute.id"
-                    class="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    {{ attribute.name }}
-                  </label>
-
-                  <!-- Nếu có options -->
-                  <select 
-                    *ngIf="attribute.options && attribute.options.length"
-                    [id]="'attribute-' + attribute.id"
-                    [ngModel]="getAttributeValue(attribute.id)"
-                    (ngModelChange)="handleAttributeChange(attribute.id, $event, getAttributeDescription(attribute.id))"
-                    [name]="'attribute-' + attribute.id"
-                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
-                  >
-                    <option value="">-- Chọn {{ attribute.name }} --</option>
-                    <option *ngFor="let option of attribute.options" [value]="option.id">
-                      {{ option.value }}
-                    </option>
-                  </select>
-
-                  <!-- Nếu không có options -->
-                  <input 
-                    *ngIf="!attribute.options || !attribute.options.length"
-                    type="text"
-                    [id]="'attribute-' + attribute.id"
-                    [ngModel]="getAttributeValue(attribute.id)"
-                    (ngModelChange)="handleAttributeChange(attribute.id, $event, getAttributeDescription(attribute.id))"
-                    [name]="'attribute-' + attribute.id"
-                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
-                    [placeholder]="'Nhập ' + attribute.name"
-                  />
-                </div>
-
-                <button 
-                  *ngIf="!isDefaultAttribute(attribute.id)"
-                  type="button"
-                  (click)="handleRemoveAttribute(attribute.id)"
-                  class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 self-end mb-1"
-                >
-                  Xóa
-                </button>
-              </div>
-
-              <!-- Description Field -->
-              <div>
-                <label 
-                  [attr.for]="'description-' + attribute.id"
-                  class="block text-sm font-medium text-gray-500 mb-1"
-                >
-                  Mô tả chi tiết
-                </label>
-                <input 
-                  type="text"
-                  [id]="'description-' + attribute.id"
-                  [ngModel]="getAttributeDescription(attribute.id)"
-                  (ngModelChange)="handleAttributeChange(attribute.id, getAttributeValue(attribute.id), $event)"
-                  [name]="'description-' + attribute.id"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
-                  [placeholder]="getPlaceholderText(attribute)"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Add Attribute Dropdown -->
-        <div *ngIf="getAvailableAttributes().length > 0" class="flex gap-2 mb-6">
-          <select 
-            [(ngModel)]="selectedAttributeId"
-            name="newAttribute"
-            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
-          >
-            <option value="">-- Chọn thuộc tính --</option>
-            <option *ngFor="let attr of getAvailableAttributes()" [value]="attr.id">
-              {{ attr.name }}
-            </option>
-          </select>
-          <button 
-            type="button"
-            (click)="handleAddAttribute()"
-            [disabled]="!selectedAttributeId"
-            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-300 disabled:cursor-not-allowed"
-          >
-            Thêm
-          </button>
-        </div>
-
-        <!-- Submit Button -->
-        <div class="pt-5">
-          <button
-            type="submit"
-            class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Lưu sản phẩm
-          </button>
-        </div>
-      </ng-container>
-    </form>
-  `,
+  templateUrl: './dynamic-product.component.html',
   styleUrl: './dynamic-product.component.css'
 })
 export class DynamicProductComponent implements OnInit {
@@ -250,10 +118,17 @@ export class DynamicProductComponent implements OnInit {
 
   // Xử lý submit form
   handleSubmit() {
-    console.log({
-      categoryId: this.categoryId,
-      attributes: this.attributes
-    });
-    return JSON.stringify({ categoryId: this.categoryId, attributes: this.attributes }, null, 2)
+    const result = this.attributes
+      .filter(attr => attr.value.trim() !== '') // Lọc bỏ những giá trị rỗng
+      .map(attr => ({
+        attributeValueId: attr.value, // Sử dụng giá trị đã chọn làm attributeValueId
+        value: attr.description // Giữ phần mô tả nếu cần
+      }));
+  
+    return JSON.stringify(result, null, 2);
   }
+  
+  
+  
+  
 }

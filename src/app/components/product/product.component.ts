@@ -1,5 +1,5 @@
 import { CardModule } from 'primeng/card';
-import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, ViewChild } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { FormsModule } from '@angular/forms';
@@ -8,14 +8,10 @@ import { EditorModule } from 'primeng/editor';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { InputTextModule } from 'primeng/inputtext';
 import { EditorComponent } from "../editor/editor.component";
-import { MessageService } from 'primeng/api';
-import { FileUploadModule, FileUploadHandlerEvent } from 'primeng/fileupload';
+import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgIf, NgFor } from '@angular/common';
-import { FormArray } from '@angular/forms';
 import { DynamicProductComponent } from '../dynamic-product/dynamic-product.component';
 
 interface Product {
@@ -34,19 +30,17 @@ interface Product {
   imports: [CardModule, TableModule, ToggleButtonModule,DynamicProductComponent,
     FormsModule, EditorModule, ButtonModule,
     InputTextModule, EditorComponent, FileUploadModule,
-    ToastModule, CommonModule, ReactiveFormsModule, NgFor, InputTextModule],
+    ToastModule, CommonModule, ReactiveFormsModule, InputTextModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })
 export class ProductComponent implements AfterViewInit {
   @ViewChild(DynamicProductComponent) dynamicProductComponent!: DynamicProductComponent;
 
+  data1?: string
+
   ngAfterViewInit(): void {
     console.log('child component', this.dynamicProductComponent)
-  }
-
-  submitClicked1(){
-    console.log( this.dynamicProductComponent.handleSubmit())
   }
 
   product: Product = {
@@ -75,6 +69,7 @@ export class ProductComponent implements AfterViewInit {
   }
 
   submitClicked() {
+    this.product.attributes = JSON.parse(this.dynamicProductComponent.handleSubmit());
     console.log('data >>>>>>>', this.data)
 
     if (!this.product.name || !this.product.price || !this.product.quantity) {
@@ -89,11 +84,7 @@ export class ProductComponent implements AfterViewInit {
     formData.append("brandId", this.product.brand);
     formData.append("categoryId", this.product.category);
     formData.append("couponId", this.product.coupon);
-  
-    this.product.attributes = (this.userForm.value.users || []).map((user: any) => ({
-      attributeValueId: String(user.attributeValueId),
-      value: String(user.value),
-    }));
+
     
     const attributesBlob = new Blob([JSON.stringify(this.product.attributes)], { type: "application/json" });
     formData.append("attributes", attributesBlob);
@@ -182,61 +173,5 @@ export class ProductComponent implements AfterViewInit {
     const images = Array.from(doc.getElementsByTagName("img"));
     this.imageSrcList = images.map((img) => img.src);
   }
-
-    // Attributes
-
-    userForm: FormGroup;
-
-    constructor(private fb: FormBuilder) {
-      this.userForm = this.fb.group({
-        users: this.fb.array([]) 
-      });
-  
-      this.initializeUsers(2);
-    }
-  
-    get usersFormArray(): FormArray {
-      return this.userForm.get('users') as FormArray;
-    }
-  
-    removeAttribute(i:number){
-      this.usersFormArray.removeAt(i)
-    }
-
-    // Initialize form with N users
-    initializeUsers(count: number) {
-      for (let i = 0; i < count; i++) {
-        this.addUser();
-      }
-    }
-  
-    // Function to add a new user group
-    addUser() {
-      const userGroup = this.fb.group({
-        attributeValueId: ['', Validators.required],
-        value: ['', Validators.required],
-      });
-    
-      this.usersFormArray.push(userGroup);
-    
-      const formData = new FormData();
-      const attributesBlob = new Blob([JSON.stringify(userGroup.value)], { type: "application/json" });
-      formData.append("attributes", attributesBlob);
-    }
-    
-    addAttribute(){
-      this.addUser()
-    }
-  
-    onSubmit() {
-      if (this.userForm.valid) {
-        console.log('Submitted Data:', this.userForm.value.users);
-        this.userForm.reset(); // Reset the form
-      } else {
-        console.log('Form is invalid');
-      }
-    }
-
-
 }
 
