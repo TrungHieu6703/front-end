@@ -1,0 +1,58 @@
+.grid-members {
+    display: flex;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 850px;
+    height: 560px;
+    margin: 0 auto;
+    background-color: #fff;
+}
+.grid-item:first-child {
+    background-color: rgb(249,146,15);
+    padding: 40px 20px;
+    width: 50%;
+    color: #fff;
+}
+.grid-item:last-child {
+    padding: 40px;
+    width: 50%;
+}
+.top-title {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 30px;
+}
+.top-title a {
+    padding: 10px 15px;
+    font-size: 18px;
+    color: #888;
+    text-decoration: none;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.top-title a.active {
+    color: #0066CC;
+    border-bottom: 2px solid #0066CC;
+    font-weight: bold;
+}
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 16px;
+}
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #0066CC;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.submit-btn:hover {
+    background-color: #0055b3;
+}

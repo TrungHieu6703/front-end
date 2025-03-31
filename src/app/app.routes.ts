@@ -20,6 +20,8 @@ import { CompareComponent } from './components/compare/compare.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { DynamicProductComponent } from './components/dynamic-product/dynamic-product.component';
+import { LoginComponent } from './components/login/login.component';
+import { AccountComponent } from './components/account/account.component';
 export const routes: Routes = [
 
     {
@@ -70,4 +72,6 @@ export const routes: Routes = [
     { path: 'gio-hang', component: PaymentComponent },
     { path: 'yeu-thich', component: WishlistComponent },
     { path: 'dynamic-product', component: DynamicProductComponent },
+    { path: 'login', component: LoginComponent },
+    { path: 'account', component: AccountComponent },
 ];

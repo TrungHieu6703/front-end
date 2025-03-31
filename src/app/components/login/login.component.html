@@ -1,0 +1,57 @@
+<div class="grid-members">
+    <!-- Cột trái: Ảnh + Quyền lợi -->
+    <div class="grid-item">
+      <img src="https://trungtran.vn/modules/members/assets/images/log.svg" alt="log">
+      <p>Quyền lợi thành viên</p>
+      <ul>
+        <li>✔ Mua hàng khắp thế giới cực dễ dàng, nhanh chóng</li>
+        <li>✔ Theo dõi chi tiết đơn hàng, địa chỉ thanh toán dễ dàng</li>
+        <li>✔ Nhận nhiều chương trình ưu đãi hấp dẫn từ chúng tôi</li>
+      </ul>
+    </div>
+  
+    <!-- Cột phải: Form đăng nhập / đăng ký -->
+    <div class="grid-item">
+      <div class="top-title">
+        <a (click)="setTab('login')" [class.active]="isLogin">Đăng nhập</a>
+        <a (click)="setTab('register')" [class.active]="!isLogin">Đăng ký</a>
+      </div>
+  
+      <!-- Hiển thị form tương ứng -->
+      <form *ngIf="isLogin">
+        <div class="box">
+          <input type="email" class="form-control" [(ngModel)]="login.email" name="email" placeholder="Email đăng nhập*">
+        </div>
+        <div class="box">
+          <input type="password" class="form-control" [(ngModel)]="login.password" name="password" placeholder="Mật khẩu*">
+        </div>
+        <div class="box box-right">
+          <a href="https://trungtran.vn/quen-mat-khau" class="forgot-password">Quên mật khẩu?</a>
+        </div>
+        <div class="box">
+          <button class="submit-btn" (click)="onLogin()">Đăng nhập</button>
+        </div>
+      </form>
+  
+      <form *ngIf="!isLogin">
+        <div class="box">
+          <input type="text" class="form-control" placeholder="Họ và tên*">
+        </div>
+        <div class="box">
+          <input type="email" class="form-control" placeholder="Email*">
+        </div>
+        <div class="box">
+          <input type="password" class="form-control" placeholder="Mật khẩu*">
+        </div>
+        <div class="box">
+          <input type="password" class="form-control" placeholder="Nhập lại mật khẩu*">
+        </div>
+        <div class="box">
+          <button class="submit-btn">Đăng ký</button>
+        </div>
+      </form>
+  
+      <p class="note">Trung Trần cam kết bảo mật thông tin của bạn.</p>
+    </div>
+  </div>
+  

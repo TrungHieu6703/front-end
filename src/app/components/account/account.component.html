@@ -1,0 +1,94 @@
+<div class="grid-members">
+  <!-- Sidebar -->
+  <div class="grid-item">
+    <div class="user-menu-side">
+      <div class="user-name">
+        <img [src]="user.avatar" (error)="user.avatar = 'https://trungtran.vn/images/logo-user.png'" alt="avatar" />
+        <div class="name">
+          <span class="span_name">{{ user.name }}</span>
+          <span class="span_phone">{{ user.phone }}</span>
+        </div>
+      </div>
+      <ul>
+        <li [class.selected]="activeTab === 'account-info'" (click)="changeTab('account-info')">
+          <a href="javascript:void(0)">
+            <i class="fa fa-user"></i> Thông tin tài khoản
+          </a>
+        </li>
+        <li [class.selected]="activeTab === 'order-management'" (click)="changeTab('order-management')">
+          <a href="javascript:void(0)">
+            <i class="fa fa-wpforms"></i> Quản lý đơn hàng
+          </a>
+        </li>
+        <li>
+          <a href="https://trungtran.vn/chinh-sach">
+            <i class="fa fa-id-card-o"></i> Chính sách
+          </a>
+        </li>
+        <li>
+          <a href="https://trungtran.vn/dang-xuat">
+            <i class="fa fa-power-off"></i> Đăng xuất
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="grid-item">
+    <!-- Account Info -->
+    <div *ngIf="activeTab === 'account-info'" class="tab-content active">
+      <div class="user-content-side">
+        <h2 class="member-title">Thông tin tài khoản</h2>
+        <form>
+          <div class="box-user col-md-6">
+            <label class="label-input">Họ và tên</label>
+            <input type="text" [(ngModel)]="userInfo.name" name="userName" class="form-control" />
+          </div>
+          <div class="box-user col-md-6">
+            <label class="label-input">Điện thoại</label>
+            <input type="text" [(ngModel)]="userInfo.phone" name="userPhone" class="form-control" />
+          </div>
+          <div class="box-user col-md-6">
+            <label class="label-input">Email</label>
+            <input type="text" [(ngModel)]="userInfo.email" name="userEmail" class="form-control" disabled />
+          </div>
+          <div class="box-user col-md-6">
+            <label class="label-input">Ngày sinh</label>
+            <input type="text" [(ngModel)]="userInfo.username" name="userBirthday" class="form-control" />
+          </div>
+          <div class="box-user box-submit">
+            <button type="button" class="submit-btn" (click)="checkUpdateUser()">Lưu thay đổi</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Order Management -->
+    <div *ngIf="activeTab === 'order-management'" class="tab-content active">
+      <div class="order-management">
+        <h2 class="member-title">Quản lý đơn hàng</h2>
+        <table class="order-table">
+          <thead>
+            <tr>
+              <th>Mã đơn hàng</th>
+              <th>Ngày đặt</th>
+              <th>Tổng tiền</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of orders">
+              <td>{{ order.id }}</td>
+              <td>{{ order.date }}</td>
+              <td>{{ order.total }}</td>
+              <td><span [class]="order.statusClass">{{ order.status }}</span></td>
+              <td><a href="javascript:void(0)" class="action-btn">Xem chi tiết</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,409 @@
+.grid-members {
+    display: flex;
+    border-radius: 12px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    width: 1150px;
+    height: 564.56px;
+    margin: 0 auto;
+    background-color: #fff;
+}
+
+/* Left sidebar */
+.grid-members .grid-item:first-child {
+    width: 280px;
+    border-right: 1px solid #eee;
+    padding: 0;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* User profile section in sidebar */
+.user-menu-side {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.user-name {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.user-name img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.name {
+    display: flex;
+    flex-direction: column;
+}
+
+.span_name {
+    font-weight: bold;
+    color: #333;
+    font-size: 16px;
+}
+
+.span_phone {
+    color: #777;
+    font-size: 14px;
+    margin-top: 3px;
+}
+
+/* Navigation menu */
+.user-menu-side ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.user-menu-side ul li {
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.user-menu-side ul li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: #666;
+    text-decoration: none;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+.user-menu-side ul li a i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+    color: #999;
+}
+
+.user-menu-side ul li.selected a {
+    background-color: #f0f7ff;
+    color: #0066CC;
+    border-left: 3px solid #0066CC;
+}
+
+.user-menu-side ul li.selected a i {
+    color: #0066CC;
+}
+
+.user-menu-side ul li:not(.selected):hover a {
+    background-color: #f9f9f9;
+}
+
+/* Right content area */
+.grid-members .grid-item:last-child {
+    flex: 1;
+    padding: 30px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* Tab content styling */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Form heading */
+.member-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* Form layout */
+.user-content-side {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.box-user {
+    margin-bottom: 20px;
+    float: left;
+    padding: 0 15px;
+}
+
+.col-md-6 {
+    width: 50%;
+}
+
+.col-md-12 {
+    width: 100%;
+}
+
+.label-input {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 14px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 15px;
+    color: #333;
+    box-sizing: border-box;
+}
+
+.form-control:focus {
+    border-color: #0066CC;
+    outline: none;
+}
+
+.form-control:disabled {
+    background-color: #f9f9f9;
+    color: #777;
+}
+
+/* Avatar section */
+.box-user-img .inline-img {
+    display: flex;
+    align-items: center;
+}
+
+.image_preview {
+    margin-right: 15px;
+}
+
+.lgup.rounded-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #eee;
+    border: 1px solid #ddd;
+}
+
+.thaydoi {
+    display: inline-block;
+    color: #0066CC;
+    text-decoration: none;
+    padding: 8px 20px;
+    border: 1px solid #0066CC;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.thaydoi:hover {
+    background-color: #f0f7ff;
+}
+
+/* Checkbox */
+.box-user-check {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.box-user-check input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.box-user-check .label-input {
+    margin-bottom: 0;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+/* Hidden password fields */
+.group_field {
+    display: none;
+}
+
+/* Show password fields when checkbox is checked */
+#changepass:checked ~ .group_field {
+    display: block;
+}
+
+/* Clear fix */
+.clearfix {
+    clear: both;
+}
+
+/* Submit button */
+.box-submit {
+    text-align: center;
+    padding-top: 10px;
+    width: 100%;
+}
+
+.submit-btn {
+    display: inline-block;
+    background-color: #0066CC;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.submit-btn:hover {
+    background-color: #0055b3;
+}
+
+/* Hide file input */
+.hide {
+    display: none;
+}
+
+/* Sửa lỗi CSS cho input field để flex wrap đẹp hơn */
+
+/* Đặt form với display flex */
+.user-content-side form {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px; /* Tạo margin âm để bù trừ padding của box-user */
+}
+
+/* Sửa lại box-user để bỏ float và sử dụng flex */
+.box-user {
+    margin-bottom: 20px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    float: none; /* Bỏ float */
+}
+
+/* Vẫn giữ nguyên kích thước 50% cho cột 6 */
+.col-md-6 {
+    width: 50%;
+}
+
+/* Kích thước 100% cho cột 12 */
+.col-md-12 {
+    width: 100%;
+}
+
+/* Cải thiện hiển thị password fields trong group_field */
+.group_field {
+    display: none;
+    width: 100%;
+}
+
+/* Khi checkbox được check, hiển thị group_field với flex */
+#changepass:checked ~ .group_field {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+/* Không cần clearfix khi sử dụng flex */
+.clearfix {
+    display: none;
+}
+
+/* Submit button chiếm full width */
+.box-submit {
+    text-align: center;
+    padding-top: 10px;
+    width: 100%;
+}
+
+/* Order management styles */
+.order-management {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.order-table th, 
+.order-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.order-table th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+    color: #333;
+}
+
+.order-table tr:hover {
+    background-color: #f5f9ff;
+}
+
+.status-pending {
+    color: #f39c12;
+    font-weight: 500;
+}
+
+.status-completed {
+    color: #27ae60;
+    font-weight: 500;
+}
+
+.status-cancelled {
+    color: #e74c3c;
+    font-weight: 500;
+}
+
+.action-btn {
+    color: #0066CC;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.action-btn:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .col-md-6 {
+        width: 100%;
+    }
+}
+
+/* Responsive styles */
+@media (max-width: 1150px) {
+    .grid-members {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-members {
+        flex-direction: column;
+    }
+    
+    .grid-members .grid-item:first-child {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .box-user.col-md-6 {
+        width: 100%;
+    }
+    
+    .order-table {
+        display: block;
+        overflow-x: auto;
+    }
+}
