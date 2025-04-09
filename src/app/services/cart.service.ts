@@ -3,6 +3,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 interface Product {
+  id: string;      // Thêm id vào interface Product
   name: string;
   image: string;
   price: string;
@@ -13,8 +14,8 @@ interface Product {
   providedIn: 'root'
 })
 export class CartService {
-    private cartSubject = new BehaviorSubject<Product[]>([]);
-    cart$: Observable<Product[]> = this.cartSubject.asObservable();
+    private cartSubject = new BehaviorSubject<string[]>([]);  // Lưu trữ danh sách ID sản phẩm
+    cart$: Observable<string[]> = this.cartSubject.asObservable();
 
     private cartCountSubject = new BehaviorSubject<number>(0);
     cartCount$ = this.cartCountSubject.asObservable(); // Observable để theo dõi số lượng
@@ -41,13 +42,13 @@ export class CartService {
 
     toggleCart(product: Product) {
         const currentCart = this.cartSubject.value;
-        const existingProductIndex = currentCart.findIndex(item => item.name === product.name);
-
+        const productId = product.id;  // Sử dụng id của sản phẩm
+        
         let updatedCart;
-        if (existingProductIndex > -1) {
-            updatedCart = currentCart.filter(item => item.name !== product.name);
+        if (currentCart.includes(productId)) {
+            updatedCart = currentCart.filter(id => id !== productId);
         } else {
-            updatedCart = [...currentCart, product];
+            updatedCart = [...currentCart, productId];
         }
 
         this.cartSubject.next(updatedCart);
@@ -55,11 +56,11 @@ export class CartService {
         this.saveCart();
     }
 
-    isInCart(productName: string): boolean {
-        return this.cartSubject.value.some(item => item.name === productName);
+    isInCart(productId: string): boolean {
+        return this.cartSubject.value.includes(productId);
     }
 
-    getCart(): Product[] {
+    getCart(): string[] {
         return this.cartSubject.value;
     }
 }

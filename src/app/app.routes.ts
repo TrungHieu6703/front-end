@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { FirstComponent } from './components/first/first.component';
-import { SecondComponent } from './components/second/second.component';
 import { DesignationComponent } from './components/designation/designation.component';
 import { RoleComponent } from './components/role/role.component';
 import { AppComponent } from './app.component';
@@ -22,6 +21,8 @@ import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { DynamicProductComponent } from './components/dynamic-product/dynamic-product.component';
 import { LoginComponent } from './components/login/login.component';
 import { AccountComponent } from './components/account/account.component';
+import { LaptopItemComponent } from './components/laptop-item/laptop-item.component';
+import { TestApiComponent } from './components/test-api/test-api.component';
 export const routes: Routes = [
 
     {
@@ -29,7 +30,6 @@ export const routes: Routes = [
         component: RoleComponent,
         children: [
             { path: 'header', component: HeaderComponent },
-            { path: 'second-component', component: SecondComponent },
         ]
     },
     {
@@ -74,4 +74,6 @@ export const routes: Routes = [
     { path: 'dynamic-product', component: DynamicProductComponent },
     { path: 'login', component: LoginComponent },
     { path: 'account', component: AccountComponent },
+    { path: 'laptop-item', component: LaptopItemComponent },
+    { path: 'local', component: TestApiComponent },
 ];

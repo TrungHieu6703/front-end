@@ -20,7 +20,7 @@ export class JwtInterceptor implements HttpInterceptor {
   ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    console.log('Interceptor đang chạy...', request.method, request.url);
+    // console.log('Interceptor đang chạy...', request.method, request.url);
   
     if (request.method === 'OPTIONS') {
       console.log('Bỏ qua request OPTIONS');
@@ -28,13 +28,13 @@ export class JwtInterceptor implements HttpInterceptor {
     }
   
     const token = this.authService.getToken();
-    console.log('Token lấy từ AuthService:', token);
+    // console.log('Token lấy từ AuthService:', token);
   
     if (token) {
       request = request.clone({
         setHeaders: { Authorization: `Bearer ${token}` }
       });
-      console.log('Request đã thêm Authorization:', request);
+      // console.log('Request đã thêm Authorization:', request);
     } else {
       console.warn('Không tìm thấy token!');
     }

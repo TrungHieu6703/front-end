@@ -7,10 +7,10 @@ import { JwtInterceptor } from './interceptor/jwt.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(withInterceptorsFromDi()), // Cấu hình HttpClient với DI Interceptors
-    provideZoneChangeDetection({ eventCoalescing: true }), // Tối ưu change detection
-    provideRouter(routes), // Cấu hình Router
-    provideAnimations(), // Kích hoạt animations
+    provideHttpClient(withInterceptorsFromDi()), 
+    provideZoneChangeDetection({ eventCoalescing: true }), 
+    provideRouter(routes), 
+    provideAnimations(), 
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ]
 };

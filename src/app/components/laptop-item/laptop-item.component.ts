@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { NgIf } from '@angular/common';
 import { WishlistService } from '../../services/wishlist.service';
 import { CartService } from '../../services/cart.service';
+
 @Component({
   selector: 'app-laptop-item',
   standalone: true,
@@ -32,26 +33,26 @@ import { CartService } from '../../services/cart.service';
 export class LaptopItemComponent implements OnInit {
   isInWishlist: boolean = false;
   isInCart: boolean = false;
-  constructor(private wishlistService: WishlistService,private cartService : CartService) {}
+  constructor(private wishlistService: WishlistService, private cartService: CartService) {}
 
   @Input() product: any;
   @Input() isCompared: boolean = false;
   @Output() addToCompare = new EventEmitter<any>();
 
   ngOnInit() {
-    // Kiểm tra xem sản phẩm đã có trong wishlist chưa
-    this.isInWishlist = this.wishlistService.isInWishlist(this.product.name);
-    this.isInCart = this.cartService.isInCart(this.product.name);
+    // Kiểm tra xem sản phẩm đã có trong wishlist chưa dựa trên ID
+    this.isInWishlist = this.wishlistService.isInWishlist(this.product.id);
+    // Giả sử CartService cũng được cập nhật tương tự
+    this.isInCart = this.cartService.isInCart(this.product.id);
   }
 
   addToCart() {
     this.cartService.toggleCart(this.product);
-
     this.isInCart = !this.isInCart;
   }
 
   love() {
-    // Gọi service để toggle wishlist
+    // Gọi service để toggle wishlist bằng ID
     this.wishlistService.toggleWishlist(this.product);
     // Cập nhật trạng thái wishlist local
     this.isInWishlist = !this.isInWishlist;

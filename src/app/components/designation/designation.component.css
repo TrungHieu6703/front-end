@@ -1,0 +1,13 @@
+/* Đảm bảo các container cha cho phép hiển thị nội dung tràn ra ngoài */
+:host ::ng-deep .p-dataview .p-dataview-content,
+:host ::ng-deep .grid,
+:host ::ng-deep .col-12,
+:host ::ng-deep .p-card-content {
+    overflow: visible !important;
+}
+
+/* Đảm bảo các phần tử có position: static có z-index thấp hơn */
+:host ::ng-deep .p-dataview-grid > div {
+    position: static;
+    z-index: 1;
+}

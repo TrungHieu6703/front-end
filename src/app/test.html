@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hover Div Đè Lên</title>
+    <style>
+        .container {
+            position: relative;
+            width: 300px;
+        }
+
+        .box {
+            width: 100%;
+            height: 100px;
+            background-color: lightblue;
+            transition: height 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .box:hover {
+            height: 180px;
+            z-index: 2; /* Đưa div trên lên trên */
+        }
+
+        .box + .box {
+            background-color: lightcoral;
+            position: absolute;
+            top: 100px; /* Vị trí ngay dưới div đầu */
+            left: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="box">Hover vào tôi</div>
+        <div class="box">Tôi sẽ bị che</div>
+    </div>
+
+</body>
+</html>

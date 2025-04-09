@@ -22,7 +22,6 @@ export class ListProductService {
   
   deletePost(id: string): Observable<void> {
     const url = `${this.apiURL}/${id}`;
-    console.log(`${this.apiURL}/${id}`)
     return this.http.delete<void>(url);
   }
 
