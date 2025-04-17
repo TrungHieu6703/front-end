@@ -7,13 +7,11 @@ export class PhotoService {
             {
                 itemImageSrc: 'https://trungtran.vn/upload_images/images/products/ideapad/large/tSS4AJNlLE5mNd6WM5yvoT822-4651.jpg',
                 thumbnailImageSrc: 'https://primefaces.org/cdn/primeng/images/galleria/galleria1s.jpg',
-                alt: 'Description for Image 1',
                 title: 'Title 1'
             },
             {
                 itemImageSrc: 'https://trungtran.vn/upload_images/images/products/ideapad/large/Thgwj8so64yoHt2LPxjMmaVdi-4920.jpg',
                 thumbnailImageSrc: 'https://primefaces.org/cdn/primeng/images/galleria/galleria2s.jpg',
-                alt: 'Description for Image 2',
                 title: 'Title 2'
             },
             {

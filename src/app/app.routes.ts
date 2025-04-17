@@ -23,6 +23,11 @@ import { LoginComponent } from './components/login/login.component';
 import { AccountComponent } from './components/account/account.component';
 import { LaptopItemComponent } from './components/laptop-item/laptop-item.component';
 import { TestApiComponent } from './components/test-api/test-api.component';
+import { DetailCompareComponent } from './components/detail-compare/detail-compare.component';
+import { TestComponent } from './components/test/test.component';
+import { BrandPageComponent } from './components/brand-page/brand-page.component';
+import { ProductLineComponent } from './components/product-line/product-line.component';
+import { CategoryPageComponent } from './components/category-page/category-page.component';
 export const routes: Routes = [
 
     {
@@ -67,7 +72,7 @@ export const routes: Routes = [
     { path: 'attributes', component: CrudComponent },
     { path: 'list-product', component: ListProductComponent },
     { path: 'home-data', component: HomeDataComponent },
-    { path: 'product-detail', component: FirstComponent },
+    { path: 'product-detail/:id', component: FirstComponent },
     { path: 'compare', component: CompareComponent },
     { path: 'gio-hang', component: PaymentComponent },
     { path: 'yeu-thich', component: WishlistComponent },
@@ -76,4 +81,10 @@ export const routes: Routes = [
     { path: 'account', component: AccountComponent },
     { path: 'laptop-item', component: LaptopItemComponent },
     { path: 'local', component: TestApiComponent },
+    { path: 'detail-compare', component: DetailCompareComponent },
+    { path: 'test', component: TestComponent },
+    // { path: 'category/:categoryId', component: TestApiComponent },
+    { path: 'brand/:id', component: BrandPageComponent },
+    { path: 'product_line/:id', component: ProductLineComponent },
+    { path: 'category/:id', component: CategoryPageComponent },
 ];

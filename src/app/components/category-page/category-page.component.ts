@@ -1,7 +1,8 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+// category.component.ts
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, ActivatedRoute } from '@angular/router';
 import { TableModule } from 'primeng/table';
 import { CardModule } from 'primeng/card';
 import { DataViewModule } from 'primeng/dataview';
@@ -14,10 +15,11 @@ import { LaptopItemComponent } from '../laptop-item/laptop-item.component';
 import { WishlistService } from '../../services/wishlist.service';
 import { CompareButtonComponent } from '../compare-button/compare-button.component';
 import { SharedService } from '../../services/shared.service';
-import { ListProductService } from '../../services/list-product.service';
+import { FilterService } from '../../services/filter.service';
+import { FilterBoxComponent } from "../filter-box/filter-box.component";
 
 @Component({
-  selector: 'app-designation',
+  selector: 'app-category-page',
   standalone: true,
   imports: [
     FormsModule,
@@ -32,53 +34,60 @@ import { ListProductService } from '../../services/list-product.service';
     CompareComponent,
     HeaderComponent,
     LaptopItemComponent,
-    CompareButtonComponent
+    CompareButtonComponent,
+    FilterBoxComponent
   ],
   providers: [WishlistService],
-  templateUrl: './designation.component.html',
-  styleUrl: './designation.component.css'
+  templateUrl: './category-page.component.html',
+  styleUrl: './category-page.component.css'
 })
-export class DesignationComponent implements OnInit {
+export class CategoryPageComponent implements OnInit {
+  categoryId: string = '';
   products: any[] = [];
-
   isVisibleCompare = false;
   isVisibleCompareLess = true;
 
-  constructor(private wishlistService: WishlistService, private sharedService: SharedService, private listProductService: ListProductService) {
+  constructor(
+    private wishlistService: WishlistService, 
+    private sharedService: SharedService, 
+    private filterService: FilterService,
+    private route: ActivatedRoute
+  ) {
     this.sharedService.CompareState$.subscribe((state) => (this.isVisibleCompare = state));
     this.sharedService.CompareBtnState$.subscribe((state) => (this.isVisibleCompareLess = state));
   }
 
   ngOnInit() {
-    this.loadListProducts();
+    // Lấy categoryId từ route parameter
+    this.route.paramMap.subscribe(params => {
+      this.categoryId = params.get('id') || '';
+    
+      // Lắng nghe query params để áp dụng filter
+      this.route.queryParams.subscribe(queryParams => {
+        this.loadListProducts(this.categoryId, queryParams);
+      });
+    });
   }
 
-  loadListProducts() {
-    this.listProductService.getPosts().subscribe({
+  loadListProducts(categoryId: string, filters = {}) {
+    if (!categoryId) return;
+    
+    this.filterService.getPosts(categoryId, filters).subscribe({
       next: (response) => {
         if (response && Array.isArray(response)) {
           this.products = response;
-          console.log(response);
         } else {
           console.error('API trả về không đúng định dạng:', response);
           this.products = [];
         }
       },
-      error: (err) => console.error('Lỗi khi lấy dữ liệu thuộc tính:', err),
+      error: (err) => console.error('Lỗi khi lấy dữ liệu sản phẩm:', err),
     });
   }
 
-  isCompareVisible = false;
-  layout: 'list' | 'grid' = 'grid';
+  listCompare: ({id: string, image: string; name: string } | null)[] = [null, null, null, null];
 
-  // Cập nhật kiểu dữ liệu để bao gồm id
-  listCompare: ({ id: string; image: string; name: string } | null)[] = [null, null, null, null];
-
-  toggleCompare() {
-    this.isCompareVisible = !this.isCompareVisible;
-  }
-
-  addToListCompare(product: { id: string; image: string; name: string }): void {
+  addToListCompare(product: {id: string, image: string; name: string }): void {
     if (this.isCompared(product)) {
       console.log("Sản phẩm đã được thêm vào so sánh");
       return;

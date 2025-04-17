@@ -1,29 +1,123 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { RouterModule, ActivatedRoute } from '@angular/router'; // Thêm ActivatedRoute
+import { TableModule } from 'primeng/table';
+import { CardModule } from 'primeng/card';
+import { DataViewModule } from 'primeng/dataview';
+import { TagModule } from 'primeng/tag';
+import { RatingModule } from 'primeng/rating';
+import { ButtonModule } from 'primeng/button';
+import { CompareComponent } from '../compare/compare.component';
+import { HeaderComponent } from '../header/header.component';
+import { LaptopItemComponent } from '../laptop-item/laptop-item.component';
+import { WishlistService } from '../../services/wishlist.service';
+import { CompareButtonComponent } from '../compare-button/compare-button.component';
+import { SharedService } from '../../services/shared.service';
+import { FilterService } from '../../services/filter.service';
+import { TestComponent } from "../test/test.component";
 
 @Component({
   selector: 'app-test-api',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
-  template: `
-    <h3>Danh sách tỉnh/thành</h3>
-    <ul>
-      <li *ngFor="let province of provinces">{{ province.name }}</li>
-    </ul>
-  `
+  imports: [
+    FormsModule,
+    CommonModule,
+    RouterModule,
+    TableModule,
+    CardModule,
+    DataViewModule,
+    TagModule,
+    RatingModule,
+    ButtonModule,
+    CompareComponent,
+    HeaderComponent,
+    LaptopItemComponent,
+    CompareButtonComponent,
+    TestComponent
+],
+  providers: [WishlistService],
+  templateUrl: './test-api.component.html',
+  styleUrl: './test-api.component.css'
 })
-export class TestApiComponent implements OnInit {
-  provinces: any[] = [];
+export class TestApiComponent  implements OnInit {
+  products: any[] = [
 
-  constructor() {}
+  ];
 
-  ngOnInit(): void {
-    fetch('https://provinces.open-api.vn/api/p')
-      .then(res => res.json())
-      .then(data => {
-        this.provinces = data;
-      })
-      .catch(error => console.error('Fetch error:', error));
+  isVisibleCompare = false;
+  isVisibleCompareLess = true;
+
+  constructor(
+    private wishlistService: WishlistService, 
+    private sharedService: SharedService, 
+    private filterService: FilterService,
+    private route: ActivatedRoute // Thêm ActivatedRoute vào constructor
+  ) {
+    this.sharedService.CompareState$.subscribe((state) => (this.isVisibleCompare = state));
+    this.sharedService.CompareBtnState$.subscribe((state) => (this.isVisibleCompareLess = state));
+  }
+
+
+  ngOnInit() {
+    // Lắng nghe thay đổi của query params
+    const categoryId = this.route.snapshot.paramMap.get('categoryId') || '';
+  
+    // Lắng nghe query params để áp dụng filter
+    this.route.queryParams.subscribe(params => {
+      this.loadListProducts(categoryId, params);
+    });
+  }
+
+  loadListProducts(categoryId: string, filters = {}) {
+    this.filterService.getPosts(categoryId, filters).subscribe({
+      next: (response) => {
+        if (response && Array.isArray(response)) {
+          this.products = response;
+          console.log(response);
+        } else {
+          console.error('API trả về không đúng định dạng:', response);
+          this.products = [];
+        }
+      },
+      error: (err) => console.error('Lỗi khi lấy dữ liệu thuộc tính:', err),
+    });
+  }
+
+
+  isCompareVisible = false;
+  layout: 'list' | 'grid' = 'grid';
+
+  listCompare: ({ id: string; image: string; name: string } | null)[] = [null, null, null, null];
+
+  toggleCompare() {
+    this.isCompareVisible = !this.isCompareVisible;
+  }
+
+  addToListCompare(product: {id: string, image: string; name: string }): void {
+    if (this.isCompared(product)) {
+        console.log("Sản phẩm đã được thêm vào so sánh");
+        return;
+    }
+
+    const emptyIndex = this.listCompare.findIndex(item => item === null);
+    
+    if (emptyIndex !== -1) {
+      // Thêm id vào đối tượng sản phẩm khi thêm vào danh sách so sánh
+      this.listCompare[emptyIndex] = { 
+        id: product.id,
+        image: product.image, 
+        name: product.name 
+      };
+    } else {
+      console.log("So sánh tối đa 4 sản phẩm");
+    }
+  }
+
+  isCompared(product: { name: string }): boolean {
+    return this.listCompare.some(item => item !== null && item.name === product.name);
   }
 }
+
+
+

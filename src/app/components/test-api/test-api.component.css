@@ -1,0 +1,103 @@
+/* Đảm bảo các container cha cho phép hiển thị nội dung tràn ra ngoài */
+
+/* 
+:host ::ng-deep .p-dataview .p-dataview-content,
+:host ::ng-deep .grid,
+:host ::ng-deep .col-12,
+:host ::ng-deep .p-card-content {
+    overflow: visible !important;
+} */
+
+/* Đảm bảo các phần tử có position: static có z-index thấp hơn */
+/* :host ::ng-deep .p-dataview-grid > div {
+    position: static;
+    z-index: 1;
+} */
+
+/* Thiết lập cho app-header */
+app-header {
+    display: block; 
+    width: 100%;
+}
+
+/* Main content */
+.main {
+    margin-top: 80px;
+    background-color: #f7f7f7;
+    min-height: 100vh;
+    padding: 20px 0;
+}
+
+/* Container chính */
+.container {
+    max-width: 1200px;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+
+/* Layout container */
+.layout-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Cột bộ lọc bên trái - width cố định 220px */
+.filter-column {
+    width: 240px;
+    flex-shrink: 0;
+}
+
+.filter-container {
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    min-height: 400px;
+}
+
+/* Cột sản phẩm bên phải - chiếm phần còn lại */
+.products-column {
+    flex: 1;
+    min-width: 0; /* Đảm bảo flexbox không bị overflow */
+}
+
+/* Đảm bảo DataView có background trắng và shadow */
+:host ::ng-deep .p-dataview {
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+:host ::ng-deep .p-dataview-content {
+    padding: 15px;
+}
+
+/* Products grid */
+.products-grid {
+    margin: 0 -10px;
+}
+
+/* Paginator */
+:host ::ng-deep .p-paginator {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    padding: 10px;
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+    .layout-container {
+        flex-direction: column;
+    }
+    
+    .filter-column {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    
+    .main {
+        margin-top: 60px;
+        padding: 10px 0;
+    }
+}

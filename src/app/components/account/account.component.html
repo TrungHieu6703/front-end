@@ -65,30 +65,103 @@
     </div>
 
     <!-- Order Management -->
-    <div *ngIf="activeTab === 'order-management'" class="tab-content active">
-      <div class="order-management">
-        <h2 class="member-title">Quản lý đơn hàng</h2>
-        <table class="order-table">
-          <thead>
-            <tr>
-              <th>Mã đơn hàng</th>
-              <th>Ngày đặt</th>
-              <th>Tổng tiền</th>
-              <th>Trạng thái</th>
-              <th>Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let order of orders">
-              <td>{{ order.id }}</td>
-              <td>{{ order.date }}</td>
-              <td>{{ order.total }}</td>
-              <td><span [class]="order.statusClass">{{ order.status }}</span></td>
-              <td><a href="javascript:void(0)" class="action-btn">Xem chi tiết</a></td>
-            </tr>
-          </tbody>
-        </table>
+    <!-- Order Management -->
+<div *ngIf="activeTab === 'order-management'" class="tab-content active">
+  <div class="order-management">
+    <h2 class="member-title">Quản lý đơn hàng</h2>
+    
+    <!-- Loading indicator -->
+    <div *ngIf="loading" class="loading-indicator">
+      <p>Đang tải dữ liệu...</p>
+    </div>
+    
+    <!-- Error message -->
+    <div *ngIf="error && !loading" class="error-message">
+      <p>{{ error }}</p>
+    </div>
+    
+    <!-- No orders message -->
+    <div *ngIf="!loading && !error && (!orders || orders.length === 0)" class="no-orders">
+      <p>Bạn chưa có đơn hàng nào.</p>
+    </div>
+    
+    <!-- Orders table -->
+    <table *ngIf="!loading && !error && orders && orders.length > 0" class="order-table">
+      <thead>
+        <tr>
+          <th>Mã đơn hàng</th>
+          <th>Ngày đặt</th>
+          <th>Tổng tiền</th>
+          <th>Trạng thái</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders">
+          <td>{{ order.id }}</td>
+          <td>{{ formatDate(order.createdDate) || 'N/A' }}</td>
+          <td>{{ formatPrice(order.total) }}</td>
+          <td><span [class]="getStatusClass(order.status)">{{ getStatusText(order.status) }}</span></td>
+          <td>
+            <button class="action-btn view-btn" (click)="viewOrderDetails(order.id)">Xem chi tiết</button>
+            <button *ngIf="order.status === 'PENDING'" class="action-btn cancel-btn" (click)="cancelOrder(order.id)">Hủy đơn</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Order Details Modal -->
+<div *ngIf="showOrderDetails && selectedOrder" class="order-details-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Chi tiết đơn hàng #{{ selectedOrder.id }}</h3>
+      <button class="close-btn" (click)="closeOrderDetails()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="order-info">
+        <div class="order-status">
+          <strong>Trạng thái:</strong> 
+          <span [class]="getStatusClass(selectedOrder.status)">{{ getStatusText(selectedOrder.status) }}</span>
+        </div>
+        <div class="order-total">
+          <strong>Tổng tiền:</strong> {{ formatPrice(selectedOrder.total) }}
+        </div>
+        
+        <!-- Shipping information -->
+        <div class="shipping-info">
+          <h4>Thông tin giao hàng</h4>
+          <pre>{{ selectedOrder.shippingInfo }}</pre>
+        </div>
+        
+        <!-- Order items -->
+        <div class="order-items">
+          <h4>Sản phẩm</h4>
+          <table class="order-items-table">
+            <thead>
+              <tr>
+                <th>Sản phẩm</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of selectedOrder.orderDetails">
+                <td>{{ item.productName || 'Sản phẩm #' + item.productId }}</td>
+                <td>{{ formatPrice(item.price) }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ formatPrice(item.price * item.quantity) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+    </div>
+    <div class="modal-footer">
+      <button *ngIf="selectedOrder.status === 'PENDING'" class="cancel-btn" (click)="cancelOrder(selectedOrder.id)">Hủy đơn hàng</button>
+      <button class="close-modal-btn" (click)="closeOrderDetails()">Đóng</button>
     </div>
   </div>
 </div>

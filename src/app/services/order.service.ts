@@ -49,11 +49,25 @@ export class OrderService {
     return this.http.post<OrderRes>(this.apiUrl, orderData, { headers });
   }
 
-  getOrderById(orderId: string): Observable<OrderRes> {
-    return this.http.get<OrderRes>(`${this.apiUrl}/${orderId}`);
+  // getOrderById(orderId: string): Observable<OrderRes> {
+  //   return this.http.get<OrderRes>(`${this.apiUrl}/${orderId}`);
+  // }
+
+  // getUserOrders(userId: string): Observable<OrderRes[]> {
+  //   return this.http.get<OrderRes[]>(`${this.apiUrl}/user/${userId}`);
+  // }
+
+  getUserOrders(userId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/user/${userId}`);
   }
 
-  getUserOrders(userId: string): Observable<OrderRes[]> {
-    return this.http.get<OrderRes[]>(`${this.apiUrl}/user/${userId}`);
+  // Lấy chi tiết đơn hàng
+  getOrderById(orderId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${orderId}`);
+  }
+
+  // Hủy đơn hàng (cập nhật trạng thái)
+  cancelOrder(orderId: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${orderId}/status?status=REJECTED`, {});
   }
 }

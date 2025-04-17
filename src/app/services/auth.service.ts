@@ -21,8 +21,8 @@ export class AuthService {
   }
 
 
-  signup(credentials: {email: any, password: any, fullname: any}): Observable<any> {
-    return this.http.post<any>(`${this.apiURL}/signup`, credentials);
+  signup(credentials: {email: any, password: any, name: any, phone: any}): Observable<any> {
+    return this.http.post<any>(`${this.apiURL}/register`, credentials);
   }
 
   setToken(token: string) {

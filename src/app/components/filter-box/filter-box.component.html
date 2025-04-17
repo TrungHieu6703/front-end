@@ -1,0 +1,71 @@
+<!-- filter-box.component.html -->
+<div class="filter-container">
+  <h3 class="filter-title">Bộ lọc sản phẩm</h3>
+  
+  <!-- Category Selector for Brand Mode -->
+  <div *ngIf="mode === 'brand'" class="category-selector">
+    <label for="category-select">Chọn danh mục:</label>
+    <select 
+      id="category-select" 
+      [disabled]="loadingCategories"
+      (change)="onCategoryChange($event)"
+      [value]="selectedCategoryId"
+      class="form-select">
+      <option *ngIf="loadingCategories" value="">Đang tải danh mục...</option>
+      <option *ngFor="let category of categories" [value]="category.id">
+        {{ category.name }}
+      </option>
+    </select>
+  </div>
+  
+  <!-- Loading state -->
+  <div *ngIf="loading" class="filter-loading">
+    <div class="spinner"></div>
+    <p>Đang tải bộ lọc...</p>
+  </div>
+  
+  <!-- Error state -->
+  <div *ngIf="error && !loading" class="filter-error">
+    <p>Không thể tải bộ lọc. Vui lòng thử lại.</p>
+    <button (click)="retryFetch()" class="retry-button">Thử lại</button>
+  </div>
+  
+  <!-- Empty state -->
+  <div *ngIf="!loading && !error && filters.length === 0" class="filter-empty">
+    <p>Không có bộ lọc nào cho danh mục này</p>
+  </div>
+  
+  <!-- Filter list -->
+  <div *ngIf="!loading && !error && filters.length > 0" class="filter-list">
+    <div *ngFor="let filter of filters" class="filter-item">
+      <div class="filter-header" (click)="toggleFilter(filter.id)">
+        <div class="filter-name">{{ filter.name }}</div>
+        <div class="filter-count" *ngIf="getSelectedCount(filter.id) > 0">({{ getSelectedCount(filter.id) }})</div>
+        <div class="filter-toggle">
+          <i [class]="isOpen[filter.id] ? 'fa fa-chevron-up' : 'fa fa-chevron-down'"></i>
+        </div>
+      </div>
+      
+      <div class="filter-content" [class.active]="isOpen[filter.id]">
+        <div *ngIf="filter.values.length === 0" class="no-values">
+          Không có giá trị nào
+        </div>
+        
+        <div *ngFor="let value of filter.values" class="filter-value">
+          <label class="checkbox-container">
+            <input 
+              type="checkbox" 
+              [checked]="isSelected(filter.id, value.id)"
+              (change)="toggleSelection(filter.id, value.id)">
+            <span class="checkmark"></span>
+            <span class="value-text">{{ value.value }}</span>
+          </label>
+        </div>
+        
+        <div *ngIf="getSelectedCount(filter.id) > 0" class="reset-filter">
+          <button (click)="resetFilter(filter.id)">Bỏ chọn</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

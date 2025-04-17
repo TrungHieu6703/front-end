@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Reset và thiết lập cơ bản */
+.bao_left_loc {
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Tiêu đề bộ lọc */
+.title_filter_pc {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 12px;
+}
+
+.title_filter_default {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.reset {
+  color: #3498db;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.reset:hover {
+  background-color: #ecf0f1;
+  text-decoration: none;
+}
+
+/* Nút toggle cho từng mục lọc */
+.dropdown .btn.toggle-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 12px 10px;
+  color: #34495e;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.dropdown .btn.toggle-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.field_filter {
+  border-bottom: 1px solid #eaeaea;
+  margin-bottom: 5px;
+}
+
+/* Vùng dropdown */
+.collapse {
+  padding: 5px 0 10px 10px;
+}
+
+/* Danh sách các tùy chọn */
+.ul_item {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.form-check {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+/* Checkbox tùy chỉnh */
+.form-check-input {
+  margin-right: 8px;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  accent-color: #3498db;
+}
+
+.form-check-label {
+  cursor: pointer;
+  font-size: 14px;
+  color: #444;
+  flex: 1;
+}
+
+.form-check-label:hover {
+  color: #3498db;
+}
+
+/* Số lượng sản phẩm trong danh mục */
+.ul_hang li {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+}
+
+.ul_hang li a {
+  color: #444;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.ul_hang li a:hover {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.ul_hang li span {
+  color: #888;
+  font-size: 13px;
+}
+
+/* Animation cho dropdown */
+.collapse {
+  transition: all 0.3s ease-out;
+}
+
+/* Custom SVG icon rotation on open */
+.btn[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+  transition: transform 0.3s;
+}
+
+.btn svg {
+  transition: transform 0.3s;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .bao_left_loc {
+    padding: 10px;
+  }
+  
+  .dropdown .btn.toggle-btn {
+    padding: 10px 8px;
+  }
+  
+  .title_filter_pc {
+    margin-bottom: 10px;
+  }
+}
+
+/* Hiệu ứng cho checkbox đã chọn */
+.form-check-input:checked + .form-check-label {
+  color: #3498db;
+  font-weight: 500;
+}
+
+/* Vùng giá trị đã chọn */
+.selected-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.selected-filter-tag {
+  background-color: #e1f0fa;
+  color: #3498db;
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.selected-filter-tag .remove {
+  margin-left: 6px;
+  cursor: pointer;
+}
+    </style>
+</head>
+<body>
+    <div class="bao_left_loc" style="">
+
+        <div class="title_filter_pc " style="">
+            <a class="title_filter_default">
+                Bộ lọc </a>
+    
+            <a class="reset" href="https://trungtran.vn/laptop/">Mặc định</a>
+    
+        </div>
+    
+        <form action="https://trungtran.vn/laptop/" method="GET" class="page-products-category d-flex flex-wrap" style="">
+            <div class="mb-fix w-100">
+                <div class="filtersecond">
+    
+                    <div class="filter-area" style="">
+    
+                        <div class="dropdown field_filter filters_item w-100">
+                            <button type="button" class="btn w-100 toggle-btn" data-toggle="collapse"
+                                data-target="#categories_sp">
+                                Danh mục
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.8534 2.89662C11.6579 2.70113 11.3419 2.70113 11.1464 2.89662L5.99998 8.04301L0.853593 2.89662C0.658105 2.70113 0.342104 2.70113 0.146616 2.89662C-0.048872 3.0921 -0.048872 3.40811 0.146616 3.60359L5.64651 9.10348C5.744 9.20098 5.87199 9.24999 6.00001 9.24999C6.12802 9.24999 6.25601 9.20098 6.35351 9.10348L11.8534 3.60359C12.0489 3.40811 12.0489 3.0921 11.8534 2.89662Z"
+                                        fill="#414344"></path>
+                                </svg>
+                            </button>
+                            <div class="collapse" id="categories_sp">
+                                <ul class="ul_item ul_hang">
+                                    <li>
+                                        <a href="https://trungtran.vn/acer/">
+                                            Acer </a>
+                                        <span>(35)</span>
+                                    </li>
+                                    <li>
+                                        <a href="https://trungtran.vn/lenovo/">
+                                            Lenovo </a>
+                                        <span>(127)</span>
+                                    </li>
+                                    <li>
+                                        <a href="https://trungtran.vn/apple/">
+                                            Apple </a>
+                                        <span>(75)</span>
+                                    </li>
+                                    <li>
+                                        <a href="https://trungtran.vn/asus/">
+                                            Asus </a>
+                                        <span>(19)</span>
+                                    </li>
+                                    <li>
+                                        <a href="https://trungtran.vn/hp/">
+                                            HP </a>
+                                        <span>(132)</span>
+                                    </li>
+                                    <li>
+                                        <a href="https://trungtran.vn/microsoft/">
+                                            Microsoft Surface </a>
+                                        <span>(16)</span>
+                                    </li>
+                                    <li>
+                                        <a href="https://trungtran.vn/dell/">
+                                            Dell </a>
+                                        <span>(350)</span>
+                                    </li>
+                                    <li>
+                                        <a href="https://trungtran.vn/lg/">
+                                            LG </a>
+                                        <span>(5)</span>
+                                    </li>
+                                    <li>
+                                        <a href="https://trungtran.vn/msi/">
+                                            MSI </a>
+                                        <span>(38)</span>
+                                    </li>
+                                    <li>
+                                        <a href="https://trungtran.vn/samsung/">
+                                            Samsung </a>
+                                        <span>(1)</span>
+                                    </li>
+                                    <li>
+                                        <a href="https://trungtran.vn/thinkpad/">
+                                            Thinkpad </a>
+                                        <span>(137)</span>
+                                    </li>
+                                    <li>
+                                        <a href="https://trungtran.vn/san-pham-dat-truoc/">
+                                            Đặt Trước, Nhận Ưu Đãi Lớn </a>
+                                        <span>(18)</span>
+                                    </li>
+                                </ul>
+    
+                            </div>
+                        </div>
+    
+    
+                        <!-- Bộ lọc theo giá tiền -->
+                        <div class="dropdown field_filter filters_item w-100">
+                            <button type="button" class="btn toggle-btn" data-toggle="collapse" data-target="#loc_gia"
+                                aria-expanded="false" style="">
+                                Giá
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.8534 2.89662C11.6579 2.70113 11.3419 2.70113 11.1464 2.89662L5.99998 8.04301L0.853593 2.89662C0.658105 2.70113 0.342104 2.70113 0.146616 2.89662C-0.048872 3.0921 -0.048872 3.40811 0.146616 3.60359L5.64651 9.10348C5.744 9.20098 5.87199 9.24999 6.00001 9.24999C6.12802 9.24999 6.25601 9.20098 6.35351 9.10348L11.8534 3.60359C12.0489 3.40811 12.0489 3.0921 11.8534 2.89662Z"
+                                        fill="#414344"></path>
+                                </svg>
+                            </button>
+                            <div class="collapse" id="loc_gia">
+                                <ul class="ul_item ul_hang">
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="price" type="checkbox"
+                                            value="0:10000000" id="price1">
+                                        <label class="form-check-label fml_normal" for="price">
+                                            Dưới 10 triệu (5) </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="price" type="checkbox"
+                                            value="10000000:15000000" id="price2">
+                                        <label class="form-check-label fml_normal" for="price">
+                                            10 - 15 triệu (16) </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="price" type="checkbox"
+                                            value="15000000:20000000" id="price3">
+                                        <label class="form-check-label fml_normal" for="price">
+                                            15 - 20 triệu (26) </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="price" type="checkbox"
+                                            value="20000000:25000000" id="price5">
+                                        <label class="form-check-label fml_normal" for="price">
+                                            20 - 25 triệu (34) </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="price" type="checkbox"
+                                            value="25000000:30000000" id="price6">
+                                        <label class="form-check-label fml_normal" for="price">
+                                            25 - 30 triệu (29) </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="price" type="checkbox"
+                                            value="30000000:40000000" id="price7">
+                                        <label class="form-check-label fml_normal" for="price">
+                                            30 - 40 triệu (24) </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="price" type="checkbox"
+                                            value="0:40000000" id="price8">
+                                        <label class="form-check-label fml_normal" for="price">
+                                            Trên 40 triệu (14) </label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- bộ lọc theo danh mục -->
+                        <div class="dropdown field_filter filters_item w-100">
+                            <button type="button" class="btn" data-toggle="collapse" data-target="#loc_372"
+                                aria-expanded="false">
+                                Mục đích sử dụng <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.8534 2.89662C11.6579 2.70113 11.3419 2.70113 11.1464 2.89662L5.99998 8.04301L0.853593 2.89662C0.658105 2.70113 0.342104 2.70113 0.146616 2.89662C-0.048872 3.0921 -0.048872 3.40811 0.146616 3.60359L5.64651 9.10348C5.744 9.20098 5.87199 9.24999 6.00001 9.24999C6.12802 9.24999 6.25601 9.20098 6.35351 9.10348L11.8534 3.60359C12.0489 3.40811 12.0489 3.0921 11.8534 2.89662Z"
+                                        fill="#414344"></path>
+                                </svg>
+                            </button>
+                            <div class="collapse" id="loc_372">
+                                <ul class="ul_item ul_hang">
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="347" id="filter347">
+                                        <label class="form-check-label fml_normal" for="filter347">
+                                            Laptop Văn Phòng (279)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="348" id="filter348">
+                                        <label class="form-check-label fml_normal" for="filter348">
+                                            Laptop Lập Trình (366)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="349" id="filter349">
+                                        <label class="form-check-label fml_normal" for="filter349">
+                                            Laptop Gaming (153)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="350" id="filter350">
+                                        <label class="form-check-label fml_normal" for="filter350">
+                                            Laptop Đồ Họa (191)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="351" id="filter351">
+                                        <label class="form-check-label fml_normal" for="filter351">
+                                            Ultrabook (236)
+                                        </label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dropdown field_filter filters_item w-100">
+                            <button type="button" class="btn" data-toggle="collapse" data-target="#loc_346"
+                                aria-expanded="false">
+                                Tình trạng <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.8534 2.89662C11.6579 2.70113 11.3419 2.70113 11.1464 2.89662L5.99998 8.04301L0.853593 2.89662C0.658105 2.70113 0.342104 2.70113 0.146616 2.89662C-0.048872 3.0921 -0.048872 3.40811 0.146616 3.60359L5.64651 9.10348C5.744 9.20098 5.87199 9.24999 6.00001 9.24999C6.12802 9.24999 6.25601 9.20098 6.35351 9.10348L11.8534 3.60359C12.0489 3.40811 12.0489 3.0921 11.8534 2.89662Z"
+                                        fill="#414344"></path>
+                                </svg>
+                            </button>
+                            <div class="collapse" id="loc_346">
+                                <ul class="ul_item ul_hang">
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="263" id="filter263">
+                                        <label class="form-check-label fml_normal" for="filter263">
+                                            Brand new (201)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="265" id="filter265">
+                                        <label class="form-check-label fml_normal" for="filter265">
+                                            Like new (used) (124)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="264" id="filter264">
+                                        <label class="form-check-label fml_normal" for="filter264">
+                                            Outled fullbox (77)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="266" id="filter266">
+                                        <label class="form-check-label fml_normal" for="filter266">
+                                            Openbox (8)
+                                        </label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dropdown field_filter filters_item w-100">
+                            <button type="button" class="btn" data-toggle="collapse" data-target="#loc_368"
+                                aria-expanded="false">
+                                CPU <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.8534 2.89662C11.6579 2.70113 11.3419 2.70113 11.1464 2.89662L5.99998 8.04301L0.853593 2.89662C0.658105 2.70113 0.342104 2.70113 0.146616 2.89662C-0.048872 3.0921 -0.048872 3.40811 0.146616 3.60359L5.64651 9.10348C5.744 9.20098 5.87199 9.24999 6.00001 9.24999C6.12802 9.24999 6.25601 9.20098 6.35351 9.10348L11.8534 3.60359C12.0489 3.40811 12.0489 3.0921 11.8534 2.89662Z"
+                                        fill="#414344"></path>
+                                </svg>
+                            </button>
+                            <div class="collapse" id="loc_368">
+                                <ul class="ul_item ul_hang">
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="314" id="filter314">
+                                        <label class="form-check-label fml_normal" for="filter314">
+                                            Intel core i3 (5)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="299" id="filter299">
+                                        <label class="form-check-label fml_normal" for="filter299">
+                                            Intel core i5 (108)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="300" id="filter300">
+                                        <label class="form-check-label fml_normal" for="filter300">
+                                            Intel core i7 (135)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="345" id="filter345">
+                                        <label class="form-check-label fml_normal" for="filter345">
+                                            Intel core i9 (24)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="298" id="filter298">
+                                        <label class="form-check-label fml_normal" for="filter298">
+                                            AMD Ryzen 3 (0)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="269" id="filter269">
+                                        <label class="form-check-label fml_normal" for="filter269">
+                                            AMD Ryzen 5 (10)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="344" id="filter344">
+                                        <label class="form-check-label fml_normal" for="filter344">
+                                            AMD Ryzen 7 (49)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="346" id="filter346">
+                                        <label class="form-check-label fml_normal" for="filter346">
+                                            Khác (14)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="362" id="filter362">
+                                        <label class="form-check-label fml_normal" for="filter362">
+                                            AMD Ryzen 9 (8)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="372" id="filter372">
+                                        <label class="form-check-label fml_normal" for="filter372">
+                                            Intel Core Ultra 5 (13)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="373" id="filter373">
+                                        <label class="form-check-label fml_normal" for="filter373">
+                                            Intel Core Ultra 7 (10)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="374" id="filter374">
+                                        <label class="form-check-label fml_normal" for="filter374">
+                                            Intel Core Ultra 9 (17)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="375" id="filter375">
+                                        <label class="form-check-label fml_normal" for="filter375">
+                                            Intel Core Xeon (11)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="379" id="filter379">
+                                        <label class="form-check-label fml_normal" for="filter379">
+                                            Apple M1 (1)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="380" id="filter380">
+                                        <label class="form-check-label fml_normal" for="filter380">
+                                            Apple M2 (2)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="381" id="filter381">
+                                        <label class="form-check-label fml_normal" for="filter381">
+                                            Apple M3 (0)
+                                        </label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dropdown field_filter filters_item w-100">
+                            <button type="button" class="btn" data-toggle="collapse" data-target="#loc_354"
+                                aria-expanded="false">
+                                VGA-Card đồ họa rời <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.8534 2.89662C11.6579 2.70113 11.3419 2.70113 11.1464 2.89662L5.99998 8.04301L0.853593 2.89662C0.658105 2.70113 0.342104 2.70113 0.146616 2.89662C-0.048872 3.0921 -0.048872 3.40811 0.146616 3.60359L5.64651 9.10348C5.744 9.20098 5.87199 9.24999 6.00001 9.24999C6.12802 9.24999 6.25601 9.20098 6.35351 9.10348L11.8534 3.60359C12.0489 3.40811 12.0489 3.0921 11.8534 2.89662Z"
+                                        fill="#414344"></path>
+                                </svg>
+                            </button>
+                            <div class="collapse" id="loc_354">
+                                <ul class="ul_item ul_hang">
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="284" id="filter284">
+                                        <label class="form-check-label fml_normal" for="filter284">
+                                            NVIDIA QUADRO (66)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="285" id="filter285">
+                                        <label class="form-check-label fml_normal" for="filter285">
+                                            NVIDIA GEFORCE (104)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="286" id="filter286">
+                                        <label class="form-check-label fml_normal" for="filter286">
+                                            AMD (6)
+                                        </label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dropdown field_filter filters_item w-100">
+                            <button type="button" class="btn" data-toggle="collapse" data-target="#loc_360"
+                                aria-expanded="false">
+                                RAM <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.8534 2.89662C11.6579 2.70113 11.3419 2.70113 11.1464 2.89662L5.99998 8.04301L0.853593 2.89662C0.658105 2.70113 0.342104 2.70113 0.146616 2.89662C-0.048872 3.0921 -0.048872 3.40811 0.146616 3.60359L5.64651 9.10348C5.744 9.20098 5.87199 9.24999 6.00001 9.24999C6.12802 9.24999 6.25601 9.20098 6.35351 9.10348L11.8534 3.60359C12.0489 3.40811 12.0489 3.0921 11.8534 2.89662Z"
+                                        fill="#414344"></path>
+                                </svg>
+                            </button>
+                            <div class="collapse" id="loc_360">
+                                <ul class="ul_item ul_hang">
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="250" id="filter250">
+                                        <label class="form-check-label fml_normal" for="filter250">
+                                            4 GB (7)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="251" id="filter251">
+                                        <label class="form-check-label fml_normal" for="filter251">
+                                            8 GB (93)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="252" id="filter252">
+                                        <label class="form-check-label fml_normal" for="filter252">
+                                            16 GB (215)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="312" id="filter312">
+                                        <label class="form-check-label fml_normal" for="filter312">
+                                            32 GB (168)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="334" id="filter334">
+                                        <label class="form-check-label fml_normal" for="filter334">
+                                            64 GB (71)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="377" id="filter377">
+                                        <label class="form-check-label fml_normal" for="filter377">
+                                            24GB (1)
+                                        </label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dropdown field_filter filters_item w-100">
+                            <button type="button" class="btn" data-toggle="collapse" data-target="#loc_355"
+                                aria-expanded="false">
+                                Kích thước màn hình <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.8534 2.89662C11.6579 2.70113 11.3419 2.70113 11.1464 2.89662L5.99998 8.04301L0.853593 2.89662C0.658105 2.70113 0.342104 2.70113 0.146616 2.89662C-0.048872 3.0921 -0.048872 3.40811 0.146616 3.60359L5.64651 9.10348C5.744 9.20098 5.87199 9.24999 6.00001 9.24999C6.12802 9.24999 6.25601 9.20098 6.35351 9.10348L11.8534 3.60359C12.0489 3.40811 12.0489 3.0921 11.8534 2.89662Z"
+                                        fill="#414344"></path>
+                                </svg>
+                            </button>
+                            <div class="collapse" id="loc_355">
+                                <ul class="ul_item ul_hang">
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="287" id="filter287">
+                                        <label class="form-check-label fml_normal" for="filter287">
+                                            &lt; 13 inch (53)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="288" id="filter288">
+                                        <label class="form-check-label fml_normal" for="filter288">
+                                            14 inch (127)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="289" id="filter289">
+                                        <label class="form-check-label fml_normal" for="filter289">
+                                            15 inch (108)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="290" id="filter290">
+                                        <label class="form-check-label fml_normal" for="filter290">
+                                            17 inch (18)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="291" id="filter291">
+                                        <label class="form-check-label fml_normal" for="filter291">
+                                            Kích thước khác (55)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="376" id="filter376">
+                                        <label class="form-check-label fml_normal" for="filter376">
+                                            16 inch (48)
+                                        </label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dropdown field_filter filters_item w-100">
+                            <button type="button" class="btn" data-toggle="collapse" data-target="#loc_351"
+                                aria-expanded="false">
+                                Dải màu hiển thị <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.8534 2.89662C11.6579 2.70113 11.3419 2.70113 11.1464 2.89662L5.99998 8.04301L0.853593 2.89662C0.658105 2.70113 0.342104 2.70113 0.146616 2.89662C-0.048872 3.0921 -0.048872 3.40811 0.146616 3.60359L5.64651 9.10348C5.744 9.20098 5.87199 9.24999 6.00001 9.24999C6.12802 9.24999 6.25601 9.20098 6.35351 9.10348L11.8534 3.60359C12.0489 3.40811 12.0489 3.0921 11.8534 2.89662Z"
+                                        fill="#414344"></path>
+                                </svg>
+                            </button>
+                            <div class="collapse" id="loc_351">
+                                <ul class="ul_item ul_hang">
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="275" id="filter275">
+                                        <label class="form-check-label fml_normal" for="filter275">
+                                            Trên 90% sRGB (277)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="276" id="filter276">
+                                        <label class="form-check-label fml_normal" for="filter276">
+                                            70 - 90 % sRGB (34)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="277" id="filter277">
+                                        <label class="form-check-label fml_normal" for="filter277">
+                                            Dưới 70% sRGB (56)
+                                        </label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dropdown field_filter filters_item w-100">
+                            <button type="button" class="btn" data-toggle="collapse" data-target="#loc_356"
+                                aria-expanded="false">
+                                Độ phân giải màn hình <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.8534 2.89662C11.6579 2.70113 11.3419 2.70113 11.1464 2.89662L5.99998 8.04301L0.853593 2.89662C0.658105 2.70113 0.342104 2.70113 0.146616 2.89662C-0.048872 3.0921 -0.048872 3.40811 0.146616 3.60359L5.64651 9.10348C5.744 9.20098 5.87199 9.24999 6.00001 9.24999C6.12802 9.24999 6.25601 9.20098 6.35351 9.10348L11.8534 3.60359C12.0489 3.40811 12.0489 3.0921 11.8534 2.89662Z"
+                                        fill="#414344"></path>
+                                </svg>
+                            </button>
+                            <div class="collapse" id="loc_356">
+                                <ul class="ul_item ul_hang">
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="297" id="filter297">
+                                        <label class="form-check-label fml_normal" for="filter297">
+                                            Khác (0)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="260" id="filter260">
+                                        <label class="form-check-label fml_normal" for="filter260">
+                                            HD (4)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="261" id="filter261">
+                                        <label class="form-check-label fml_normal" for="filter261">
+                                            Full HD (181)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="294" id="filter294">
+                                        <label class="form-check-label fml_normal" for="filter294">
+                                            2K (136)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="295" id="filter295">
+                                        <label class="form-check-label fml_normal" for="filter295">
+                                            3K (40)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="296" id="filter296">
+                                        <label class="form-check-label fml_normal" for="filter296">
+                                            4K (18)
+                                        </label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dropdown field_filter filters_item w-100">
+                            <button type="button" class="btn" data-toggle="collapse" data-target="#loc_352"
+                                aria-expanded="false">
+                                Tấm nền màn hình <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.8534 2.89662C11.6579 2.70113 11.3419 2.70113 11.1464 2.89662L5.99998 8.04301L0.853593 2.89662C0.658105 2.70113 0.342104 2.70113 0.146616 2.89662C-0.048872 3.0921 -0.048872 3.40811 0.146616 3.60359L5.64651 9.10348C5.744 9.20098 5.87199 9.24999 6.00001 9.24999C6.12802 9.24999 6.25601 9.20098 6.35351 9.10348L11.8534 3.60359C12.0489 3.40811 12.0489 3.0921 11.8534 2.89662Z"
+                                        fill="#414344"></path>
+                                </svg>
+                            </button>
+                            <div class="collapse" id="loc_352">
+                                <ul class="ul_item ul_hang">
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="278" id="filter278">
+                                        <label class="form-check-label fml_normal" for="filter278">
+                                            IPS (327)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="279" id="filter279">
+                                        <label class="form-check-label fml_normal" for="filter279">
+                                            TN (2)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="280" id="filter280">
+                                        <label class="form-check-label fml_normal" for="filter280">
+                                            OLED (41)
+                                        </label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dropdown field_filter filters_item w-100">
+                            <button type="button" class="btn" data-toggle="collapse" data-target="#loc_350"
+                                aria-expanded="false">
+                                Loại màn hình <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.8534 2.89662C11.6579 2.70113 11.3419 2.70113 11.1464 2.89662L5.99998 8.04301L0.853593 2.89662C0.658105 2.70113 0.342104 2.70113 0.146616 2.89662C-0.048872 3.0921 -0.048872 3.40811 0.146616 3.60359L5.64651 9.10348C5.744 9.20098 5.87199 9.24999 6.00001 9.24999C6.12802 9.24999 6.25601 9.20098 6.35351 9.10348L11.8534 3.60359C12.0489 3.40811 12.0489 3.0921 11.8534 2.89662Z"
+                                        fill="#414344"></path>
+                                </svg>
+                            </button>
+                            <div class="collapse" id="loc_350">
+                                <ul class="ul_item ul_hang">
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="343" id="filter343">
+                                        <label class="form-check-label fml_normal" for="filter343">
+                                            Không cảm ứng (301)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="274" id="filter274">
+                                        <label class="form-check-label fml_normal" for="filter274">
+                                            Cảm ứng (61)
+                                        </label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dropdown field_filter filters_item w-100">
+                            <button type="button" class="btn" data-toggle="collapse" data-target="#loc_353"
+                                aria-expanded="false">
+                                Tần số quét <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.8534 2.89662C11.6579 2.70113 11.3419 2.70113 11.1464 2.89662L5.99998 8.04301L0.853593 2.89662C0.658105 2.70113 0.342104 2.70113 0.146616 2.89662C-0.048872 3.0921 -0.048872 3.40811 0.146616 3.60359L5.64651 9.10348C5.744 9.20098 5.87199 9.24999 6.00001 9.24999C6.12802 9.24999 6.25601 9.20098 6.35351 9.10348L11.8534 3.60359C12.0489 3.40811 12.0489 3.0921 11.8534 2.89662Z"
+                                        fill="#414344"></path>
+                                </svg>
+                            </button>
+                            <div class="collapse" id="loc_353">
+                                <ul class="ul_item ul_hang">
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="370" id="filter370">
+                                        <label class="form-check-label fml_normal" for="filter370">
+                                            Khác (3)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="281" id="filter281">
+                                        <label class="form-check-label fml_normal" for="filter281">
+                                            60 Hz (195)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="282" id="filter282">
+                                        <label class="form-check-label fml_normal" for="filter282">
+                                            90 Hz (10)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="283" id="filter283">
+                                        <label class="form-check-label fml_normal" for="filter283">
+                                            120 Hz (80)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="319" id="filter319">
+                                        <label class="form-check-label fml_normal" for="filter319">
+                                            144 Hz (20)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="320" id="filter320">
+                                        <label class="form-check-label fml_normal" for="filter320">
+                                            165 Hz (43)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="363" id="filter363">
+                                        <label class="form-check-label fml_normal" for="filter363">
+                                            240Hz (20)
+                                        </label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dropdown field_filter filters_item w-100">
+                            <button type="button" class="btn" data-toggle="collapse" data-target="#loc_370"
+                                aria-expanded="false">
+                                Ổ cứng <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.8534 2.89662C11.6579 2.70113 11.3419 2.70113 11.1464 2.89662L5.99998 8.04301L0.853593 2.89662C0.658105 2.70113 0.342104 2.70113 0.146616 2.89662C-0.048872 3.0921 -0.048872 3.40811 0.146616 3.60359L5.64651 9.10348C5.744 9.20098 5.87199 9.24999 6.00001 9.24999C6.12802 9.24999 6.25601 9.20098 6.35351 9.10348L11.8534 3.60359C12.0489 3.40811 12.0489 3.0921 11.8534 2.89662Z"
+                                        fill="#414344"></path>
+                                </svg>
+                            </button>
+                            <div class="collapse" id="loc_370">
+                                <ul class="ul_item ul_hang">
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="367" id="filter367">
+                                        <label class="form-check-label fml_normal" for="filter367">
+                                            SSD 500/512GB (25)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="368" id="filter368">
+                                        <label class="form-check-label fml_normal" for="filter368">
+                                            SSD 1TB (39)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="369" id="filter369">
+                                        <label class="form-check-label fml_normal" for="filter369">
+                                            Khác (0)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="301" id="filter301">
+                                        <label class="form-check-label fml_normal" for="filter301">
+                                            HDD (1)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="302" id="filter302">
+                                        <label class="form-check-label fml_normal" for="filter302">
+                                            SSD + SSD (290)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="303" id="filter303">
+                                        <label class="form-check-label fml_normal" for="filter303">
+                                            SSD + HDD (20)
+                                        </label>
+                                    </div>
+                                    <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                        <input class="form-check-input filter-check" filter="fil_loc" type="checkbox"
+                                            value="378" id="filter378">
+                                        <label class="form-check-label fml_normal" for="filter378">
+                                            SSD 256GB (39)
+                                        </label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="sort_r" value="">
+            <input type="hidden" name="fil_loc" value="">
+            <input type="hidden" name="price_r" value="">
+        </form>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelectorAll(".collapse").forEach(function (collapseDiv) {
+                    // Kiểm tra nếu có input checkbox nào bên trong đang được chọn
+                    if (collapseDiv.querySelector("input:checked")) {
+                        collapseDiv.classList.add("in"); // Mở dropdown
+                    }
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>

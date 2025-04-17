@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
   brands: any[] = [];
   activeDropdown: string | null = null;
   ngOnInit() {
-    this.fetchBrands();
+    // this.fetchBrands();
     this.wishlistService.wishlist$.subscribe(wishlist => {
       this.wishlistCount = wishlist.length; 
     });
@@ -32,16 +32,16 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  fetchBrands() {
-    this.http.get<any[]>('http://localhost:8080/brands/getAllBrandsWithProductLines')
-      .subscribe({
-        next: (data) => {
-          this.brands = data;
-          console.log('Fetched brands:', data);
-        },
-        error: (error) => console.error('Error fetching brands:', error)
-      });
-  }
+  // fetchBrands() {
+  //   this.http.get<any[]>('http://localhost:8080/brands/getAllBrandsWithProductLines')
+  //     .subscribe({
+  //       next: (data) => {
+  //         this.brands = data;
+  //         console.log('Fetched brands:', data);
+  //       },
+  //       error: (error) => console.error('Error fetching brands:', error)
+  //     });
+  // }
 
   showDropdown(menu: string) {
     this.activeDropdown = menu;

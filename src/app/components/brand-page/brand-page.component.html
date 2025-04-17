@@ -5,7 +5,11 @@
       <!-- Phần bộ lọc bên trái -->
       <div class="col-12 md:col-3 lg:col-3 filter-column">
         <div class="filter-container">
-          <app-test></app-test>
+          <!-- Sử dụng FilterBoxComponent với mode="brand" -->
+          <app-filter-box 
+            [categoryId]="selectedCategoryId" 
+            mode="brand">
+          </app-filter-box>
         </div>
       </div>
       
@@ -28,7 +32,5 @@
     </div>
   </div>
 </div>
-<app-compare *ngIf="isVisibleCompare" [listCompare]="listCompare"></app-compare>
-<app-compare-button *ngIf="isVisibleCompareLess"></app-compare-button>
 <app-compare *ngIf="isVisibleCompare" [listCompare]="listCompare"></app-compare>
 <app-compare-button *ngIf="isVisibleCompareLess"></app-compare-button>

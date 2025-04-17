@@ -14,7 +14,7 @@
     <div class="flex flex-column gap-2 mt-4">
       <span class="text-xl font-semibold" style="color: rgb(255,94,34)">{{ product.price }}</span>
       <div class="love_same">
-        <p class="p-same" style="color: rgb(131,131,131);">1 phiên bản</p>
+        <p class="p-same" style="color: rgb(131,131,131); font-size: 12px;">1 phiên bản</p>
         <span class="right" (click)="love()">
           <p 
           *ngIf="!isInWishlist" 
@@ -24,7 +24,7 @@
           *ngIf="isInWishlist" 
           class="pi pi-heart-fill text-red-500"
         ></p>
-          <p class="yeu_thich" style="font-size: small">Yêu thích</p>
+          <p class="yeu_thich" style="font-size: 14px">Yêu thích</p>
         </span>
       </div>
       <div class="ab flex flex-column gap-3">

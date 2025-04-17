@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
-    <app-dynamic-product></app-dynamic-product>
 <div class="compare-container active">
     <div class="container">
         <div class="title">
@@ -41,7 +40,7 @@
             </div>
             <!-- Hành động -->
             <div class="itemm actions">
-                <a href="#" class="compare_all">So sánh ngay</a>
+                <a class="compare_all" (click)="compareNow()">So sánh ngay</a>
                 <a href="javascript:void(0)" class="remove_all_compare">Xóa tất cả sản phẩm</a>
             </div>
         </div>

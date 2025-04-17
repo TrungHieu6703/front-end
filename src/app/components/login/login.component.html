@@ -35,21 +35,22 @@
   
       <form *ngIf="!isLogin">
         <div class="box">
-          <input type="text" class="form-control" placeholder="Họ và tên*">
+          <input type="text" class="form-control" placeholder="Họ và tên*" [(ngModel)]="register.name" name="name">
         </div>
         <div class="box">
-          <input type="email" class="form-control" placeholder="Email*">
+          <input type="tel" class="form-control" placeholder="Số điện thoại*" [(ngModel)]="register.phone" name="phone">
         </div>
         <div class="box">
-          <input type="password" class="form-control" placeholder="Mật khẩu*">
+          <input type="email" class="form-control" placeholder="Email*" [(ngModel)]="register.email" name="email">
         </div>
         <div class="box">
-          <input type="password" class="form-control" placeholder="Nhập lại mật khẩu*">
+          <input type="password" class="form-control" placeholder="Mật khẩu*" [(ngModel)]="register.password" name="password">
         </div>
         <div class="box">
-          <button class="submit-btn">Đăng ký</button>
+          <button class="submit-btn" type="button" (click)="onRegister()">Đăng ký</button>
         </div>
       </form>
+      
   
       <p class="note">Trung Trần cam kết bảo mật thông tin của bạn.</p>
     </div>
