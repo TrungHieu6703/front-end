@@ -4,6 +4,7 @@
   }
   
   ::ng-deep .p-sidebar {
+    z-index: 1;
     position: sticky;
     top: 1rem;
     height: calc(100vh - 2rem);

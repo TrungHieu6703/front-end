@@ -5,6 +5,7 @@ export interface ListProduct {
     brand?: string,
     price?: number,
     quantity?: number,
-    avatar?: string
+    avatar?: string,
+    description?: string
 }
 

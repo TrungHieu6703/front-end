@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Quản Lý Thuộc Tính Cho Danh Mục</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h2 {
+      color: #2c3e50;
+    }
+    .container {
+      width: 80%;
+      margin: 0 auto;
+    }
+    .card {
+      background-color: #ecf0f1;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background-color: #34495e;
+      color: white;
+    }
+    td {
+      background-color: #fff;
+    }
+    select, input[type="checkbox"] {
+      margin-top: 5px;
+    }
+    .btn {
+      padding: 8px 15px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #2980b9;
+    }
+    .disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Quản Lý Thuộc Tính Cho Danh Mục</h2>
+
+    <!-- Card chọn danh mục -->
+    <div class="card">
+      <label for="category-select">Chọn danh mục:</label>
+      <select id="category-select">
+        <option value="1">Laptop</option>
+        <option value="2">Điện thoại</option>
+        <option value="3">Máy tính bảng</option>
+      </select>
+    </div>
+
+    <!-- Bảng thuộc tính -->
+    <div class="card">
+      <h3>Thuộc tính cho danh mục <span id="category-name">Laptop</span></h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Thuộc tính</th>
+            <th>Gán (visible)</th>
+            <th>Hiển thị (display)</th>
+            <th>Lọc (filter)</th>
+          </tr>
+        </thead>
+        <tbody id="attribute-table">
+          <!-- Dữ liệu sẽ được thêm bằng JS -->
+        </tbody>
+      </table>
+      <button class="btn" id="save-btn">Lưu thay đổi</button>
+    </div>
+  </div>
+
+  <script>
+    // Danh sách thuộc tính giả lập
+    const attributes = [
+      { id: 1, name: 'Màu sắc' },
+      { id: 2, name: 'Kích thước màn hình' },
+      { id: 3, name: 'RAM' },
+      { id: 4, name: 'Ổ cứng' }
+    ];
+
+    // Trạng thái của các thuộc tính cho mỗi danh mục
+    const categoryStates = {};
+
+    const categorySelect = document.getElementById('category-select');
+    const categoryName = document.getElementById('category-name');
+    const tableBody = document.getElementById('attribute-table');
+    const saveButton = document.getElementById('save-btn');
+
+    // Xử lý khi chọn danh mục
+    categorySelect.addEventListener('change', () => {
+      const categoryId = categorySelect.value;
+      categoryName.textContent = categorySelect.options[categorySelect.selectedIndex].text;
+
+      if (!categoryStates[categoryId]) {
+        categoryStates[categoryId] = {};
+        attributes.forEach(attr => {
+          categoryStates[categoryId][attr.id] = {
+            visible: false,
+            display: false,
+            filter: false
+          };
+        });
+      }
+
+      renderTable(categoryId);
+    });
+
+    // Hàm render bảng thuộc tính cho danh mục
+    function renderTable(categoryId) {
+      tableBody.innerHTML = ''; // Xóa nội dung bảng trước khi render lại
+
+      attributes.forEach(attr => {
+        const state = categoryStates[categoryId][attr.id];
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${attr.name}</td>
+          <td><input type="checkbox" class="visible" data-id="${attr.id}" ${state.visible ? 'checked' : ''}></td>
+          <td><input type="checkbox" class="display" data-id="${attr.id}" ${state.visible ? '' : 'disabled'} ${state.display ? 'checked' : ''}></td>
+          <td><input type="checkbox" class="filter" data-id="${attr.id}" ${state.visible ? '' : 'disabled'} ${state.filter ? 'checked' : ''}></td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Lưu trạng thái thuộc tính
+    saveButton.addEventListener('click', () => {
+      const categoryId = categorySelect.value;
+      const updatedStates = categoryStates[categoryId];
+      console.log('Lưu trạng thái thuộc tính:', updatedStates);
+      // Ở đây bạn có thể gửi yêu cầu lưu lại thay đổi qua API hoặc lưu vào cơ sở dữ liệu
+    });
+
+    // Xử lý sự kiện thay đổi trạng thái checkbox
+    tableBody.addEventListener('change', (event) => {
+      const target = event.target;
+      const attrId = target.getAttribute('data-id');
+      const categoryId = categorySelect.value;
+
+      if (target.classList.contains('visible')) {
+        categoryStates[categoryId][attrId].visible = target.checked;
+        const displayCheckbox = tableBody.querySelector(`.display[data-id="${attrId}"]`);
+        const filterCheckbox = tableBody.querySelector(`.filter[data-id="${attrId}"]`);
+
+        displayCheckbox.disabled = !target.checked;
+        filterCheckbox.disabled = !target.checked;
+      }
+
+      if (target.classList.contains('display') || target.classList.contains('filter')) {
+        categoryStates[categoryId][attrId][target.classList[0]] = target.checked;
+      }
+    });
+  </script>
+
+</body>
+</html>

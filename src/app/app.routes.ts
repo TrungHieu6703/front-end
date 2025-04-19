@@ -28,6 +28,16 @@ import { TestComponent } from './components/test/test.component';
 import { BrandPageComponent } from './components/brand-page/brand-page.component';
 import { ProductLineComponent } from './components/product-line/product-line.component';
 import { CategoryPageComponent } from './components/category-page/category-page.component';
+import { StatisticsComponent } from './components/statistics/statistics.component';
+import { OrderManagementComponent } from './components/order-management/order-management.component';
+import { CategoryAttributeManagerComponent } from './components/category-attribute-manager/category-attribute-manager.component';
+import { AttributeValueCrudComponent } from './components/attribute-value-crud/attribute-value-crud.component';
+import { AttributeManagerComponent } from './components/attribute-manager/attribute-manager.component';
+import { BrandManagerComponent } from './components/brand-manager/brand-manager.component';
+import { MasterComponent } from './components/master/master.component';
+import { CreateProductComponent } from './components/create-product/create-product.component';
+import { UpdateProductComponent } from './components/update-product/update-product.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 export const routes: Routes = [
 
     {
@@ -41,11 +51,14 @@ export const routes: Routes = [
         path: 'admin',
         component: AdminComponent,
         children: [
+            { path: 'dashboard', component: StatisticsComponent },
+            { path: 'order', component: OrderManagementComponent },
             { path: 'product', component: ListProductComponent },
-            { path: 'attributes', component: CrudComponent },
+            { path: 'attributes', component: AttributeManagerComponent },
             { path: 'attribute-value', component: AttributeValueComponent },
-            { path: 'brands', component: BrandComponent },
+            { path: 'brands', component: BrandManagerComponent },
             { path: 'categories', component: CategoryComponent },
+            { path: 'attribute-group', component: CategoryAttributeManagerComponent },
         ]
     },
     {
@@ -87,4 +100,10 @@ export const routes: Routes = [
     { path: 'brand/:id', component: BrandPageComponent },
     { path: 'product_line/:id', component: ProductLineComponent },
     { path: 'category/:id', component: CategoryPageComponent },
+    { path: 'order', component: OrderManagementComponent },
+    { path: 'category-attribute', component: CategoryAttributeManagerComponent },
+    { path: 'is-edit', component: MasterComponent },
+    { path: 'create-product', component: CreateProductComponent },
+    { path: 'update-product', component: UpdateProductComponent },
+    { path: 'forgot-password', component: ForgotPasswordComponent },
 ];

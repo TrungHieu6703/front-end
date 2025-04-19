@@ -25,6 +25,14 @@ export class AdminComponent {
 
   menus = [
     {
+      name: 'Dashboard',
+      link: 'dashboard'
+    },
+    {
+      name: 'Order',
+      link: 'order'
+    },
+    {
       name: 'Product',
       link: 'product'
     },
@@ -37,16 +45,12 @@ export class AdminComponent {
       link: 'categories'
     },
     {
-      name: "Coupon",
-      link: '#'
-    },
-    {
       name: "Attribute",
       link: 'attributes'
     },
     {
-      name: "AttributeValue",
-      link: 'attribute-value'
+      name: "Nhóm thuộc tính",
+      link: 'attribute-group'
     },
   ];
 

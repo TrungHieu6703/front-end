@@ -17,27 +17,37 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrls: ['./account.component.css'],
 })
 export class AccountComponent implements OnInit {
-  userInfo: any;
+  userInfo: any = {};
   loading = false;
-  error = null;
+  error: any = null;
   orders: any[] = [];
   selectedOrder: any = null;
   showOrderDetails = false;
 
+  // For change toggles
+  showChangePhone = false;
+  showChangeEmail = false;
+  showChangePassword = false;
+
+  // New values
+  newPhone: string = '';
+  newEmail: string = '';
+  newPassword: string = '';
+
+  activeTab: string = 'account-info';
+
   constructor(
     private authService: AuthService,
     private orderService: OrderService
-  ) { }
-  
+  ) {}
+
   ngOnInit(): void {
     this.loading = true;
     this.authService.getCurrentUser().subscribe({
       next: (res) => {
-        console.log('User info:', res.data);
         this.userInfo = res.data;
+        if (!this.userInfo.gender) this.userInfo.gender = 'Nam';
         this.loading = false;
-        
-        // Nếu có thông tin người dùng, lấy danh sách đơn hàng
         if (this.userInfo && this.userInfo.id) {
           this.loadUserOrders();
         }
@@ -49,91 +59,122 @@ export class AccountComponent implements OnInit {
     });
   }
 
-  activeTab: string = 'account-info';
-
-  user = {
-    name: 'Đỗ Trung Hiếu',
-    phone: '0389296703',
-    email: 'trunghieudo2003@gmail.com',
-    birthday: '21/03/2025',
-    avatar: 'https://trungtran.vn/images/logo-user.png',
-  };
-
   changeTab(tab: string) {
-    console.log('Changing tab to:', tab);
     this.activeTab = tab;
-    
-    // Nếu chuyển sang tab quản lý đơn hàng, tải lại danh sách đơn hàng
-    if (tab === 'order-management' && this.userInfo && this.userInfo.id) {
+    if (tab === 'order-management' && this.userInfo?.id) {
       this.loadUserOrders();
     }
   }
 
-  // Tải danh sách đơn hàng của người dùng
+  toggleChangePhone() {
+    this.showChangePhone = !this.showChangePhone;
+    if (this.showChangePhone) this.newPhone = this.userInfo.phone;
+  }
+
+  toggleChangeEmail() {
+    this.showChangeEmail = !this.showChangeEmail;
+    if (this.showChangeEmail) this.newEmail = this.userInfo.email;
+  }
+
+  toggleChangePassword() {
+    this.showChangePassword = !this.showChangePassword;
+    if (this.showChangePassword) this.newPassword = ''; // Không hiển thị mật khẩu đã mã hóa
+  }
+
+  saveUserChanges() {
+    if (!this.userInfo.id) {
+      alert('Không thể cập nhật thông tin, vui lòng đăng nhập lại!');
+      return;
+    }
+
+    const userData: any = {
+      name: this.userInfo.name,
+      phone: this.showChangePhone ? this.newPhone : this.userInfo.phone,
+      email: this.showChangeEmail ? this.newEmail : this.userInfo.email,
+      password: this.showChangePassword ? this.newPassword : this.userInfo.password,
+      gender: this.userInfo.gender,
+      birthday: this.userInfo.birthday
+    };
+
+    // Chỉ gửi password nếu có đổi
+    if (this.showChangePassword && this.newPassword.trim() !== '') {
+      userData.password = this.newPassword;
+    }
+
+    this.loading = true;
+
+    this.authService.updateUser(this.userInfo.id, userData).subscribe({
+      next: (response) => {
+        if (response && response.data) {
+          this.userInfo = response.data;
+        }
+        this.resetChangeFields();
+        this.loading = false;
+        alert('Đã cập nhật thông tin tài khoản thành công!');
+      },
+      error: (err) => {
+        console.log('Dữ liệu gửi đi:', userData);
+        this.loading = false;
+        const errorMessage = err.error?.message || 'Không thể cập nhật thông tin. Vui lòng thử lại sau!';
+        alert(errorMessage);
+      }
+    });
+  }
+
+  resetChangeFields() {
+    this.showChangePhone = false;
+    this.showChangeEmail = false;
+    this.showChangePassword = false;
+    this.newPhone = '';
+    this.newEmail = '';
+    this.newPassword = '';
+  }
+
   loadUserOrders() {
     this.loading = true;
     this.orderService.getUserOrders(this.userInfo.id).subscribe({
       next: (response) => {
-        console.log('Orders response:', response);
-        if (response && response.data) {
-          this.orders = response.data;
-        } else {
-          this.orders = [];
-        }
+        this.orders = response?.data || [];
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error loading orders:', err);
-        // this.error = 'Không thể tải danh sách đơn hàng';
         this.loading = false;
         this.orders = [];
       }
     });
   }
 
-  // Xem chi tiết đơn hàng
   viewOrderDetails(orderId: string) {
     this.loading = true;
     this.orderService.getOrderById(orderId).subscribe({
       next: (response) => {
-        console.log('Order details:', response);
-        if (response && response.data) {
-          this.selectedOrder = response.data;
-          this.showOrderDetails = true;
-        }
+        this.selectedOrder = response?.data || null;
+        this.showOrderDetails = !!this.selectedOrder;
         this.loading = false;
       },
-      error: (err) => {
-        console.error('Error loading order details:', err);
-        // this.error = 'Không thể tải chi tiết đơn hàng';
+      error: () => {
         this.loading = false;
       }
     });
   }
 
-  // Đóng modal chi tiết đơn hàng
   closeOrderDetails() {
     this.showOrderDetails = false;
     this.selectedOrder = null;
   }
 
-  // Hủy đơn hàng
   cancelOrder(orderId: string) {
     if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?')) {
       this.loading = true;
       this.orderService.cancelOrder(orderId).subscribe({
-        next: (response) => {
-          console.log('Cancel order response:', response);
+        next: () => {
           alert('Đơn hàng đã được hủy thành công');
-          // Tải lại danh sách đơn hàng
           this.loadUserOrders();
-          // Nếu đang xem chi tiết đơn hàng này, đóng modal
-          if (this.selectedOrder && this.selectedOrder.id === orderId) {
+          if (this.selectedOrder?.id === orderId) {
             this.closeOrderDetails();
           }
         },
-        error: (err) => {
-          console.error('Error cancelling order:', err);
+        error: () => {
           alert('Không thể hủy đơn hàng, vui lòng thử lại sau');
           this.loading = false;
         }
@@ -141,7 +182,6 @@ export class AccountComponent implements OnInit {
     }
   }
 
-  // Định dạng trạng thái đơn hàng
   getStatusText(status: string): string {
     switch (status) {
       case 'PENDING': return 'Đang xử lý';
@@ -151,7 +191,6 @@ export class AccountComponent implements OnInit {
     }
   }
 
-  // Xác định lớp CSS cho trạng thái
   getStatusClass(status: string): string {
     switch (status) {
       case 'PENDING': return 'status-pending';
@@ -161,19 +200,13 @@ export class AccountComponent implements OnInit {
     }
   }
 
-  // Định dạng giá tiền
   formatPrice(price: number): string {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
   }
 
-  // Định dạng ngày tháng
   formatDate(date: string): string {
     if (!date) return '';
     const dateObj = new Date(date);
     return dateObj.toLocaleDateString('vi-VN');
-  }
-
-  checkUpdateUser() {
-    alert('Đã lưu thay đổi thông tin tài khoản!');
   }
 }

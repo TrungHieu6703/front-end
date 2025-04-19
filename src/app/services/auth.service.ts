@@ -4,6 +4,15 @@ import { API_URL } from '../config/config';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
+interface UserDTO {
+  name: string;
+  phone: string;
+  email: string;
+  password?: string;
+  gender?: string;
+  birthday?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -57,5 +66,9 @@ export class AuthService {
   
   getCurrentUser(): Observable<any> {
     return this.http.get<any>(`${this.apiURL}/me`);
+  }
+
+  updateUser(id: string, userData: UserDTO): Observable<any> {
+    return this.http.put(`${this.apiURL}/${id}`, userData);
   }
 }

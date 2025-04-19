@@ -125,6 +125,16 @@
     color: #333;
 }
 
+/* Section headings */
+.user-content-side h3 {
+    font-size: 18px;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
 /* Form layout */
 .user-content-side {
     max-width: 800px;
@@ -133,8 +143,8 @@
 
 .box-user {
     margin-bottom: 20px;
-    float: left;
     padding: 0 15px;
+    box-sizing: border-box;
 }
 
 .col-md-6 {
@@ -172,74 +182,89 @@
     color: #777;
 }
 
-/* Avatar section */
-.box-user-img .inline-img {
+/* Login field styles */
+.login-field {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    margin-bottom: 15px;
 }
 
-.image_preview {
+.field-label {
+    margin-bottom: 5px;
+}
+
+.field-value {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.field-value span {
+    font-size: 15px;
+    color: #333;
+}
+
+.field-edit {
+    width: 100%;
+}
+
+/* Password fields */
+.password-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-size: 14px;
+}
+
+/* Gender options */
+.gender-options {
+    display: flex;
+    gap: 20px;
+}
+
+.gender-options label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
     margin-right: 15px;
 }
 
-.lgup.rounded-circle {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background-color: #eee;
-    border: 1px solid #ddd;
+.gender-options input {
+    margin-right: 5px;
 }
 
+/* Change button */
 .thaydoi {
     display: inline-block;
     color: #0066CC;
     text-decoration: none;
-    padding: 8px 20px;
+    padding: 5px 15px;
     border: 1px solid #0066CC;
     border-radius: 4px;
     font-size: 14px;
+    transition: all 0.2s ease;
 }
 
 .thaydoi:hover {
     background-color: #f0f7ff;
 }
 
-/* Checkbox */
-.box-user-check {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.box-user-check input[type="checkbox"] {
-    margin-right: 10px;
-}
-
-.box-user-check .label-input {
-    margin-bottom: 0;
-    font-weight: normal;
-    cursor: pointer;
-}
-
-/* Hidden password fields */
-.group_field {
-    display: none;
-}
-
-/* Show password fields when checkbox is checked */
-#changepass:checked ~ .group_field {
-    display: block;
-}
-
-/* Clear fix */
-.clearfix {
-    clear: both;
-}
-
 /* Submit button */
 .box-submit {
     text-align: center;
-    padding-top: 10px;
+    padding-top: 20px;
     width: 100%;
 }
 
@@ -259,63 +284,6 @@
 
 .submit-btn:hover {
     background-color: #0055b3;
-}
-
-/* Hide file input */
-.hide {
-    display: none;
-}
-
-/* Sửa lỗi CSS cho input field để flex wrap đẹp hơn */
-
-/* Đặt form với display flex */
-.user-content-side form {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 -15px; /* Tạo margin âm để bù trừ padding của box-user */
-}
-
-/* Sửa lại box-user để bỏ float và sử dụng flex */
-.box-user {
-    margin-bottom: 20px;
-    padding: 0 15px;
-    box-sizing: border-box;
-    float: none; /* Bỏ float */
-}
-
-/* Vẫn giữ nguyên kích thước 50% cho cột 6 */
-.col-md-6 {
-    width: 50%;
-}
-
-/* Kích thước 100% cho cột 12 */
-.col-md-12 {
-    width: 100%;
-}
-
-/* Cải thiện hiển thị password fields trong group_field */
-.group_field {
-    display: none;
-    width: 100%;
-}
-
-/* Khi checkbox được check, hiển thị group_field với flex */
-#changepass:checked ~ .group_field {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 -15px;
-}
-
-/* Không cần clearfix khi sử dụng flex */
-.clearfix {
-    display: none;
-}
-
-/* Submit button chiếm full width */
-.box-submit {
-    text-align: center;
-    padding-top: 10px;
-    width: 100%;
 }
 
 /* Order management styles */
@@ -372,92 +340,33 @@
     text-decoration: underline;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .col-md-6 {
-        width: 100%;
-    }
-}
-
-/* Responsive styles */
-@media (max-width: 1150px) {
-    .grid-members {
-        width: 100%;
-        height: auto;
-    }
-}
-
-@media (max-width: 768px) {
-    .grid-members {
-        flex-direction: column;
-    }
-    
-    .grid-members .grid-item:first-child {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid #eee;
-    }
-    
-    .box-user.col-md-6 {
-        width: 100%;
-    }
-    
-    .order-table {
-        display: block;
-        overflow-x: auto;
-    }
-}
-
-/* Styling for order management */
-.order-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .order-table th,
-  .order-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .order-table th {
-    background-color: #f8f9fa;
-    font-weight: bold;
-  }
-  
-  .order-table tr:hover {
-    background-color: #f5f5f5;
-  }
-  
-  /* Status badges */
-  .status-pending,
-  .status-completed,
-  .status-cancelled {
+/* Status badges */
+.status-pending,
+.status-completed,
+.status-cancelled {
     display: inline-block;
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 14px;
-  }
-  
-  .status-pending {
+}
+
+.status-pending {
     background-color: #fff3cd;
     color: #856404;
-  }
-  
-  .status-completed {
+}
+
+.status-completed {
     background-color: #d4edda;
     color: #155724;
-  }
-  
-  .status-cancelled {
+}
+
+.status-cancelled {
     background-color: #f8d7da;
     color: #721c24;
-  }
-  
-  /* Action buttons */
-  .action-btn {
+}
+
+/* Action buttons */
+.action-btn {
     display: inline-block;
     margin-right: 5px;
     padding: 5px 10px;
@@ -467,26 +376,26 @@
     cursor: pointer;
     color: white;
     text-decoration: none;
-  }
-  
-  .view-btn {
+}
+
+.view-btn {
     background-color: #007bff;
-  }
-  
-  .view-btn:hover {
+}
+
+.view-btn:hover {
     background-color: #0069d9;
-  }
-  
-  .cancel-btn {
+}
+
+.cancel-btn {
     background-color: #dc3545;
-  }
-  
-  .cancel-btn:hover {
+}
+
+.cancel-btn:hover {
     background-color: #c82333;
-  }
-  
-  /* Order details modal */
-  .order-details-modal {
+}
+
+/* Order details modal */
+.order-details-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -497,9 +406,9 @@
     align-items: center;
     justify-content: center;
     z-index: 1000;
-  }
-  
-  .modal-content {
+}
+
+.modal-content {
     background: white;
     width: 80%;
     max-width: 800px;
@@ -509,43 +418,43 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-  }
-  
-  .modal-header {
+}
+
+.modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
     border-bottom: 1px solid #eee;
-  }
-  
-  .modal-header h3 {
+}
+
+.modal-header h3 {
     margin: 0;
     font-size: 18px;
-  }
-  
-  .close-btn {
+}
+
+.close-btn {
     background: none;
     border: none;
     font-size: 24px;
     cursor: pointer;
     color: #777;
-  }
-  
-  .modal-body {
+}
+
+.modal-body {
     padding: 20px;
     overflow-y: auto;
     flex: 1;
-  }
-  
-  .modal-footer {
+}
+
+.modal-footer {
     display: flex;
     justify-content: flex-end;
     padding: 15px 20px;
     border-top: 1px solid #eee;
-  }
-  
-  .close-modal-btn {
+}
+
+.close-modal-btn {
     padding: 8px 15px;
     background-color: #6c757d;
     color: white;
@@ -553,88 +462,255 @@
     border-radius: 4px;
     cursor: pointer;
     margin-left: 10px;
-  }
-  
-  .close-modal-btn:hover {
+}
+
+.close-modal-btn:hover {
     background-color: #5a6268;
-  }
-  
-  /* Order items table */
-  .order-items-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
-  
-  .order-items-table th,
-  .order-items-table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .order-items-table th {
-    background-color: #f8f9fa;
-    font-weight: 500;
-  }
-  
-  /* Shipping info */
-  .shipping-info {
-    background-color: #f8f9fa;
+}
+
+/* Order info styling */
+.order-info {
+    margin-bottom: 20px;
+}
+
+.order-status,
+.order-total {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.shipping-info {
+    margin: 20px 0;
     padding: 15px;
+    background-color: #f8f9fa;
     border-radius: 4px;
-    margin: 15px 0;
-  }
-  
-  .shipping-info h4 {
+}
+
+.shipping-info h4 {
     margin-top: 0;
     margin-bottom: 10px;
     font-size: 16px;
-  }
-  
-  .shipping-info pre {
+}
+
+.shipping-info pre {
     font-family: inherit;
-    margin: 0;
     white-space: pre-wrap;
-  }
-  
-  /* Loading indicator */
-  .loading-indicator {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  /* Error message */
-  .error-message {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 10px 15px;
-    border-radius: 4px;
-    margin: 15px 0;
-  }
-  
-  /* No orders message */
-  .no-orders {
-    text-align: center;
-    padding: 30px;
-    color: #6c757d;
-    background-color: #f8f9fa;
-    border-radius: 4px;
-    margin: 15px 0;
-  }
-  
-  /* Order status and total */
-  .order-status,
-  .order-total {
-    margin-bottom: 10px;
-  }
-  
-  /* Order items section */
-  .order-items {
+    margin: 0;
+}
+
+/* Order items table */
+.order-items {
     margin-top: 20px;
-  }
-  
-  .order-items h4 {
+}
+
+.order-items h4 {
     margin-bottom: 10px;
     font-size: 16px;
+}
+
+.order-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.order-items-table th,
+.order-items-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.order-items-table th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+}
+
+/* Loading and error states */
+.loading-indicator {
+    text-align: center;
+    padding: 30px;
+    color: #666;
+}
+
+.error-message {
+    padding: 15px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.no-orders {
+    text-align: center;
+    padding: 30px;
+    color: #666;
+    font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .grid-members {
+        width: 95%;
+        max-width: 1000px;
+    }
+}
+
+@media (max-width: 992px) {
+    .grid-members {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .grid-members .grid-item:first-child {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .user-menu-side ul {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .user-menu-side ul li {
+        border-bottom: none;
+        border-right: 1px solid #f5f5f5;
+    }
+    
+    .user-menu-side ul li a {
+        padding: 10px 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .user-menu-side ul {
+        flex-direction: column;
+    }
+    
+    .user-menu-side ul li {
+        border-right: none;
+        border-bottom: 1px solid #f5f5f5;
+    }
+    
+    .gender-options {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .order-table th:nth-child(2),
+    .order-table td:nth-child(2) {
+        display: none;
+    }
+    
+    .modal-content {
+        width: 95%;
+    }
+}
+
+@media (max-width: 576px) {
+    .grid-members .grid-item:last-child {
+        padding: 15px;
+    }
+    
+    .user-name {
+        padding: 15px;
+    }
+    
+    .member-title {
+        font-size: 20px;
+    }
+    
+    .order-table th:nth-child(4),
+    .order-table td:nth-child(4) {
+        display: none;
+    }
+    
+    .action-btn {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+}
+
+/* Print styles */
+@media print {
+    .grid-members {
+        display: block;
+        box-shadow: none;
+        width: 100%;
+    }
+    
+    .grid-members .grid-item:first-child {
+        display: none;
+    }
+    
+    .grid-members .grid-item:last-child {
+        width: 100%;
+        padding: 0;
+    }
+    
+    .submit-btn, .action-btn, .thaydoi {
+        display: none;
+    }
+    
+    .member-title {
+        text-align: left;
+        margin-bottom: 15px;
+    }
+}
+
+/* Animation for modal */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.order-details-modal {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Focus styles for accessibility */
+.form-control:focus,
+.action-btn:focus,
+.submit-btn:focus,
+.close-modal-btn:focus {
+    outline: 2px solid #4d90fe;
+    outline-offset: 2px;
+}
+
+/* Transitions */
+.form-control,
+.action-btn,
+.submit-btn,
+.close-modal-btn,
+.thaydoi {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Loading spinner */
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+  }
+  
+  .spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: #0066CC;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }

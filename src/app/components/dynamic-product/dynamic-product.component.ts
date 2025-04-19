@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { forkJoin, map } from 'rxjs';
 import { DataService, CategoryType, AttributeType, AttributeValue, ProductAttributeValue } from '../../services/data.service'
+
 @Component({
   selector: 'app-dynamic-product',
   standalone: true,
@@ -11,11 +12,15 @@ import { DataService, CategoryType, AttributeType, AttributeValue, ProductAttrib
   styleUrl: './dynamic-product.component.css'
 })
 export class DynamicProductComponent implements OnInit {
+  @Input() isUpdate: boolean = false;
+  @Input() productId: string = '';
+
   categories: CategoryType[] = [];
   currentAttributes: AttributeType[] = [];
   categoryId: string = '';
   attributes: ProductAttributeValue[] = [];
   selectedAttributeId: string = '';
+  productCategoryId: string = '';
 
   constructor(private dataService: DataService) {}
 
@@ -23,6 +28,50 @@ export class DynamicProductComponent implements OnInit {
     // Lấy danh sách danh mục từ API
     this.dataService.getCategories().subscribe(categories => {
       this.categories = categories;
+      
+      // Nếu đang ở chế độ update và có productId
+      if (this.isUpdate && this.productId) {
+        this.loadProductAttributes();
+      }
+    });
+  }
+
+  // Tải thông tin sản phẩm nếu đang ở chế độ update
+  loadProductAttributes() {
+    this.dataService.getProductAttributeValues(this.productId).subscribe(productAttributes => {
+      if (productAttributes && productAttributes.length > 0) {
+        console.log('Product attributes loaded:', productAttributes);
+        
+        // Lấy category từ sản phẩm (giả sử category được lưu ở một field khác)
+        // Trong trường hợp thực tế bạn cần gọi API để lấy categoryId của product
+        this.dataService.getProductCategory(this.productId).subscribe(category => {
+          this.productCategoryId = category.id;
+          // Tự động chọn category
+          this.categoryId = this.productCategoryId;
+          this.onCategoryChange(this.categoryId);
+          
+          // Sau khi attributes đã được tải, cập nhật giá trị
+          setTimeout(() => {
+            this.updateAttributesFromProductData(productAttributes);
+          }, 500);
+        });
+      }
+    });
+  }
+
+  // Cập nhật giá trị các thuộc tính từ dữ liệu của sản phẩm
+  updateAttributesFromProductData(productAttributes: any[]) {
+    productAttributes.forEach(attr => {
+      const index = this.attributes.findIndex(a => a.attributeId === attr.id);
+      
+      if (index >= 0) {
+        // Đảm bảo lấy đúng giá trị description từ cấu trúc JSON
+        this.attributes[index] = {
+          attributeId: attr.id,
+          value: attr.id_select || '',
+          description: attr.description || '' // Đây là giá trị "Mô tả cho RAM" từ JSON của bạn
+        };
+      }
     });
   }
 
@@ -58,17 +107,26 @@ export class DynamicProductComponent implements OnInit {
           value: '', // Sẽ là ID của attribute_value khi chọn
           description: ''
         }));
+        
+        // Nếu đang update và đã có dữ liệu sản phẩm, tải lại dữ liệu
+        if (this.isUpdate && this.productId) {
+          this.dataService.getProductAttributeValues(this.productId).subscribe(productAttributes => {
+            this.updateAttributesFromProductData(productAttributes);
+          });
+        }
       });
     });
   }
 
   // Utility methods
   getAttributeValue(attributeId: string): string {
-    return this.attributes.find(attr => attr.attributeId === attributeId)?.value || '';
+    const attribute = this.attributes.find(attr => attr.attributeId === attributeId);
+    return attribute?.value || '';
   }
 
   getAttributeDescription(attributeId: string): string {
-    return this.attributes.find(attr => attr.attributeId === attributeId)?.description || '';
+    const attribute = this.attributes.find(attr => attr.attributeId === attributeId);
+    return attribute?.description || '';
   }
 
   isDefaultAttribute(attributeId: string): boolean {
@@ -92,30 +150,6 @@ export class DynamicProductComponent implements OnInit {
     }
   }
 
-  // Thêm thuộc tính mới
-  handleAddAttribute() {
-    if (!this.selectedAttributeId) return;
-    // Tìm thuộc tính trong danh sách toàn bộ (bạn có thể gọi API /api/attributes nếu cần)
-    const attrToAdd = this.currentAttributes.find(attr => attr.id === this.selectedAttributeId);
-    if (!attrToAdd) return;
-    this.currentAttributes.push(attrToAdd);
-    this.attributes.push({ attributeId: this.selectedAttributeId, value: '', description: '' });
-    this.selectedAttributeId = '';
-  }
-
-  // Xóa thuộc tính
-  handleRemoveAttribute(attributeId: string) {
-    this.currentAttributes = this.currentAttributes.filter(attr => attr.id !== attributeId);
-    this.attributes = this.attributes.filter(attr => attr.attributeId !== attributeId);
-  }
-
-  // Lấy các thuộc tính có thể thêm (không trùng với những thuộc tính hiện tại)
-  getAvailableAttributes(): AttributeType[] {
-    // Ở đây nếu cần, bạn có thể gọi API /api/attributes để lấy toàn bộ thuộc tính
-    // Giả sử currentAttributes là các thuộc tính đang có
-    return [];
-  }
-
   // Xử lý submit form
   handleSubmit() {
     const result = this.attributes
@@ -124,11 +158,8 @@ export class DynamicProductComponent implements OnInit {
         attributeValueId: attr.value, // Sử dụng giá trị đã chọn làm attributeValueId
         value: attr.description // Giữ phần mô tả nếu cần
       }));
-  
+    console.log(result);
+     
     return JSON.stringify(result, null, 2);
   }
-  
-  
-  
-  
 }

@@ -1,0 +1,191 @@
+<!-- order-management.component.html -->
+<div class="order-management-container">
+    <h1 class="page-title">Quản lý đơn hàng</h1>
+    
+    <!-- Lỗi và loading -->
+    <div *ngIf="error" class="error-message">{{ error }}</div>
+    <div *ngIf="loading" class="loading-spinner">Đang tải...</div>
+    
+    <!-- Bộ lọc -->
+    <div class="filter-section">
+      <div class="search-box">
+        <input 
+          type="text" 
+          [(ngModel)]="searchQuery" 
+          (input)="applyFilters()"
+          placeholder="Tìm kiếm theo mã đơn hàng hoặc khách hàng..."
+        >
+      </div>
+      
+      <div class="status-filter">
+        <select [(ngModel)]="statusFilter" (change)="applyFilters()">
+          <option value="ALL">Tất cả trạng thái</option>
+          <option value="PENDING">Đang xử lý</option>
+          <option value="APPROVED">Đã hoàn thành</option>
+          <option value="REJECTED">Đã hủy</option>
+        </select>
+      </div>
+    </div>
+    
+    <!-- Danh sách đơn hàng -->
+    <div class="orders-list-section">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Mã đơn hàng</th>
+            <th>Ngày đặt</th>
+            <th>Khách hàng</th>
+            <th>Tổng tiền</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="paginatedOrders.length === 0">
+            <td colspan="6" class="no-data">Không có đơn hàng nào</td>
+          </tr>
+          <tr *ngFor="let order of paginatedOrders">
+            <td>{{ order.id }}</td>
+            <td>{{ formatDate(order.createdDate) }}</td>
+            <td>{{ order.userId }}</td>
+            <td>{{ formatCurrency(order.total) }}</td>
+            <td>
+              <span [class]="'status-badge ' + getStatusClass(order.status)">
+                {{ getStatusText(order.status) }}
+              </span>
+            </td>
+            <td class="actions-cell">
+              <button class="btn view-btn" (click)="viewOrderDetails(order)">
+                <i class="fa fa-eye"></i> Xem
+              </button>
+              <button class="btn edit-btn" *ngIf="order.status === 'PENDING'" 
+                     (click)="updateOrderStatus(order.id, 'APPROVED')">
+                <i class="fa fa-check"></i> Duyệt
+              </button>
+              <button class="btn cancel-btn" *ngIf="order.status === 'PENDING'" 
+                     (click)="updateOrderStatus(order.id, 'REJECTED')">
+                <i class="fa fa-times"></i> Hủy
+              </button>
+              <button class="btn delete-btn" (click)="deleteOrder(order.id)">
+                <i class="fa fa-trash"></i> Xóa
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Phân trang -->
+    <div class="pagination-section" *ngIf="totalPages > 1">
+      <button 
+        class="pagination-btn" 
+        [disabled]="currentPage === 1"
+        (click)="goToPage(currentPage - 1)"
+      >
+        &laquo;
+      </button>
+      
+      <button 
+        *ngFor="let page of getPaginationRange()"
+        class="pagination-btn"
+        [class.active]="page === currentPage"
+        (click)="goToPage(page)"
+      >
+        {{ page }}
+      </button>
+      
+      <button 
+        class="pagination-btn" 
+        [disabled]="currentPage === totalPages"
+        (click)="goToPage(currentPage + 1)"
+      >
+        &raquo;
+      </button>
+    </div>
+    
+    <!-- Chi tiết đơn hàng (Modal) -->
+    <div class="order-details-modal" *ngIf="showOrderDetails" [class.show]="showOrderDetails">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Chi tiết đơn hàng #{{ selectedOrder?.id }}</h2>
+          <button class="close-btn" (click)="closeOrderDetails()">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+          <!-- Thông tin chung -->
+          <div class="order-info-section">
+            <div class="order-info-item">
+              <strong>Trạng thái:</strong>
+              <span [class]="'status-badge ' + getStatusClass(selectedOrder?.status)">
+                {{ getStatusText(selectedOrder?.status) }}
+              </span>
+            </div>
+            
+            <div class="order-info-item">
+              <strong>Khách hàng:</strong>
+              <span>{{ selectedOrder?.userId }}</span>
+            </div>
+            
+            <div class="order-info-item">
+              <strong>Tổng tiền:</strong>
+              <span>{{ formatCurrency(selectedOrder?.total) }}</span>
+            </div>
+          </div>
+          
+          <!-- Thông tin giao hàng -->
+          <div class="shipping-info-section">
+            <h3>Thông tin giao hàng</h3>
+            <div class="shipping-info">
+              <pre>{{ selectedOrder?.shippingInfo || 'Không có thông tin giao hàng' }}</pre>
+            </div>
+          </div>
+          
+          <!-- Chi tiết sản phẩm -->
+          <div class="order-items-section">
+            <h3>Sản phẩm</h3>
+            <table class="order-items-table">
+              <thead>
+                <tr>
+                  <th>Sản phẩm</th>
+                  <th>Đơn giá</th>
+                  <th>Số lượng</th>
+                  <th>Thành tiền</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="!selectedOrder?.orderDetails || selectedOrder.orderDetails.length === 0">
+                  <td colspan="4">Không có thông tin sản phẩm</td>
+                </tr>
+                <tr *ngFor="let item of selectedOrder?.orderDetails">
+                  <td>{{ item.productId }}</td>
+                  <td>{{ formatCurrency(item.price) }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td>{{ formatCurrency(item.price * item.quantity) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button 
+            class="btn approve-btn" 
+            *ngIf="selectedOrder?.status === 'PENDING'"
+            (click)="updateOrderStatus(selectedOrder.id, 'APPROVED')"
+          >
+            Duyệt đơn hàng
+          </button>
+          
+          <button 
+            class="btn reject-btn" 
+            *ngIf="selectedOrder?.status === 'PENDING'"
+            (click)="updateOrderStatus(selectedOrder.id, 'REJECTED')"
+          >
+            Hủy đơn hàng
+          </button>
+          
+          <button class="btn close-modal-btn" (click)="closeOrderDetails()">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>

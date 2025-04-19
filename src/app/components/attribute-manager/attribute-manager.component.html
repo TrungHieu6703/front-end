@@ -1,0 +1,199 @@
+<div class="card">
+    <p-toast></p-toast>
+    <div class="p-fluid">
+        <p-toolbar class="mb-4 gap-2">
+            <ng-template pTemplate="left">
+                <p-button
+                    severity="success"
+                    label="Thêm thuộc tính"
+                    icon="pi pi-plus"
+                    class="mr-2"
+                    (click)="openNew()">
+                </p-button>
+                <p-button
+                    severity="danger"
+                    label="Xóa đã chọn"
+                    icon="pi pi-trash"
+                    (click)="deleteSelectedAttributes()"
+                    [disabled]="!selectedAttributes || !selectedAttributes.length">
+                </p-button>
+            </ng-template>
+        </p-toolbar>
+
+        <!-- Attribute List with Accordion -->
+        <p-accordion [multiple]="true" [activeIndex]="activeIndex">
+            <p-accordionTab *ngFor="let attribute of attributes; let i = index" [header]="attribute.name">
+                <!-- Attribute Value Toolbar -->
+                <ng-template pTemplate="header">
+                    <div class="flex align-items-center">
+                        <p-tableCheckbox [value]="attribute"></p-tableCheckbox>
+                        <span class="ml-2 font-bold">{{ attribute.name }}</span>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="content">
+                    <div class="attribute-header flex justify-content-between align-items-center mb-3">
+                        <div class="attribute-actions">
+                            <p-button
+                                icon="pi pi-pencil"
+                                class="mr-2"
+                                [rounded]="true"
+                                [outlined]="true"
+                                severity="success"
+                                (click)="editAttribute(attribute)"
+                                pTooltip="Sửa thuộc tính">
+                            </p-button>
+                            <p-button
+                                icon="pi pi-trash"
+                                [rounded]="true"
+                                [outlined]="true"
+                                severity="danger"
+                                (click)="deleteAttribute(attribute)"
+                                pTooltip="Xóa thuộc tính">
+                            </p-button>
+                        </div>
+                        <p-button
+                            label="Thêm giá trị"
+                            icon="pi pi-plus"
+                            severity="info"
+                            [outlined]="true"
+                            (click)="openNewAttributeValue(attribute.id || '')">
+                        </p-button>
+                    </div>
+
+                    <!-- Attribute Value List -->
+                    <div *ngIf="attributeValues[attribute.id || ''] && attributeValues[attribute.id || ''].length > 0" class="attribute-values-container">
+                        <p-table [value]="attributeValues[attribute.id || '']" [scrollable]="true" styleClass="p-datatable-sm">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Giá trị</th>
+                                    <th style="width: 8rem">Hành động</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-attrValue>
+                                <tr>
+                                    <td>{{ attrValue.id }}</td>
+                                    <td>{{ attrValue.value }}</td>
+                                    <td>
+                                        <div class="flex">
+                                            <p-button 
+                                                icon="pi pi-pencil" 
+                                                [rounded]="true" 
+                                                [text]="true" 
+                                                severity="success"
+                                                (click)="editAttributeValue(attrValue)" 
+                                                class="mr-2">
+                                            </p-button>
+                                            <p-button 
+                                                icon="pi pi-trash" 
+                                                [rounded]="true" 
+                                                [text]="true" 
+                                                severity="danger"
+                                                (click)="deleteAttributeValue(attrValue)">
+                                            </p-button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td colspan="3" class="text-center">Không có giá trị nào cho thuộc tính này</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                    <div *ngIf="!attributeValues[attribute.id || ''] || attributeValues[attribute.id || ''].length === 0" class="empty-values">
+                        <p>Không có giá trị nào cho thuộc tính này</p>
+                    </div>
+                </ng-template>
+            </p-accordionTab>
+        </p-accordion>
+
+        <!-- No attributes message -->
+        <div *ngIf="!attributes || attributes.length === 0" class="empty-message">
+            <p>Không có thuộc tính nào. Hãy thêm thuộc tính mới.</p>
+        </div>
+    </div>
+
+    <!-- Attribute Dialog -->
+    <p-dialog
+        [(visible)]="attributeDialog"
+        [style]="{ width: '450px' }"
+        header="Chi tiết thuộc tính"
+        [modal]="true"
+        class="p-fluid">
+        
+        <ng-template pTemplate="content">
+            <div class="field">
+                <label for="name">Tên thuộc tính</label>
+                <input
+                    type="text"
+                    pInputText
+                    id="name"
+                    [(ngModel)]="attribute.name"
+                    required
+                    autofocus>
+                <small class="p-error" *ngIf="submitted && !attribute.name">
+                    Tên không được để trống.
+                </small>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <p-button
+                label="Hủy"
+                icon="pi pi-times"
+                (onClick)="hideDialog()"
+                styleClass="p-button-text">
+            </p-button>
+            <p-button
+                label="Lưu"
+                icon="pi pi-check"
+                (onClick)="saveAttribute()">
+            </p-button>
+        </ng-template>
+    </p-dialog>
+
+    <!-- Attribute Value Dialog -->
+    <p-dialog
+        [(visible)]="attributeValueDialog"
+        [style]="{ width: '450px' }"
+        header="Chi tiết giá trị thuộc tính"
+        [modal]="true"
+        class="p-fluid">
+        
+        <ng-template pTemplate="content">
+            <div class="field">
+                <label for="value">Giá trị</label>
+                <input
+                    type="text"
+                    pInputText
+                    id="value"
+                    [(ngModel)]="attributeValue.value"
+                    required
+                    autofocus>
+                <small class="p-error" *ngIf="submitted && !attributeValue.value">
+                    Giá trị không được để trống.
+                </small>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <p-button
+                label="Hủy"
+                icon="pi pi-times"
+                (onClick)="hideDialog()"
+                styleClass="p-button-text">
+            </p-button>
+            <p-button
+                label="Lưu"
+                icon="pi pi-check"
+                (onClick)="saveAttributeValue()">
+            </p-button>
+        </ng-template>
+    </p-dialog>
+
+    <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+</div>

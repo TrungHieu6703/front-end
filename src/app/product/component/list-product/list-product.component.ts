@@ -4,11 +4,12 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ListProduct } from '../../../interface/list-product';
 import { ListProductService } from '../../../services/list-product.service';
 import { Table } from 'primeng/table';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-list-product',
   standalone: true,
-  imports: [ImportsModule],
+  imports: [ImportsModule, RouterModule],
   providers: [MessageService, ConfirmationService, ListProductService],
   templateUrl: './list-product.component.html',
   styleUrl: './list-product.component.css'
@@ -26,7 +27,8 @@ export class ListProductComponent implements OnInit {
   constructor(
     private listProductService: ListProductService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private router: Router
   ) {}
 
   applyFilterGlobal($event: any, stringVal: any) {
@@ -42,6 +44,7 @@ export class ListProductComponent implements OnInit {
       next: (response) => {
         if (response && Array.isArray(response)) {
           this.listproducts = response; // Lấy đúng mảng `data`
+          console.log(this.listproducts)
         } else {
           console.error('API trả về không đúng định dạng:', response);
           this.listproducts = [];
@@ -92,7 +95,8 @@ export class ListProductComponent implements OnInit {
   }
 
   editListProduct(listproduct: ListProduct) {
-    this.listproduct = { ...listproduct };
+    console.log('click')
+    this.router.navigate(['update-product'], {state: { product: listproduct}})
     this.listproductDialog = true;
   }
 

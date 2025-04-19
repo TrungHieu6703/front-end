@@ -1,0 +1,133 @@
+<!-- statistics.component.html -->
+<div class="statistics-container">
+    <h1 class="page-title">Báo Cáo Thống Kê</h1>
+    
+    <!-- Loading và error -->
+    <div *ngIf="loading" class="loading-indicator">
+      <div class="spinner"></div>
+      <p>Đang tải dữ liệu...</p>
+    </div>
+    
+    <div *ngIf="error" class="error-message">
+      <p>{{ error }}</p>
+    </div>
+    
+    <!-- Dashboard Stats -->
+    <div *ngIf="!loading && !error" class="dashboard-stats">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon order-icon">
+            <i class="fas fa-shopping-cart"></i>
+          </div>
+          <div class="stat-info">
+            <h3>Tổng đơn hàng</h3>
+            <p class="stat-value">{{ dashboardStats.totalOrders || 0 }}</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon revenue-icon">
+            <i class="fas fa-money-bill-wave"></i>
+          </div>
+          <div class="stat-info">
+            <h3>Tổng doanh thu</h3>
+            <p class="stat-value">{{ formatCurrency(dashboardStats.totalRevenue || 0) }}</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon pending-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="stat-info">
+            <h3>Đơn chờ xử lý</h3>
+            <p class="stat-value">{{ dashboardStats.pendingOrders || 0 }}</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon product-icon">
+            <i class="fas fa-box"></i>
+          </div>
+          <div class="stat-info">
+            <h3>Tổng sản phẩm</h3>
+            <p class="stat-value">{{ dashboardStats.totalProducts || 0 }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Time Range Stats -->
+    <div *ngIf="!loading && !error" class="time-range-stats">
+      <div class="date-range-filter">
+        <h2>Thống kê theo thời gian</h2>
+        <div class="date-inputs">
+          <div class="date-input">
+            <label for="startDate">Từ ngày:</label>
+            <input type="date" id="startDate" [(ngModel)]="startDate">
+          </div>
+          <div class="date-input">
+            <label for="endDate">Đến ngày:</label>
+            <input type="date" id="endDate" [(ngModel)]="endDate">
+          </div>
+          <button class="apply-btn" (click)="applyDateRange()">Áp dụng</button>
+        </div>
+      </div>
+      
+      <div class="charts-container">
+        <div class="chart-card">
+          <h3>Doanh thu theo ngày</h3>
+          <div class="chart-container">
+            <canvas #revenueChart width="400" height="300"></canvas>
+          </div>
+        </div>
+        
+        <div class="chart-card">
+          <h3>Doanh thu theo trạng thái đơn hàng</h3>
+          <div class="chart-container">
+            <canvas #statusChart width="400" height="300"></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <div class="time-range-summary">
+        <div class="summary-item">
+          <h3>Tổng đơn hàng trong khoảng thời gian</h3>
+          <p class="summary-value">{{ timeRangeStats.totalOrders || 0 }}</p>
+        </div>
+        <div class="summary-item">
+          <h3>Tổng doanh thu trong khoảng thời gian</h3>
+          <p class="summary-value">{{ formatCurrency(timeRangeStats.totalRevenue || 0) }}</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Top Products -->
+    <div *ngIf="!loading && !error && topProducts.length > 0" class="top-products">
+      <h2>Sản phẩm bán chạy</h2>
+      <div class="product-table-container">
+        <table class="product-table">
+          <thead>
+            <tr>
+              <th>Sản phẩm</th>
+              <th>Số lượng đã bán</th>
+              <th>Doanh thu</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of topProducts; let i = index">
+              <td class="product-cell">
+                <span class="rank">{{ i + 1 }}</span>
+                <div class="product-info">
+                  <img [src]="product.image || 'assets/placeholder.png'" alt="{{ product.name }}">
+                  <span>{{ product.name }}</span>
+                </div>
+              </td>
+              <td>{{ product.quantity }}</td>
+              <td>{{ formatCurrency(product.revenue) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

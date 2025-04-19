@@ -10,7 +10,7 @@ import { CompareService } from '../../services/product-compare.service';
 @Component({
   selector: 'app-first',
   standalone: true,
-  imports: [ImportsModule, EditorComponent, HeaderComponent],
+  imports: [ImportsModule, HeaderComponent],
   providers: [PhotoService],
   templateUrl: './first.component.html',
   styleUrl: './first.component.css'

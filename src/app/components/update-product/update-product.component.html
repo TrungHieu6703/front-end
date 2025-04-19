@@ -1,0 +1,137 @@
+<!-- create-product.component.html -->
+<p-card>
+  <ng-template pTemplate="header">
+    <div class="card-header">
+      <i class="pi pi-box"></i>
+      <h2 class="card-title">Tạo sản phẩm mới</h2>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <div *ngIf="isLoading" class="loading-indicator">
+      <p>Đang xử lý...</p>
+    </div>
+
+    <!-- Tab navigation -->
+    <p-tabView [(activeIndex)]="activeTabIndex">
+      <!-- Tab 1: Thông tin cơ bản -->
+      <p-tabPanel header="Thông tin cơ bản" leftIcon="pi pi-info-circle">
+        <div class="tab-content-wrapper">
+          <div class="form-grid">
+            <div class="p-field required full-width">
+              <label for="name">Tên sản phẩm</label>
+              <input type="text" id="name" pInputText [(ngModel)]="product.name" placeholder="Nhập tên sản phẩm" />
+              <div class="helper-text">Tên hiển thị của sản phẩm trên trang web</div>
+            </div>
+
+            <div class="p-field required">
+              <label for="price">Giá (VNĐ)</label>
+              <p-inputNumber id="price" [(ngModel)]="product.price" [showButtons]="false"
+                placeholder="Nhập giá sản phẩm" [min]="0"></p-inputNumber>
+            </div>
+
+            <div class="p-field required">
+              <label for="quantity">Số lượng</label>
+              <p-inputNumber id="quantity" [(ngModel)]="product.quantity" [showButtons]="false"
+                placeholder="Nhập số lượng" [min]="0"></p-inputNumber>
+              <div class="helper-text">Số lượng sản phẩm trong kho</div>
+            </div>
+
+            <div class="p-field required">
+              <label for="brand">Thương hiệu</label>
+              <p-dropdown id="brand" [options]="brands" [(ngModel)]="product.brand" optionLabel="name" optionValue="id"
+                (onChange)="onBrandChange($event)" placeholder="Chọn thương hiệu"></p-dropdown>
+            </div>
+
+            <div class="p-field required">
+              <label for="category">Danh mục</label>
+              <p-dropdown id="category" [options]="categories" [(ngModel)]="product.category" optionLabel="name"
+                optionValue="id" placeholder="Chọn danh mục"></p-dropdown>
+            </div>
+
+            <div class="p-field required">
+              <label for="productLine">Dòng sản phẩm</label>
+              <p-dropdown id="productLine" [options]="productLines" [(ngModel)]="product.productLine"
+                optionLabel="line_name" optionValue="id" placeholder="Chọn dòng sản phẩm"
+                [disabled]="!product.brand"></p-dropdown>
+            </div>
+          </div>
+
+          <div class="form-footer">
+            <p-button label="Tiếp theo" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextTab()"></p-button>
+          </div>
+        </div>
+      </p-tabPanel>
+
+      <!-- Tab 2: Mô tả sản phẩm -->
+      <p-tabPanel header="Mô tả" leftIcon="pi pi-align-left">
+        <div class="tab-content-wrapper">
+          <div class="p-field full-width">
+            <label for="specs_summary">Tóm tắt thông số kỹ thuật</label>
+            <textarea id="specs_summary" pInputTextarea [(ngModel)]="product.specs_summary" rows="5"
+              placeholder="Nhập tóm tắt thông số kỹ thuật"></textarea>
+          </div>
+
+          <div class="p-field full-width">
+            <label for="description">Mô tả chi tiết</label>
+            <app-editor [(ngModel)]="editorContent"></app-editor>
+            <div class="helper-text">Thêm các thông tin chi tiết về sản phẩm</div>
+          </div>
+
+          <div class="form-footer">
+            <p-button label="Quay lại" icon="pi pi-arrow-left" iconPos="left" (onClick)="prevTab()"
+              styleClass="p-button-text"></p-button>
+            <p-button label="Tiếp theo" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextTab()"></p-button>
+          </div>
+        </div>
+      </p-tabPanel>
+
+      <!-- Tab 3: Hình ảnh -->
+      <p-tabPanel header="Hình ảnh" leftIcon="pi pi-images">
+        <div class="tab-content-wrapper">
+          <div class="p-field full-width">
+            <label>Tải lên hình ảnh</label>
+            <div class="file-input-container">
+              <div class="file-input-icon">
+                <i class="pi pi-cloud-upload"></i>
+              </div>
+              <p>Nhấp hoặc kéo thả hình ảnh vào đây</p>
+              <p class="helper-text">Hỗ trợ: JPG, PNG, GIF (Tối đa 5MB)</p>
+              <input type="file" id="files" name="files" multiple accept="image/*" (change)="onFileChange($event)">
+            </div>
+            <div class="preview-images" *ngIf="selectedFiles.length > 0">
+              <div class="preview-image-container" *ngFor="let file of selectedFiles; let i = index">
+                <img [src]="getSafeUrl(file)" class="preview-image" alt="Preview">
+                <div class="preview-remove" (click)="removeFile(i)">
+                  <i class="pi pi-times"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-footer">
+            <p-button label="Quay lại" icon="pi pi-arrow-left" iconPos="left" (onClick)="prevTab()"
+              styleClass="p-button-text"></p-button>
+            <p-button label="Tiếp theo" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextTab()"></p-button>
+          </div>
+        </div>
+      </p-tabPanel>
+
+      <!-- Tab 4: Thuộc tính -->
+      <p-tabPanel header="Thuộc tính" leftIcon="pi pi-list">
+        <div class="tab-content-wrapper">
+          <app-dynamic-product [isUpdate]="true"
+            [productId]="product.id!"></app-dynamic-product>
+
+          <div class="form-footer">
+            <p-button label="Quay lại" icon="pi pi-arrow-left" iconPos="left" (onClick)="prevTab()"
+              styleClass="p-button-text"></p-button>
+            <p-button label="Hủy" icon="pi pi-times" styleClass="p-button-secondary" class="mr-2"></p-button>
+            <p-button label="Lưu sản phẩm" icon="pi pi-save" (onClick)="submitClicked()" [disabled]="isLoading"
+              styleClass="p-button-success"></p-button>
+          </div>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+  </ng-template>
+</p-card>

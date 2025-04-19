@@ -1,0 +1,188 @@
+/* create-product.component.css */
+:host ::ng-deep .card-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background-color: #f8fafc;
+  }
+  
+  :host ::ng-deep .card-header i {
+    margin-right: 12px;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+  }
+  
+  :host ::ng-deep .card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: #333;
+  }
+  
+  .tab-content-wrapper {
+    padding: 1rem 0;
+    width: 100%;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+  
+  @media (max-width: 768px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .p-field {
+    margin-bottom: 1.25rem;
+  }
+  
+  .p-field.required label:after {
+    content: "*";
+    color: #e53e3e;
+    margin-left: 4px;
+  }
+  
+  .full-width {
+    grid-column: 1 / -1;
+  }
+  
+  .helper-text {
+    font-size: 0.85rem;
+    color: #718096;
+    margin-top: 0.25rem;
+  }
+  
+  .file-input-container {
+    position: relative;
+    padding: 2rem;
+    border: 2px dashed #e2e8f0;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    transition: all 0.2s ease;
+  }
+  
+  .file-input-container:hover {
+    border-color: var(--primary-color);
+    background-color: rgba(99, 102, 241, 0.05);
+  }
+  
+  .file-input-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+  }
+  
+  .preview-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 1.5rem;
+  }
+  
+  .preview-image-container {
+    position: relative;
+    width: 150px;
+  }
+  
+  .preview-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .preview-remove {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    color: #e53e3e;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+  }
+  
+  .preview-remove:hover {
+    background-color: #fed7d7;
+    transform: scale(1.1);
+  }
+  
+  .loading-indicator {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .form-footer {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+  
+  :host ::ng-deep p-fileUpload .p-fileupload-buttonbar {
+    display: none;
+  }
+  
+  :host ::ng-deep p-fileUpload .p-fileupload-content {
+    padding: 0;
+    border: none;
+  }
+  
+  :host ::ng-deep p-tabView .p-tabview-panels {
+    padding: 1.5rem 0;
+  }
+  
+  :host ::ng-deep p-tabView .p-tabview-nav {
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  :host ::ng-deep p-tabView .p-tabview-nav li .p-tabview-nav-link {
+    background: transparent;
+    transition: all 0.2s ease;
+  }
+  
+  :host ::ng-deep p-tabView .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+  
+  :host ::ng-deep p-dropdown .p-dropdown,
+  :host ::ng-deep p-inputNumber .p-inputnumber,
+  :host ::ng-deep input[type="text"],
+  :host ::ng-deep textarea {
+    width: 100%;
+  }
+  
+  :host ::ng-deep p-inputTextarea textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+  
+  :host ::ng-deep app-editor {
+    display: block;
+    margin-bottom: 1rem;
+    min-height: 300px;
+  }
+  
+  .mr-2 {
+    margin-right: 0.5rem;
+  }

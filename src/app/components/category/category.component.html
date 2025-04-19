@@ -78,21 +78,23 @@
                 <td>{{ category.name }}</td>
                 <td>{{ category.id }}</td>
                 <td>
-                    <p-button
-                        icon="pi pi-pencil"
-                        class="mr-2"
-                        [rounded]="true"
-                        [outlined]="true"
-                        severity="success"
-                        (click)="editCategory(category)">
-                    </p-button>
-                    <p-button
-                        icon="pi pi-trash"
-                        severity="danger"
-                        [rounded]="true"
-                        [outlined]="true"
-                        (click)="deleteCategory(category)">
-                    </p-button>
+                    <div class="flex">
+                        <p-button 
+                            icon="pi pi-pencil" 
+                            [rounded]="true" 
+                            [text]="true" 
+                            severity="success"
+                            (click)="editCategory(category)" 
+                            class="mr-2">
+                        </p-button>
+                        <p-button 
+                            icon="pi pi-trash" 
+                            [rounded]="true" 
+                            [text]="true" 
+                            severity="danger"
+                            (click)="deleteCategory(category)">
+                        </p-button>
+                    </div>
                 </td>
             </tr>
         </ng-template>
