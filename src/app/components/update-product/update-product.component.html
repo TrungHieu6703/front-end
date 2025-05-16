@@ -1,16 +1,14 @@
-<!-- create-product.component.html -->
+<!-- update-product.component.html -->
 <p-card>
   <ng-template pTemplate="header">
     <div class="card-header">
       <i class="pi pi-box"></i>
-      <h2 class="card-title">Tạo sản phẩm mới</h2>
+      <h2 class="card-title">Cập nhật sản phẩm</h2>
     </div>
   </ng-template>
 
   <ng-template pTemplate="content">
-    <div *ngIf="isLoading" class="loading-indicator">
-      <p>Đang xử lý...</p>
-    </div>
+
 
     <!-- Tab navigation -->
     <p-tabView [(activeIndex)]="activeTabIndex">
@@ -51,9 +49,17 @@
 
             <div class="p-field required">
               <label for="productLine">Dòng sản phẩm</label>
-              <p-dropdown id="productLine" [options]="productLines" [(ngModel)]="product.productLine"
-                optionLabel="line_name" optionValue="id" placeholder="Chọn dòng sản phẩm"
-                [disabled]="!product.brand"></p-dropdown>
+              <p-dropdown id="productLine" [options]="productLines" [(ngModel)]="product.productLine" 
+                        optionLabel="line_name" optionValue="id" 
+                        placeholder="Chọn dòng sản phẩm" [disabled]="!product.brand"></p-dropdown>
+            </div>
+            
+            <div class="p-field">
+              <label for="is_hot">Sản phẩm nổi bật</label>
+              <div class="hot-product-wrapper">
+                <p-checkbox [(ngModel)]="product.is_hot" [binary]="true" inputId="is_hot"></p-checkbox>
+                <label for="is_hot">Đánh dấu sản phẩm này là sản phẩm nổi bật trên trang chủ</label>
+              </div>
             </div>
           </div>
 
@@ -89,8 +95,21 @@
       <!-- Tab 3: Hình ảnh -->
       <p-tabPanel header="Hình ảnh" leftIcon="pi pi-images">
         <div class="tab-content-wrapper">
+          <!-- Hiển thị hình ảnh hiện có -->
+          <div class="p-field full-width" *ngIf="existingImages.length > 0">
+            <label>Hình ảnh hiện tại</label>
+            <div class="preview-images">
+              <div class="preview-image-container" *ngFor="let img of existingImages; let i = index">
+                <img [src]="img" class="preview-image" alt="Hình ảnh sản phẩm">
+                <div class="preview-remove" (click)="removeExistingImage(i)">
+                  <i class="pi pi-times"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          
           <div class="p-field full-width">
-            <label>Tải lên hình ảnh</label>
+            <label>Tải lên hình ảnh mới</label>
             <div class="file-input-container">
               <div class="file-input-icon">
                 <i class="pi pi-cloud-upload"></i>
@@ -120,14 +139,18 @@
       <!-- Tab 4: Thuộc tính -->
       <p-tabPanel header="Thuộc tính" leftIcon="pi pi-list">
         <div class="tab-content-wrapper">
-          <app-dynamic-product [isUpdate]="true"
-            [productId]="product.id!"></app-dynamic-product>
-
+          <div *ngIf="!productLoaded" class="loading-indicator">
+            <p>Đang tải dữ liệu thuộc tính...</p>
+          </div>
+          
+          <app-dynamic-product *ngIf="productLoaded" [isUpdate]="true"
+            [productId]="productId"></app-dynamic-product>
+      
           <div class="form-footer">
             <p-button label="Quay lại" icon="pi pi-arrow-left" iconPos="left" (onClick)="prevTab()"
               styleClass="p-button-text"></p-button>
             <p-button label="Hủy" icon="pi pi-times" styleClass="p-button-secondary" class="mr-2"></p-button>
-            <p-button label="Lưu sản phẩm" icon="pi pi-save" (onClick)="submitClicked()" [disabled]="isLoading"
+            <p-button label="Cập nhật sản phẩm" icon="pi pi-save" (onClick)="submitClicked()" [disabled]="isLoading"
               styleClass="p-button-success"></p-button>
           </div>
         </div>
@@ -135,3 +158,5 @@
     </p-tabView>
   </ng-template>
 </p-card>
+
+<p-toast position="top-right"></p-toast>

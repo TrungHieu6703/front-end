@@ -11,22 +11,45 @@
     border-radius: 30px;
     color: #20863D;
     font-size: 14px;
+    font-weight: 500;
     width: 140px;
     height: 44px;
     cursor: pointer;
     z-index: 10;
+    transition: all 0.2s ease;
 }
 
 .btn-compare.active {
     display: flex;
 }
 
+.btn-compare:hover {
+    background-color: #f9f9f9;
+    box-shadow: rgba(0,0,0,0.15) 3px 3px 6px;
+}
+
 .btn-compare svg {
     margin-right: 12px;
 }
 
+@media screen and (max-width: 768px) {
+    .btn-compare {
+        bottom: 70px;
+    }
+}
+
 @media screen and (max-width: 568px) {
     .btn-compare {
-        bottom: 57px;
+        bottom: 70px;
+        left: 10px;
+        width: 120px;
+        height: 40px;
+        font-size: 13px;
+    }
+    
+    .btn-compare svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
     }
 }

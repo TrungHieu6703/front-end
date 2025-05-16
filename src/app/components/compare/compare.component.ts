@@ -1,48 +1,64 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
-import { DynamicProductComponent } from '../dynamic-product/dynamic-product.component';
 
 @Component({
   selector: 'app-compare',
   standalone: true,
-  imports: [NgFor, NgIf, DynamicProductComponent],
+  imports: [NgFor, NgIf],
   templateUrl: './compare.component.html',
   styleUrl: './compare.component.css'
 })
-export class CompareComponent {
+export class CompareComponent implements OnInit {
   isVisibleCompare = false;
   isVisibleCompareLess = true;
+
+  // Định nghĩa kiểu dữ liệu cho sản phẩm so sánh
+  @Input() listCompare!: ({ id: string; image: string; name: string } | null)[];
+  @Input() badge_favourite?: number;
 
   constructor(
     private sharedService: SharedService,
     private router: Router
   ) {
-    this.sharedService.CompareBtnState$.subscribe((state) => (this.isVisibleCompare = state));
-    this.sharedService.CompareBtnState$.subscribe((state) => (this.isVisibleCompareLess = state));
+    this.sharedService.CompareBtnState$.subscribe((state) => {
+      this.isVisibleCompare = state;
+      this.isVisibleCompareLess = state;
+    });
   }
 
-  btnCompareLess(){
+  ngOnInit() {
+    // Khởi tạo mảng nếu chưa có
+    if (!this.listCompare || !this.listCompare.length) {
+      this.listCompare = [null, null, null, null]; // Khởi tạo 4 vị trí trống
+    }
+  }
+
+  // Thu gọn/mở rộng khung so sánh
+  btnCompareLess() {
     this.sharedService.toggleCompareStateVisibility();
     this.sharedService.toggleCompareBtnStateVisibility();
   }
 
-  // Cập nhật kiểu dữ liệu để bao gồm id
-  @Input() listCompare!: ({ id: string; image: string; name: string } | null)[];
-
-  @Input() badge_favourite?: number;
-
-  removeItem(i: any){
-    this.listCompare[i] = null;
+  // Xóa một sản phẩm khỏi danh sách so sánh
+  removeItem(index: number) {
+    if (index >= 0 && index < this.listCompare.length) {
+      this.listCompare[index] = null;
+    }
   }
   
+  // Xóa tất cả sản phẩm khỏi danh sách so sánh
   removeAllItems() {
-    for (let i = 0; i < this.listCompare.length; i++) {
-      this.listCompare[i] = null;
+    if (this.listCompare && this.listCompare.length > 0) {
+      // Đặt tất cả các phần tử thành null 
+      for (let i = 0; i < this.listCompare.length; i++) {
+        this.listCompare[i] = null;
+      }
     }
   }
 
+  // Chuyển đến trang so sánh chi tiết
   compareNow() {
     // Lọc các sản phẩm không null và lấy danh sách ID
     const productIds = this.listCompare

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Card Example</title>
+    <style>
+        /* Basic Reset & Font */
+        body {
+            font-family: Arial, sans-serif; /* Or a font closer to the image */
+            background-color: #f4f4f4; /* Example background for context */
+            padding: 20px;
+            display: flex;
+            justify-content: center; /* Center the card for demo */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Card Container */
+        .bg_sp {
+            background-color: #fff;
+            border-radius: 8px; /* Rounded corners */
+            padding: 15px;
+            width: 250px; /* Adjust width as needed */
+            position: relative; /* Needed for absolute positioning of children */
+            overflow: hidden; /* Clears floats and contains elements */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow */
+            transition: box-shadow 0.3s ease; /* Smooth shadow transition on hover */
+        }
+
+        .bg_sp:hover {
+             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        /* Tags (HOT, Discount) */
+        .text_xuhuong,
+        .text_giamgia {
+            position: absolute;
+            top: 10px;
+            padding: 4px 8px;
+            color: white;
+            font-size: 10px; /* Smaller font size */
+            font-weight: bold;
+            z-index: 2;
+            border-radius: 3px; /* Slightly rounded */
+        }
+
+        .text_xuhuong {
+            left: 10px; /* Position from left */
+            background-color: #FFA500; /* Orange color */
+            /* Optional: Ribbon shape using pseudo-element */
+        }
+         .text_xuhuong::after { /* Simple triangle for ribbon effect */
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 5px 5px 0; /* Adjust size as needed */
+            border-color: transparent #835400 transparent transparent; /* Darker shade for fold */
+         }
+
+
+        .text_giamgia {
+            right: 10px; /* Position from right */
+            background-color: #E53935; /* Red color */
+        }
+
+        .text_giamgia span {
+            font-size: 0.8em; /* Smaller % sign */
+        }
+
+        /* Image */
+        .a_img {
+            display: block; /* Make it a block element */
+            text-align: center; /* Center the image */
+            margin-top: 35px; /* Space below tags */
+            margin-bottom: 15px;
+        }
+
+        .a_img img {
+            max-width: 100%; /* Responsive image */
+            height: auto; /* Maintain aspect ratio */
+            max-height: 180px; /* Limit image height */
+            display: block;
+            margin: 0 auto; /* Center block image */
+        }
+
+        /* Status Text (if needed) */
+        .text_trangthai_2 {
+            /* Style if this element is used */
+            min-height: 1em; /* Placeholder */
+        }
+
+        /* Product Title */
+        .a_title {
+            display: block; /* Block element */
+            text-decoration: none;
+            color: #333; /* Dark text color */
+            font-weight: bold; /* Bold title */
+            font-size: 14px; /* Adjust font size */
+            line-height: 1.3; /* Improve readability */
+            margin-bottom: 10px;
+            min-height: 40px; /* Ensure consistent height */
+             /* Limit to 2 lines with ellipsis (optional) */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .a_title:hover {
+            color: #FF5E22; /* Orange on hover */
+        }
+
+        /* Price */
+        .price {
+            color: #E53935; /* Red color for current price */
+            font-weight: bold;
+            font-size: 18px; /* Larger font size */
+            margin-bottom: 10px;
+        }
+
+        .price_old {
+            color: #999; /* Grey color for old price */
+            text-decoration: line-through; /* Strikethrough */
+            font-size: 13px; /* Smaller font size */
+            margin-left: 8px; /* Space between prices */
+            font-weight: normal;
+        }
+
+        /* Love/Same Line */
+        .love_same {
+            display: flex;
+            justify-content: space-between; /* Space out items */
+            align-items: center; /* Vertically align items */
+            font-size: 13px; /* Smaller font size */
+            color: #666; /* Grey text color */
+            margin-bottom: 10px; /* Space before hover content */
+            transition: margin-bottom 0.3s ease; /* Smooth transition */
+        }
+
+        .p-love a {
+            text-decoration: none;
+            color: #666;
+            display: flex; /* Align icon and text */
+            align-items: center;
+        }
+
+        .p-love a:hover {
+            color: #FF5E22; /* Orange on hover */
+        }
+
+        .p-love svg {
+             width: 16px;
+             height: 16px;
+             margin-right: 4px; /* Space between icon and text */
+             fill: none; /* Ensure default icon state is correct */
+             transition: fill 0.3s ease;
+        }
+
+        .p-love a:hover svg path {
+             stroke: #FF5E22; /* Change stroke on hover */
+        }
+
+         /* Style for when the item IS favourited (add 'active' class via JS) */
+        .p-love a.active .svg_love {
+            display: none; /* Hide outlined heart */
+        }
+         .p-love a.active .svg_love_active {
+            display: inline-block; /* Show filled heart */
+         }
+        .p-love .svg_love_active {
+            display: none; /* Hide filled heart by default */
+        }
+        .p-love a.active {
+             color: #FF5E22; /* Keep text orange when active */
+        }
+
+
+        /* Hover Section (.ab) - Initially Hidden */
+        .ab {
+            opacity: 0;
+            visibility: hidden;
+            max-height: 0; /* Collapse the height */
+            overflow: hidden; /* Hide content while collapsed */
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s, max-height 0.4s ease; /* Fade and slide effect */
+            margin-top: 10px; /* Add space when it appears */
+        }
+
+        /* Hover Trigger: Show .ab when hovering .bg_sp */
+        .bg_sp:hover .ab {
+            opacity: 1;
+            visibility: visible;
+            max-height: 300px; /* Allow space for content, adjust as needed */
+            transition: opacity 0.3s ease, visibility 0s linear 0s, max-height 0.4s ease;
+        }
+
+         /* Optional: Hide .love_same on hover to make more space */
+        /* .bg_sp:hover .love_same {
+            opacity: 0;
+            max-height: 0;
+            margin-bottom: 0;
+            overflow: hidden;
+            transition: opacity 0.2s ease, max-height 0.3s ease, margin-bottom 0.3s ease;
+        } */
+
+
+        /* Specs Section */
+        .thongso {
+            background-color: #f8f9fa; /* Light grey background */
+            padding: 10px;
+            border-radius: 4px; /* Slightly rounded */
+            font-size: 12px; /* Small font size for specs */
+            color: #444; /* Darker grey text */
+            line-height: 1.5; /* Better readability */
+            margin-bottom: 10px; /* Space below specs */
+        }
+
+        .thongso p {
+            margin: 0; /* Remove default paragraph margin */
+        }
+
+        /* Buttons Section */
+        .btn_sp {
+            display: flex; /* Align buttons horizontally */
+            gap: 10px; /* Space between buttons */
+        }
+
+        .btn_sp a {
+            padding: 8px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Add to Cart Button */
+        .a-them {
+            background-color: #FF8C00; /* Darker Orange */
+            color: white;
+            flex-grow: 0; /* Don't grow */
+            flex-basis: 40px; /* Fixed width for icon button */
+        }
+
+        .a-them svg {
+            width: 18px; /* Icon size */
+            height: 18px;
+            fill: white; /* Icon color */
+        }
+
+        .a-them:hover {
+            background-color: #cc7000; /* Darker on hover */
+        }
+
+
+        /* Compare Button */
+        .a-ss {
+            background-color: #FFA500; /* Orange */
+            color: white;
+            flex-grow: 1; /* Take remaining space */
+            text-align: center;
+        }
+
+        .a-ss:hover {
+            background-color: #cc8400; /* Darker on hover */
+        }
+
+        /* Hide the initially hidden active heart SVG */
+       .svg_love_active {
+           /* The space in class name 'svg_love_active ' might be intentional or a typo.
+              Targeting both just in case */
+           display: none;
+        }
+       .svg_love_active\  { /* Targetting with the space if it's intentional */
+           display: none;
+       }
+
+        /* Hide the .hidden class (often used by JS frameworks) */
+        .hidden {
+            display: none !important; /* Force hide if needed */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg_sp bg_sp_first">
+        <p class="text_xuhuong">HOT!</p>
+        <p class="text_giamgia">-20<span>%</span></p>
+        <a href="https://trungtran.vn/lenovo-legion-y7000-2024-i7-rtx-fhd/" class="a_img">
+            <img class="lazy-loaded" onerror="this.src='https://via.placeholder.com/200x150?text=No+Image'" src="https://trungtran.vn/images/products/2025/resized/lenovo_legion_y7000_2024_thumbnail_front.webp" alt='Lenovo Legion Y7000 2024 i7 13650HX RAM 24GB SSD 512GB RTX 4060 15.6" FHD 144Hz'>
+        </a>
+        <a href="https://trungtran.vn/lenovo-legion-y7000-2024-i7-rtx-fhd/" class="a_title">
+            Lenovo Legion Y7000 2024 i7 13650HX RAM 24GB SSD 512GB RTX 4060 15.6" FHD 144Hz
+        </a>
+        <p class="price">22.700.000
+            <span class="price_old">28.500.000</span>
+        </p>
+        <div class="love_same">
+            <p class="p-same">1 phiên bản</p>
+            <p class="p-love p-love-1136">
+                <a href="javascript:void(0)" id="love-button-1136" onclick="love(1136)">
+                    <svg class="svg_love" width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.9001 5.22998H15.8801C15.9001 5.04998 15.9302 4.87995 15.9302 4.69995C15.9302 2.59995 14.2102 0.890137 12.1002 0.890137C10.3502 0.890137 8.89018 2.07016 8.43018 3.66016C7.97018 2.06016 6.51013 0.890137 4.76013 0.890137C2.64013 0.890137 0.930176 2.59995 0.930176 4.69995C0.930176 4.87995 0.960225 5.05998 0.980225 5.22998H0.930176C0.930176 5.22998 1.44018 9.3001 8.43018 15.1001C8.43018 15.1001 14.9302 9.85006 15.8202 5.56006C15.8302 5.50006 15.8502 5.45014 15.8602 5.39014C15.8602 5.34014 15.8901 5.27997 15.9001 5.21997V5.22998Z" stroke="#FF5E22" stroke-width="0.56" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <svg class="svg_love_active" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.8201 5.1604H15.8C15.82 4.9804 15.8501 4.81037 15.8501 4.63037C15.8501 2.53037 14.13 0.820312 12.02 0.820312C10.27 0.820312 8.8101 2.00033 8.3501 3.59033C7.8901 1.99033 6.43005 0.820312 4.68005 0.820312C2.56005 0.820312 0.850098 2.53037 0.850098 4.63037C0.850098 4.81037 0.880024 4.9904 0.900024 5.1604H0.850098C0.850098 5.1604 1.3601 9.23027 8.3501 15.0303C8.3501 15.0303 14.8501 9.78023 15.7401 5.49023C15.7501 5.43023 15.77 5.38031 15.78 5.32031C15.78 5.27031 15.8101 5.21039 15.8201 5.15039V5.1604Z" fill="#FF5E22"/>
+                    </svg>
+                    Yêu thích
+                </a>
+            </p>
+        </div>
+
+        <div class="ab">
+            <div class="thongso">
+                <p>CPU: Intel core i7 13650HX<br>
+                RAM: 24GB DDR5 4800mhz<br>
+                Màn hình: 15.6" WUXGA (1920x1080), 144Hz<br>
+                Đồ họa: NVIDIA®GeForce® RTX™ 4060 8GB GDDR6</p>
+            </div>
+            <div class="btn_sp btn_sp_ss">
+                <a class="a-them" title="Thêm vào giỏ" href="https://trungtran.vn/lenovo-legion-y7000-2024-i7-rtx-fhd/">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                        <path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96zM252 160c0 11 9 20 20 20h44v44c0 11 9 20 20 20s20-9 20-20V180h44c11 0 20-9 20-20s-9-20-20-20H356V96c0-11-9-20-20-20s-20 9-20 20v44H272c-11 0-20 9-20 20z"/>
+                    </svg>
+                </a>
+                <a href="javascript:void(0)" data-id="1136" data-name=" laptop" class="a-ss a_compare compare1136" data-add="0">
+                    <span>So sánh</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Basic function to toggle the 'active' class for the love button SVG
+        function love(productId) {
+            // Find the specific button related to this product ID
+            const loveButton = document.getElementById(`love-button-${productId}`);
+            if (loveButton) {
+                loveButton.classList.toggle('active');
+                // Here you would typically add more logic, like:
+                // - Update the UI text if needed
+                // - Send a request to the server to save the favourite status
+                console.log(`Toggled love status for product ${productId}. Current state: ${loveButton.classList.contains('active')}`);
+            } else {
+                console.error(`Love button for product ID ${productId} not found.`);
+            }
+            // Prevent default link behavior if called directly via onclick without href="javascript:void(0)"
+             event.preventDefault();
+        }
+
+        // Optional: Add event listener instead of using onclick in HTML
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     const loveButtons = document.querySelectorAll('.p-love a');
+        //     loveButtons.forEach(button => {
+        //         button.addEventListener('click', (event) => {
+        //             event.preventDefault(); // Prevent default link behavior
+        //             button.classList.toggle('active');
+        //             // Extract product ID if needed (e.g., from parent class or data attribute)
+        //             const productId = button.closest('.p-love').classList.item(1)?.replace('p-love-', ''); // Example extraction
+        //             console.log(`Toggled love status for product ${productId}. Current state: ${button.classList.contains('active')}`);
+        //             // Add server request logic here
+        //         });
+        //     });
+        // });
+
+    </script>
+
+</body>
+</html>

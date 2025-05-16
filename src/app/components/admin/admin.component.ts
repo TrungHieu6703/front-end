@@ -52,6 +52,10 @@ export class AdminComponent {
       name: "Nhóm thuộc tính",
       link: 'attribute-group'
     },
+    {
+      name: "Người dùng",
+      link: 'users'
+    }
   ];
 
   logout(){

@@ -6,12 +6,13 @@ import { HeaderComponent } from '../header/header.component';
 import { EditorComponent } from '../editor/editor.component';
 import { ActivatedRoute } from '@angular/router';
 import { CompareService } from '../../services/product-compare.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-first',
   standalone: true,
   imports: [ImportsModule, HeaderComponent],
-  providers: [PhotoService],
+  providers: [PhotoService, MessageService],
   templateUrl: './first.component.html',
   styleUrl: './first.component.css'
 })
@@ -39,7 +40,8 @@ export class FirstComponent implements OnInit {
   constructor(
     private photoService: PhotoService,
     private route: ActivatedRoute,
-    private compareService: CompareService
+    private compareService: CompareService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
@@ -50,6 +52,9 @@ export class FirstComponent implements OnInit {
       // Tải chi tiết sản phẩm
       this.fetchProductDetail(this.productId);
     });
+
+    // Thêm event listener cho nút đóng toast messages
+    this.setupToastClosers();
   }
 
   fetchProductDetail(id: string) {
@@ -66,6 +71,7 @@ export class FirstComponent implements OnInit {
       },
       error: (err) => {
         console.error('Lỗi khi tải thông tin sản phẩm:', err);
+        this.showToast('error', 'Lỗi', 'Không thể tải thông tin sản phẩm');
       }
     });
   }
@@ -118,6 +124,26 @@ export class FirstComponent implements OnInit {
   addToCart(productId: string) {
     // Xử lý thêm vào giỏ hàng ở đây
     console.log('Thêm sản phẩm vào giỏ:', productId);
-    // Thêm logic lưu vào localStorage hoặc gọi API
+    
+    // Hiển thị thông báo thành công
+    this.showToast('success', 'Thành công', 'Đã thêm sản phẩm vào giỏ hàng!');
+  }
+
+  // Hiển thị toast message
+  showToast(severity: string, summary: string, detail: string) {
+    this.messageService.add({severity, summary, detail, life: 3000});
+  }
+
+  // Thiết lập event listeners cho nút đóng toast messages
+  setupToastClosers() {
+    document.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      if (target.classList.contains('p-toast-icon-close')) {
+        const toastMessage = target.closest('.p-toast-message');
+        if (toastMessage) {
+          toastMessage.remove();
+        }
+      }
+    });
   }
 }

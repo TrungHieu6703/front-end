@@ -14,38 +14,38 @@
                 Thu gọn <i class="fa fa-angle-down"></i>
             </a>
         </div>
-        <div class="grid-container" >
-
-            <!-- Ô thêm sản phẩm -->
-            <div *ngFor="let product of listCompare; let i = index">
-                <!-- Nếu sản phẩm là null, hiển thị nút "Thêm sản phẩm" -->
-                <div class="item item_add" *ngIf="product === null">
+        
+        <!-- Danh sách sản phẩm - Tối ưu bố cục -->
+        <div class="products-container">
+            <ng-container *ngFor="let product of listCompare; let i = index">
+                <!-- Ô "Thêm sản phẩm" -->
+                <div class="item_add" *ngIf="product === null">
                     <a href="#" data-toggle="modal" data-target="#modalCompare" title="Thêm sản phẩm">
-                        <svg class="add_svg" width="60" height="60" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="0.5" y="0.5" width="69" height="69" fill="white" stroke="#CCCCCC" stroke-dasharray="3 3"></rect>
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M36 25H34V33.999H25V35.999H34V45H36V35.999H45V33.999H36V25Z" fill="#C4C4C4"></path>
+                        <svg class="add_svg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0.5" y="0.5" width="23" height="23" fill="white" stroke="#CCCCCC" stroke-dasharray="3 3"></rect>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M13 8H11V11H8V13H11V16H13V13H16V11H13V8Z" fill="#C4C4C4"></path>
                         </svg>
                         Thêm sản phẩm
                     </a>
                 </div>
-        
-                <!-- Nếu sản phẩm không phải null, hiển thị thông tin sản phẩm -->
+                
+                <!-- Hiển thị thông tin sản phẩm đã chọn -->
                 <div class="item" *ngIf="product !== null">
                     <img [src]="product.image" alt="{{ product.name }}">
-                    <a href="#">{{ product.name }}</a>
-                    <button class="remove-btn" (click)="removeItem(i)" >
-                        X
+                    <a [href]="'/product/' + product.id" [title]="product.name">{{ product.name }}</a>
+                    <button class="remove-btn" (click)="removeItem(i)" title="Xóa sản phẩm">
+                        <i class="fa fa-times"></i>
                     </button>
                 </div>
-            </div>
-            <!-- Hành động -->
-            <div class="itemm actions">
-                <a class="compare_all" (click)="compareNow()">So sánh ngay</a>
-                <a href="javascript:void(0)" class="remove_all_compare">Xóa tất cả sản phẩm</a>
-            </div>
+            </ng-container>
+        </div>
+        
+        <!-- Khu vực điều khiển -->
+        <div class="actions">
+            <button class="compare_all" (click)="compareNow()">So sánh ngay</button>
+            <a class="remove_all_compare" (click)="removeAllItems()">Xóa tất cả</a>
         </div>
     </div>
 </div>
-
 </body>
 </html>

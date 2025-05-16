@@ -25,4 +25,9 @@ export class StatisticsService {
   getTopProducts(limit: number = 10): Observable<any> {
     return this.http.get(`${this.apiUrl}/top-products?limit=${limit}`);
   }
+
+
+  getPendingOrdersCount(): Observable<{ pendingOrders: number }> {
+    return this.http.get<{ pendingOrders: number }>(`${this.apiUrl}/pending-orders-count`);
+  }
 }

@@ -1,5 +1,223 @@
-:host ::ng-deep .p-dialog .product-image {
-    width: 150px;
-    margin: 0 auto 2rem auto;
-    display: block;
-}
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    font-family: 'Roboto', sans-serif; 
+  }
+  
+  .container { 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 0 15px; 
+  }
+  
+  .section { 
+    margin-bottom: 30px; 
+  }
+  
+  .section-title { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 20px; 
+    padding-bottom: 10px; 
+    border-bottom: 2px solid #1a73e8; 
+  }
+  
+  .section-title h2 { 
+    font-size: 22px; 
+    color: #1a73e8; 
+    text-transform: uppercase; 
+  }
+  
+  .section-title a { 
+    color: #666; 
+    text-decoration: none; 
+    font-size: 14px; 
+  }
+  
+  .section-title a:hover { 
+    color: #1a73e8; 
+  }
+  
+  /* Brand container with horizontal scroll */
+  .brand-container {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #ddd #f5f5f5;
+  }
+  
+  /* Styling scrollbar for Webkit browsers */
+  .brand-container::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .brand-container::-webkit-scrollbar-track {
+    background: #f5f5f5;
+    border-radius: 10px;
+  }
+  
+  .brand-container::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 10px;
+  }
+  
+  .brand-container::-webkit-scrollbar-thumb:hover {
+    background: #ccc;
+  }
+  
+  /* Brand logo row */
+  .brand-logo {
+    display: flex;
+    min-width: max-content;
+    padding-bottom: 5px;
+  }
+  
+  .brand-item {
+    padding: 15px 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+  
+  .brand-item img {
+    max-width: 100%;
+    height: auto;
+    max-height: 50px;
+    filter: grayscale(0);
+    opacity: 1;
+    transition: all 0.3s ease;
+  }
+  
+  .brand-item:hover img {
+    filter: grayscale(0);
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  
+  /* Responsive adjustment */
+  @media (max-width: 576px) {
+    .brand-item {
+      padding: 10px 15px;
+    }
+    
+    .brand-item img {
+      max-height: 40px;
+    }
+  }* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    font-family: 'Roboto', sans-serif; 
+  }
+  
+  .container { 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 0 15px; 
+  }
+  
+  .section { 
+    margin-bottom: 30px; 
+  }
+  
+  .section-title { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 20px; 
+    padding-bottom: 10px; 
+    border-bottom: 2px solid #1a73e8; 
+  }
+  
+  .section-title h2 { 
+    font-size: 22px; 
+    color: #1a73e8; 
+    text-transform: uppercase; 
+  }
+  
+  .section-title a { 
+    color: #666; 
+    text-decoration: none; 
+    font-size: 14px; 
+  }
+  
+  .section-title a:hover { 
+    color: #1a73e8; 
+  }
+  
+  /* Brand container with horizontal scroll */
+  .brand-container {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #ddd #f5f5f5;
+  }
+  
+  /* Styling scrollbar for Webkit browsers */
+  .brand-container::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .brand-container::-webkit-scrollbar-track {
+    background: #f5f5f5;
+    border-radius: 10px;
+  }
+  
+  .brand-container::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 10px;
+  }
+  
+  .brand-container::-webkit-scrollbar-thumb:hover {
+    background: #ccc;
+  }
+  
+  /* Brand logo row */
+  .brand-logo {
+    display: flex;
+    min-width: max-content;
+    padding-bottom: 5px;
+  }
+  
+  .brand-item {
+    padding: 15px 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+  
+  .brand-item img {
+    max-width: 100%;
+    height: auto;
+    max-height: 50px;
+    filter: grayscale(0);
+    opacity: 1;
+    transition: all 0.3s ease;
+  }
+  
+  .brand-item:hover img {
+    filter: grayscale(0);
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  
+  /* Responsive adjustment */
+  @media (max-width: 576px) {
+    .brand-item {
+      padding: 10px 15px;
+    }
+    
+    .brand-item img {
+      max-height: 40px;
+    }
+  }

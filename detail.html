@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .spec-table tr:nth-child(odd) {
+            background-color: rgb(248,250,252);
+        }
+        .spec-table tr:nth-child(even) {
+            background-color: rgb(255,255,255);
+        }
+
+        app-header {
+            display: block; 
+            width: 100%;
+        }
+
+        .main {
+            margin-top: 100px;
+            height: max-content;
+        }
+        .main-container {
+            max-width: 1150px;
+            display: flex;
+            flex-direction: column;
+            gap: 5rem;
+            margin: 0 auto;
+        }
+        .container {
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            width: 100%;
+            height: fit-content;
+            display: flex; /* Sử dụng flexbox để chia đôi */
+        }
+
+        .left {
+            width: 50%;
+            background-color: black;
+        }
+        .right {
+            width: 50%;
+            padding: 20px;
+        }
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 250px;
+        }
+
+        .card {
+            display: flex;
+            justify-content: center;
+        }
+
+        .content-detail { 
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .detail-left {
+            max-width: 67%;
+            width: 100%;
+        }
+
+        .detail-right {
+            max-width: 32%;    
+            width: 100%;
+        }
+
+        .p-card {
+            white-space: normal;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .detail-left .p-card {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .product-title {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .stars {
+            color: #ff9800;
+            margin-right: 10px;
+        }
+
+        .price {
+            font-size: 24px;
+            color: #e63946;
+            margin-bottom: 20px;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        .discount {
+            background-color: #e63946;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .availability {
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #1976d2;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .highlight-item {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            width: calc(50% - 15px);
+            display: flex;
+            align-items: center;
+        }
+
+        .highlight-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #e3f2fd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #1976d2;
+            font-size: 20px;
+        }
+
+        .highlight-text {
+            font-size: 14px;
+        }
+
+        .highlight-text strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .promotion-section {
+            margin-top: 30px;
+        }
+
+        .promotion-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .promotion-items {
+            background-color: #fff8e6;
+            border-radius: 8px;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .promotion-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .promotion-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .promotion-icon {
+            color: #ffc107;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .w-full {
+            width: 100%;
+        }
+        
+        .p-2 {
+            padding: 0.5rem;
+        }
+        
+        .font-medium {
+            font-weight: 500;
+        }
+        
+        /* Galleria styles */
+        .galleria {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+        
+        .galleria-items {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .galleria-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .galleria-item.active {
+            display: flex;
+        }
+        
+        .galleria-indicators {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        
+        .galleria-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        
+        .galleria-indicator.active {
+            background-color: #1976d2;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 20px;
+        }
+        
+        header {
+            background-color: #1976d2;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <header>SHOP TRUNG TRẦN</header>
+    
+    <div class="main">
+        <div class="main-container">
+            <div class="container flex">
+                <div class="left" style="background-color: rgb(255,255,255); padding: 30px">
+                    <h1 style="font-size: 22px;" id="product-name">Đang tải...</h1>
+                    <span class="subtitle">New 100% - Bảo Hành 12 tháng tại Trung Trần</span>
+                    <div class="card">
+                        <div class="galleria">
+                            <div class="galleria-items" id="galleria-items">
+                                <!-- Images will be inserted here dynamically -->
+                            </div>
+                            <div class="galleria-indicators" id="galleria-indicators">
+                                <!-- Indicators will be inserted here dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right" style="background-color: rgb(248,250,252)">
+                    <h1 class="product-title" id="product-title">Đang tải...</h1>
+                    <div class="product-rating">
+                        <div class="stars">★★★★★</div>
+                        <span>4.8 (128 đánh giá)</span>
+                    </div>
+                    
+                    <div class="price" id="price-container">
+                        <span id="current-price">Đang tải...</span>
+                        <span class="original-price" id="original-price"></span>
+                        <span class="discount" id="discount"></span>
+                    </div>
+                    
+                    <div class="availability" id="availability">
+                        <span>Đang kiểm tra tình trạng...</span>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="buy-now-btn">Mua ngay</button>
+                        <button class="btn btn-secondary" id="add-to-cart-btn">Thêm vào giỏ</button>
+                    </div>
+                    
+                    <div class="promotion-section">
+                        <h3 class="promotion-title">Ưu đãi đặc biệt</h3>
+                        <div class="promotion-items">
+                            <div class="promotion-item">
+                                <div class="promotion-icon">🎁</div>
+                                <div>Tặng balo gaming ROG trị giá 1.200.000đ</div>
+                            </div>
+                            <div class="promotion-item">
+                                <div class="promotion-icon">🎁</div>
+                                <div>Chuột gaming ASUS ROG Gladius III trị giá 1.900.000đ</div>
+                            </div>
+                            <div class="promotion-item">
+                                <div class="promotion-icon">🎁</div>
+                                <div>Giảm 50% khi mua Office Home & Student 2024</div>
+                            </div>
+                            <div class="promotion-item">
+                                <div class="promotion-icon">🎁</div>
+                                <div>Trả góp 0% lãi suất trong 12 tháng</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h2 style="text-align: center; font-size: 32px;">Thông Số Chính</h2>
+            </div>
+            <div class="content-detail" style="background-color: rgb(248,250,252);"> 
+                <div class="detail-left">
+                    <div class="p-card">
+                        <div id="product-description">Đang tải mô tả sản phẩm...</div>
+                    </div>
+                </div>
+                <div class="detail-right">
+                    <div class="p-card">
+                        <div style="height: 90px;">
+                            <h2 style="text-align: center; align-items: center; font-size: 17px; color: rgb(9,139,246)">Thông Số kỹ thuật</h2>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12">
+                                <table class="w-full spec-table" id="specs-table">
+                                    <tbody>
+                                        <!-- Product attributes will be inserted here dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tạo class chính để quản lý sản phẩm
+        class ProductDetail {
+            constructor() {
+                this.productId = this.getProductIdFromUrl();
+                this.productDetail = null;
+                this.productImages = [];
+                this.productAttributes = [];
+                this.currentImageIndex = 0;
+                
+                // Các responsive options cho galleria
+                this.responsiveOptions = [
+                    {
+                        breakpoint: '1024px',
+                        numVisible: 5
+                    },
+                    {
+                        breakpoint: '768px',
+                        numVisible: 3
+                    },
+                    {
+                        breakpoint: '560px',
+                        numVisible: 1
+                    }
+                ];
+                
+                // Gắn các event listeners
+                this.setupEventListeners();
+                
+                // Tải dữ liệu sản phẩm
+                this.init();
+            }
+            
+            // Lấy ID sản phẩm từ URL
+            getProductIdFromUrl() {
+                // Trong môi trường thực, bạn sẽ lấy từ URL, ví dụ:
+                // const urlParams = new URLSearchParams(window.location.search);
+                // return urlParams.get('id') || '1';
+                
+                // Giả lập ID sản phẩm
+                return '1';
+            }
+            
+            // Khởi tạo và tải dữ liệu
+            init() {
+                this.fetchProductDetail(this.productId);
+            }
+            
+            // Thiết lập các event listeners
+            setupEventListeners() {
+                document.getElementById('add-to-cart-btn').addEventListener('click', () => {
+                    this.addToCart(this.productId);
+                });
+                
+                document.getElementById('buy-now-btn').addEventListener('click', () => {
+                    alert('Chức năng mua ngay đang được phát triển!');
+                });
+            }
+            
+            // Tải thông tin chi tiết sản phẩm
+            fetchProductDetail(id) {
+                // Trong thực tế, bạn sẽ gọi API ở đây
+                // Giả lập dữ liệu sản phẩm
+                setTimeout(() => {
+                    this.productDetail = {
+                        id: '1',
+                        name: 'Laptop Gaming ASUS ROG Strix G15 G513RC-HN038W',
+                        price: 23990000,
+                        originalPrice: 29990000,
+                        quantity: 15,
+                        description: '<p>Laptop Gaming ASUS ROG Strix G15 là dòng máy tính xách tay hiệu năng cao, được thiết kế đặc biệt cho game thủ với cấu hình mạnh mẽ, màn hình tần số quét cao và hệ thống tản nhiệt hiện đại.</p><p>Sở hữu bộ vi xử lý AMD Ryzen 7 6800H cùng card đồ họa NVIDIA GeForce RTX 3050 4GB, máy đủ sức chiến mọi tựa game AAA ở mức cài đặt cao. Màn hình 15.6 inch Full HD (1920 x 1080) với tần số quét 144Hz cung cấp trải nghiệm chơi game mượt mà, không bị giật lag.</p><p>Hệ thống tản nhiệt được tối ưu với công nghệ ROG Intelligent Cooling giúp máy luôn mát mẻ kể cả khi chơi game trong thời gian dài. Bàn phím gaming với đèn nền RGB có thể tùy chỉnh, tăng trải nghiệm chơi game về đêm.</p><p>Với thiết kế mỏng nhẹ, pin lâu và hệ thống âm thanh chất lượng cao, ASUS ROG Strix G15 là lựa chọn hoàn hảo cho cả gaming và công việc đòi hỏi đồ họa cao.</p>',
+                        images: [
+                            'https://dlcdnwebimgs.asus.com/gain/30A78DB1-8E44-47F6-A2D1-5501596BC8D5/w1000/h732',
+                            'https://dlcdnwebimgs.asus.com/gain/38E2C75F-14F0-4374-BE12-5E50F153C133/w1000/h732',
+                            'https://dlcdnwebimgs.asus.com/gain/3EB0A9D9-0D75-4BD1-B9A3-C899E1D5544F/w1000/h732'
+                        ],
+                        attributes: {
+                            'CPU': 'AMD Ryzen 7 6800H (8 nhân, 16 luồng, 3.2GHz, up to 4.7GHz, 16MB Cache)',
+                            'RAM': '16GB DDR5 4800MHz',
+                            'Ổ cứng': '512GB M.2 NVMe PCIe 4.0 SSD',
+                            'Card đồ họa': 'NVIDIA GeForce RTX 3050 4GB GDDR6',
+                            'Màn hình': '15.6 inch Full HD (1920 x 1080), 144Hz, Anti-glare',
+                            'Hệ điều hành': 'Windows 11 Home',
+                            'Pin': '4 Cell, 90WHrs',
+                            'Trọng lượng': '2.1 kg'
+                        }
+                    };
+                    
+                    // Xử lý và hiển thị dữ liệu
+                    this.processProductImages();
+                    this.processProductAttributes();
+                    this.updateUI();
+                }, 500);
+            }
+            
+            // Xử lý hình ảnh sản phẩm cho galleria
+            processProductImages() {
+                if (this.productDetail && this.productDetail.images && this.productDetail.images.length > 0) {
+                    this.productImages = this.productDetail.images.map(image => {
+                        return {
+                            itemImageSrc: image
+                        };
+                    });
+                } else {
+                    // Ảnh mặc định nếu không có ảnh
+                    this.productImages = [{
+                        itemImageSrc: 'https://via.placeholder.com/400x250'
+                    }];
+                }
+                
+                // Cập nhật galleria
+                this.updateGalleria();
+            }
+            
+            // Cập nhật galleria với ảnh sản phẩm
+            updateGalleria() {
+                const galleriaItems = document.getElementById('galleria-items');
+                const galleriaIndicators = document.getElementById('galleria-indicators');
+                
+                // Xóa các phần tử cũ
+                galleriaItems.innerHTML = '';
+                galleriaIndicators.innerHTML = '';
+                
+                // Thêm các ảnh mới
+                this.productImages.forEach((image, index) => {
+                    // Tạo item
+                    const item = document.createElement('div');
+                    item.className = `galleria-item ${index === 0 ? 'active' : ''}`;
+                    item.innerHTML = `<img src="${image.itemImageSrc}" style="height: 250px; max-width: 100%; object-fit: contain;" />`;
+                    galleriaItems.appendChild(item);
+                    
+                    // Tạo indicator
+                    const indicator = document.createElement('div');
+                    indicator.className = `galleria-indicator ${index === 0 ? 'active' : ''}`;
+                    indicator.dataset.index = index;
+                    indicator.addEventListener('click', () => this.showImage(index));
+                    galleriaIndicators.appendChild(indicator);
+                });
+            }
+            
+            // Hiển thị ảnh theo index
+            showImage(index) {
+                if (index < 0 || index >= this.productImages.length) return;
+                
+                // Cập nhật active class cho items
+                const items = document.querySelectorAll('.galleria-item');
+                items.forEach((item, i) => {
+                    if (i === index) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+                
+                // Cập nhật active class cho indicators
+                const indicators = document.querySelectorAll('.galleria-indicator');
+                indicators.forEach((indicator, i) => {
+                    if (i === index) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+                
+                this.currentImageIndex = index;
+            }
+            
+            // Xử lý thuộc tính sản phẩm
+            processProductAttributes() {
+                if (this.productDetail && this.productDetail.attributes) {
+                    this.productAttributes = Object.keys(this.productDetail.attributes).map(key => {
+                        return {
+                            key: key,
+                            value: this.productDetail.attributes[key]
+                        };
+                    });
+                }
+            }
+            
+            // Cập nhật giao diện người dùng
+            updateUI() {
+                // Cập nhật tiêu đề và tên sản phẩm
+                document.getElementById('product-name').textContent = this.productDetail.name;
+                document.getElementById('product-title').textContent = this.productDetail.name;
+                document.title = this.productDetail.name;
+                
+                // Cập nhật giá
+                document.getElementById('current-price').textContent = this.formatPrice(this.productDetail.price);
+                
+                if (this.productDetail.originalPrice) {
+                    document.getElementById('original-price').textContent = this.formatPrice(this.productDetail.originalPrice);
+                    document.getElementById('discount').textContent = this.calculateDiscount(this.productDetail.price, this.productDetail.originalPrice);
+                    document.getElementById('original-price').style.display = 'inline';
+                    document.getElementById('discount').style.display = 'inline';
+                } else {
+                    document.getElementById('original-price').style.display = 'none';
+                    document.getElementById('discount').style.display = 'none';
+                }
+                
+                // Cập nhật tình trạng tồn kho
+                const availabilityElement = document.getElementById('availability');
+                if (this.productDetail.quantity > 0) {
+                    availabilityElement.innerHTML = '<span style="color: #28a745;">✓ Còn hàng - Giao hàng trong 24h</span>';
+                    document.getElementById('buy-now-btn').disabled = false;
+                    document.getElementById('add-to-cart-btn').disabled = false;
+                } else {
+                    availabilityElement.innerHTML = '<span style="color: #dc3545;">✗ Hết hàng</span>';
+                    document.getElementById('buy-now-btn').disabled = true;
+                    document.getElementById('add-to-cart-btn').disabled = true;
+                }
+                
+                // Cập nhật mô tả sản phẩm
+                document.getElementById('product-description').innerHTML = this.productDetail.description;
+                
+                // Cập nhật bảng thông số kỹ thuật
+                const specsTable = document.getElementById('specs-table').getElementsByTagName('tbody')[0];
+                specsTable.innerHTML = '';
+                
+                this.productAttributes.forEach(attr => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="font-medium p-2">${attr.key}</td>
+                        <td class="p-2" style="color: rgb(131, 135, 142); font-weight: 400;">${attr.value}</td>
+                    `;
+                    specsTable.appendChild(row);
+                });
+            }
+            
+            // Định dạng giá tiền
+            formatPrice(price) {
+                if (!price) return '0 đ';
+                return new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                }).format(price).replace('₫', 'đ');
+            }
+            
+            // Tính phần trăm giảm giá
+            calculateDiscount(currentPrice, originalPrice) {
+                if (!currentPrice || !originalPrice || currentPrice >= originalPrice) return '';
+                const discount = ((originalPrice - currentPrice) / originalPrice) * 100;
+                return `-${Math.round(discount)}%`;
+            }
+            
+            // Thêm vào giỏ hàng
+            addToCart(productId) {
+                console.log('Thêm sản phẩm vào giỏ:', productId);
+                alert('Đã thêm sản phẩm vào giỏ hàng!');
+                // Thêm logic lưu vào localStorage hoặc gọi API ở đây
+            }
+        }
+        
+        // Khởi tạo khi trang đã tải xong
+        document.addEventListener('DOMContentLoaded', function() {
+            const productDetail = new ProductDetail();
+        });
+    </script>
+</body>
+</html>

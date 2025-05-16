@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="banner-slideshow section" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+      <!-- Slides -->
+      <div *ngFor="let slide of slides; let i = index" 
+           class="slide" 
+           [ngClass]="{'active': i === currentSlide}">
+        <img [src]="slide.imageUrl" [alt]="slide.title">
+        <div class="banner-content">
+          <h2>{{ slide.title }}</h2>
+          <p>{{ slide.description }}</p>
+          <a [href]="slide.buttonLink" class="btn">{{ slide.buttonText }}</a>
+        </div>
+      </div>
+      
+      <!-- Navigation Arrows -->
+      <div class="banner-nav">
+        <button class="prev-btn" (click)="prevSlide()">&lt;</button>
+        <button class="next-btn" (click)="nextSlide()">&gt;</button>
+      </div>
+      
+      <!-- Indicator Dots -->
+      <div class="banner-indicators">
+        <span *ngFor="let slide of slides; let i = index" 
+              class="indicator" 
+              [ngClass]="{'active': i === currentSlide}" 
+              (click)="showSlide(i)"></span>
+      </div>
+    </div>
+  </div>

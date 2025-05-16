@@ -26,6 +26,8 @@ export class DynamicProductComponent implements OnInit {
 
   ngOnInit() {
     // Lấy danh sách danh mục từ API
+    console.log(this.productId)
+    console.log(this.isUpdate)
     this.dataService.getCategories().subscribe(categories => {
       this.categories = categories;
       

@@ -1,129 +1,181 @@
-.card .p-4 {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Thiết lập cơ bản cho card */
+.p-4 {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   position: relative;
-  border-radius: 8px; /* Đồng bộ border-radius với card của PrimeNG */
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0); /* Starting with no shadow */
+  border-radius: 8px 8px 0 0; /* Thay đổi: chỉ bo góc trên */
+  border: 1px solid transparent; /* Bắt đầu với border trong suốt */
+  border-bottom: none; /* Loại bỏ border dưới */
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0); /* Bắt đầu không có shadow */
+  background-color: #fff;
+  overflow: visible !important; /* Quan trọng để phần ab có thể mở rộng ra ngoài */
+  z-index: 1;
+  padding: 15px; /* Điều chỉnh padding để giống mẫu gốc */
 }
 
-.card .p-4:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-color: var(--primary-color); 
-  z-index: 5;
+/* Khi hover vào card */
+.p-4:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Shadow giống mẫu gốc */
+  border-color: #e9e9e9; /* Thêm: Thêm viền để đảm bảo đồng bộ với phần mở rộng */
+  z-index: 10; /* Đảm bảo hiển thị trên mọi phần tử khác */
 }
 
+/* PHẦN QUAN TRỌNG: Hiệu ứng hover cho phần .ab */
+.ab {
+  position: absolute; /* Đặt lại position absolute để không đẩy phần tử dưới */
+  left: 0;
+  top: 100%; /* Đặt bên dưới phần tử cha */
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden; /* Thêm visibility để cải thiện chuyển động */
+  transition: opacity 0.3s ease, max-height 0.4s ease, visibility 0s linear 0.3s;
+  background-color: #fff;
+  z-index: 9; /* Giảm z-index để đảm bảo được kiểm soát bởi thẻ cha */
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding: 0 10px 10px 10px; /* Thay đổi: Loại bỏ padding phía trên */
+  border: 1px solid transparent; /* Thêm: Thêm viền trong suốt */
+  border-top: none; /* Loại bỏ viền trên cùng */
+  margin-top: -1px; /* Điều chỉnh để khớp với viền của phần tử cha */
+}
+
+/* Hiệu ứng khi hover */
+.p-4:hover .ab {
+  max-height: 300px; /* Điều chỉnh chiều cao tối đa phù hợp */
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, max-height 0.4s ease, visibility 0s linear 0s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Shadow giống mẫu gốc */
+  border-color: #e9e9e9; /* Thêm: Thêm viền để đồng bộ với phần cha */
+}
+
+/* Fix đặc biệt để tạo liên kết liền mạch giữa phần card và phần mở rộng */
+.p-4:hover::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #fff; /* Tạo một đường trắng để che phủ viền giữa hai phần */
+  z-index: 11; /* Đảm bảo hiển thị trên mọi phần tử khác */
+}
+
+/* Phần còn lại của CSS giữ nguyên */
 .card .p-button:hover {
-  background-color: var(--primary-color); 
+  background-color: var(--primary-color);
   color: white;
-  border-color: var(--primary-color);
 }
 
 .card .p-button.p-button-outlined:hover {
   background-color: var(--primary-color);
   color: white;
-  border-color: var(--primary-color);
 }
 
-.yeu_thich{
-  color: rgb(73,73,73)
+/* Yêu thích */
+.yeu_thich {
+  color: rgb(73, 73, 73);
+  font-weight: normal;
+  transition: color 0.3s ease;
+  font-size: 13px; /* Đồng bộ với mẫu */
 }
 
-.yeu_thich:hover{
-  color: rgb(255,94,34);
+.yeu_thich:hover {
+  color: rgb(255, 94, 34);
 }
 
+/* Nút bấm */
 .bnt_sp {
-  height: 40px;
-  background: rgb(255,94,34);
   display: flex;
   align-items: center;
-  border-radius: 8px; 
-  overflow: hidden; 
-  width: 190px;
-  margin: 0 auto; /* Căn giữa nút */
+  border-radius: 4px;
+  overflow: hidden;
+  width: 100%;
+  height: 40px; /* Chiều cao cố định */
+  margin-top: 10px;
 }
 
 .bnt_sp a {
   text-decoration: none;
   color: white;
-  font-weight: 600; 
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 0; 
+  height: 100%;
 }
 
 .bnt_sp .left {
-  background: linear-gradient(90deg, rgb(255,206,0), rgb(255,151,0));
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  width: 30%;
+  background-color: #FF8C00; /* Màu cam đậm giống mẫu */
+  width: 40px; /* Chiều rộng cố định */
   height: 40px;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  cursor: pointer;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.bnt_sp .left:hover {
+  background-color: #cc7000; /* Màu tối hơn khi hover */
 }
 
 .bnt_sp .right {
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
-  width: 70%;
+  background-color: #FFA500; /* Màu cam nhẹ hơn giống mẫu */
+  flex-grow: 1; /* Lấp đầy phần còn lại */
+  height: 40px;
   cursor: pointer;
+  font-size: 13px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
+.bnt_sp .right:hover {
+  background-color: #cc8400; /* Màu tối hơn khi hover */
+}
+
+/* Phần yêu thích và phiên bản */
 .love_same {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: space-between; 
+  font-size: 13px; /* Đồng bộ với mẫu */
+  color: #666;
+  margin-bottom: 10px;
+  transition: margin-bottom 0.3s ease;
 }
 
 .love_same .right {
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 5px; 
+  gap: 5px;
 }
 
-.p-4 {
-  position: relative;
-}
-
-.ab {
-  position: absolute;
-  top: 100%; 
-  left: 0;
-  width: 100%;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  background: white; 
-  transition: opacity 0.3s ease-out, max-height 0.3s ease-out, box-shadow 0.3s ease;
-  z-index: 10;
-  border: 1px solid #ddd;
-  border-top: none;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  padding: 0 10px 10px 10px;
-}
-
-/* Make the expansion seamless with the main element on hover */
-.p-4:hover .ab {
-  max-height: 500px;
-  opacity: 1;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Same shadow as the parent */
-}
-
-/* Ensure the specs section has correct padding and background color */
+/* Thông số kỹ thuật */
 .thongso {
-  background-color: rgb(239,239,239) !important;
-  border-radius: 8px;
-  padding: 10px !important; /* Ensure 10px padding */
-  margin: 10px 0; /* Add top and bottom margin */
+  background-color: #f8f9fa !important; /* Đồng bộ với mẫu */
+  padding: 10px !important;
+  border-radius: 4px !important; /* Đồng bộ border-radius */
+  font-size: 12px !important; /* Đồng bộ kích thước font */
+  color: #444 !important;
+  line-height: 1.5;
+  margin-bottom: 10px;
 }
 
-/* Ensure all parent containers allow content to overflow */
+.thongso p {
+  margin: 0;
+  white-space: pre-line;
+}
+
+/* Giá sản phẩm */
+.text-xl {
+  font-size: 18px !important; /* Đồng bộ với mẫu */
+  font-weight: bold !important;
+}
+
+/* Đảm bảo tất cả các container cha cho phép nội dung overflow */
 :host ::ng-deep .p-dataview .p-dataview-content,
 :host ::ng-deep .grid,
 :host ::ng-deep .col-12,
@@ -132,8 +184,77 @@
   overflow: visible !important;
 }
 
-/* Adjust the element after hover to create a more seamless effect */
-.p-4:hover {
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
+/* Thêm style cho nhãn "HOT" và giảm giá nếu cần */
+.text_xuhuong {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #FFA500;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 3px;
+  z-index: 2;
+}
+
+.text_giamgia {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #E53935;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 3px;
+  z-index: 2;
+}
+
+/* Icon trái tim */
+.pi-heart, .pi-heart-fill {
+  color: #FF5E22 !important;
+  font-size: 14px;
+}
+
+/* Style cho phần tên sản phẩm */
+.text-500 {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Giới hạn 3 dòng */
+  line-clamp: 3; /* Thuộc tính chuẩn */
+  -webkit-box-orient: vertical;
+  max-height: 3.9em; /* 3 dòng x 1.3 line-height */
+}
+
+.product-name {
+  text-decoration: none;
+  color: #000000;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 3.9em;
+  min-height: 40px;
+  font-family: inherit;
+  font-style: normal;
+  font-variant: normal;
+  font-kerning: auto;
+  font-optical-sizing: auto;
+  font-stretch: 100%;
+  font-variation-settings: normal;
+  font-feature-settings: normal;
+  text-transform: none;
+  text-decoration: none;
+  text-align: left;
+  text-indent: 0px;
 }

@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DataService, Brand, CategoryType, ProductLine } from '../../services/data.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
   selector: 'app-create-product',
@@ -29,7 +30,7 @@ import { DomSanitizer } from '@angular/platform-browser';
     FormsModule, EditorModule, ButtonModule, TabViewModule,
     InputTextModule, EditorComponent, ToastModule, 
     CommonModule, ReactiveFormsModule, InputTextareaModule, 
-    DropdownModule, InputNumberModule
+    DropdownModule, InputNumberModule, CheckboxModule 
   ],
   templateUrl: './create-product.component.html',
   styleUrls: ['./create-product.component.css']
@@ -48,6 +49,7 @@ export class CreateProductComponent implements OnInit {
     specs_summary: '',
     description: 'Spring-app',
     attributes: [],
+    is_hot: false
   };
 
   brands: Brand[] = [];

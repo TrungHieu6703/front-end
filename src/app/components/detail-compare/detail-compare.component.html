@@ -19,7 +19,7 @@
             <!-- Cột đầu tiên cho tiêu đề -->
             <div class="item-dau">
                 <div class="img">
-                    <img src="assets/images/ss.png" alt="sosanh">
+                    <img src="https://trungtran.vn/images/ss.png" alt="sosanh">
                 </div>
                 <p class="p-tuvan"><a href="javascript:void(0)">Bạn có cần tư vấn gì không?</a></p>
             </div>
@@ -28,10 +28,10 @@
             <div class="item-compare" *ngFor="let product of products">
                 <div class="bao_item">
                     <a href="javascript:void(0)" class="del_compare" (click)="removeFromCompare(product.id)">
-                        <img src="assets/images/del.png" alt="del">
+                        <i class="pi pi-times"></i>
                     </a>
                     <a [routerLink]="['/product', product.id]" class="product" target="_blank" [title]="product.name">
-                        <img [src]="product.images && product.images.length > 0 ? product.images[0] : 'assets/images/placeholder.png'" 
+                        <img [src]="product.images && product.images.length > 0 ? product.images[0] : 'https://trungtran.vn/images/more_ss.png'" 
                              [alt]="product.name" width="150" height="150">
                         <span>{{ product.name }}</span>
                     </a>
@@ -52,7 +52,7 @@
                 <div class="item-compare" *ngIf="index < (maxProductsToCompare - products.length)">
                     <div class="bao_item">
                         <a class="add-btn" [routerLink]="['/products']" [queryParams]="{compare: true}" title="Thêm sản phẩm">
-                            <img src="assets/images/more_ss.png" alt="more">
+                            <img src="https://trungtran.vn/images/more_ss.png" alt="more">
                             <span>Thêm sản phẩm</span>
                         </a>
                     </div>

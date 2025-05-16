@@ -42,7 +42,7 @@
                         placeholder="Chọn thương hiệu"></p-dropdown>
             </div>
     
-            <div class="p-field required">
+<div class="p-field required">
               <label for="category">Danh mục</label>
               <p-dropdown id="category" [options]="categories" [(ngModel)]="product.category" 
                         optionLabel="name" optionValue="id" 
@@ -54,6 +54,14 @@
               <p-dropdown id="productLine" [options]="productLines" [(ngModel)]="product.productLine" 
                         optionLabel="line_name" optionValue="id" 
                         placeholder="Chọn dòng sản phẩm" [disabled]="!product.brand"></p-dropdown>
+            </div>
+            
+            <div class="p-field">
+              <label for="is_hot">Sản phẩm nổi bật</label>
+              <div class="hot-product-wrapper">
+                <p-checkbox [(ngModel)]="product.is_hot" [binary]="true" inputId="is_hot"></p-checkbox>
+                <label for="is_hot">Đánh dấu sản phẩm này là sản phẩm nổi bật trên trang chủ</label>
+              </div>
             </div>
           </div>
 

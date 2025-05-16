@@ -18,11 +18,15 @@ interface OrderItemDTO {
 }
 
 interface OrderRes {
-  id: string;
-  userId: string;
-  status: string;
-  total: number;
-  orderDetails: OrderDetailRes[];
+  message: string;
+  status: number;
+  data: {
+    id: string;
+    userId: string;
+    status: string;
+    total: number;
+    orderDetails: any[];
+  };
 }
 
 interface OrderDetailRes {
@@ -38,7 +42,7 @@ interface OrderDetailRes {
 })
 export class OrderService {
   private apiUrl = API_URL + 'orders';
-
+  private vnpayApiUrl = 'http://localhost:8080/api/v1/pay';
   constructor(private http: HttpClient) {}
 
   createOrder(orderData: OrderDTO): Observable<OrderRes> {
@@ -69,5 +73,10 @@ export class OrderService {
   // Hủy đơn hàng (cập nhật trạng thái)
   cancelOrder(orderId: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/${orderId}/status?status=REJECTED`, {});
+  }
+
+    // Lấy URL thanh toán VNPay
+  getVnPayUrl(price: number, orderId: string): Observable<string> {
+    return this.http.get(`${this.vnpayApiUrl}?price=${price}&orderId=${orderId}`, { responseType: 'text' });
   }
 }

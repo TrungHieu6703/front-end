@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,105 +7,143 @@
 </head>
 <body>
     <app-header></app-header>
-    <div class="main">
-        <div class="main-container">
-            <div class="container flex">
-                <div class="left" style="background-color: rgb(255,255,255); padding: 30px">
-                        <h1 style="font-size: 22px;">{{ productDetail?.name }}</h1>
-                        <span class="subtitle">New 100% - Bảo Hành 12 tháng tại Trung Trần</span>
-                        <div class="card">
-                            <p-galleria 
-                                [value]="productImages" 
-                                [showIndicators]="true" 
-                                [showThumbnails]="false" 
-                                [changeItemOnIndicatorHover]="true" 
-                                [responsiveOptions]="responsiveOptions" 
-                                [containerStyle]="{ 'max-width': '420px' }"> 
+    
+    <!-- Toast Container -->
+    <div id="toast-container" class="p-toast"></div>
+    
+    <div class="product-detail-container">
+        <!-- Product Overview -->
+        <div class="p-card product-overview-card">
+            <div class="p-card-body">
+                <div class="p-card-content">
+                    <div class="p-grid">
+                        <!-- Left Section -->
+                        <div class="p-col-12 p-md-6 left-section">
+                            <h1 id="product-name">{{ productDetail?.name }}</h1>
+                            <span class="subtitle">New 100% - Bảo Hành 12 tháng tại Trung Trần</span>
+                            
+                            <div class="gallery-container">
+                                <p-galleria 
+                                    [value]="productImages" 
+                                    [showIndicators]="true" 
+                                    [showThumbnails]="true" 
+                                    [changeItemOnIndicatorHover]="true" 
+                                    [responsiveOptions]="responsiveOptions" 
+                                    [containerStyle]="{ 'max-width': '500px' }"> 
                                     <ng-template pTemplate="item" let-item>
-                                        <div class="image-container">
-                                            <img [src]="item.itemImageSrc" style="height: 250px; max-width: 100%; object-fit: contain;" />
+                                        <div class="galleria-main-image">
+                                            <img [src]="item.itemImageSrc" alt="Product Image">
                                         </div>
                                     </ng-template>
-                            </p-galleria>
-                        </div>
-                    </div>
-                    <div class="right" style="background-color: rgb(248,250,252)">
-                        <h1 class="product-title">{{ productDetail?.name }}</h1>
-                        <div class="product-rating">
-                            <div class="stars">★★★★★</div>
-                            <span>4.8 (128 đánh giá)</span>
-                        </div>
-                        
-                        <div class="price">
-                            {{ formatPrice(productDetail?.price) }} 
-                            <span class="original-price" *ngIf="productDetail?.originalPrice">{{ formatPrice(productDetail?.originalPrice) }}</span>
-                            <span class="discount" *ngIf="productDetail?.originalPrice">{{ calculateDiscount(productDetail?.price, productDetail?.originalPrice) }}%</span>
+                                    <ng-template pTemplate="thumbnail" let-item>
+                                        <div class="galleria-thumbnail">
+                                            <img [src]="item.itemImageSrc" alt="Thumbnail">
+                                        </div>
+                                    </ng-template>
+                                </p-galleria>
+                            </div>
                         </div>
                         
-                        <div class="availability">
-                            <span *ngIf="productDetail?.quantity > 0">✓ Còn hàng - Giao hàng trong 24h</span>
-                            <span *ngIf="productDetail?.quantity <= 0">✗ Hết hàng</span>
-                        </div>
-                        
-                        <div class="action-buttons">
-                            <button class="btn btn-primary" [disabled]="productDetail?.quantity <= 0">Mua ngay</button>
-                            <button class="btn btn-secondary" [disabled]="productDetail?.quantity <= 0" (click)="addToCart(productDetail?.id)">Thêm vào giỏ</button>
-                        </div>
-                        
-                        <div class="promotion-section">
-                            <h3 class="promotion-title">Ưu đãi đặc biệt</h3>
-                            <div class="promotion-items">
-                                <div class="promotion-item">
-                                    <div class="promotion-icon">🎁</div>
-                                    <div>Tặng balo gaming ROG trị giá 1.200.000đ</div>
+                        <!-- Right Section -->
+                        <div class="p-col-12 p-md-6 right-section">
+                            <h1 class="product-title">{{ productDetail?.name }}</h1>
+                            
+                            <div class="product-rating">
+                                <div class="p-rating">
+                                    <i class="pi pi-star-fill active"></i>
+                                    <i class="pi pi-star-fill active"></i>
+                                    <i class="pi pi-star-fill active"></i>
+                                    <i class="pi pi-star-fill active"></i>
+                                    <i class="pi pi-star-fill active"></i>
                                 </div>
-                                <div class="promotion-item">
-                                    <div class="promotion-icon">🎁</div>
-                                    <div>Chuột gaming ASUS ROG Gladius III trị giá 1.900.000đ</div>
-                                </div>
-                                <div class="promotion-item">
-                                    <div class="promotion-icon">🎁</div>
-                                    <div>Giảm 50% khi mua Office Home & Student 2024</div>
-                                </div>
-                                <div class="promotion-item">
-                                    <div class="promotion-icon">🎁</div>
-                                    <div>Trả góp 0% lãi suất trong 12 tháng</div>
+                                <span>4.8 (128 đánh giá)</span>
+                            </div>
+                            
+                            <div class="price-section">
+                                <span class="current-price">{{ formatPrice(productDetail?.price) }}</span>
+                                <span class="original-price" *ngIf="productDetail?.originalPrice">{{ formatPrice(productDetail?.originalPrice) }}</span>
+                                <span class="discount" *ngIf="productDetail?.originalPrice">{{ calculateDiscount(productDetail?.price, productDetail?.originalPrice) }}%</span>
+                            </div>
+                            
+                            <div class="availability-section">
+                                <span class="in-stock" *ngIf="productDetail?.quantity > 0">
+                                    <i class="pi pi-check-circle"></i> Còn hàng - Giao hàng trong 24h
+                                </span>
+                                <span class="out-of-stock" *ngIf="productDetail?.quantity <= 0">
+                                    <i class="pi pi-times-circle"></i> Hết hàng
+                                </span>
+                            </div>
+                            
+                            <div class="action-buttons">
+                                <button class="p-button p-button-primary" [disabled]="productDetail?.quantity <= 0">
+                                    <i class="pi pi-shopping-cart"></i> Mua ngay
+                                </button>
+                                <button class="p-button p-button-secondary" [disabled]="productDetail?.quantity <= 0" (click)="addToCart(productDetail?.id)">
+                                    <i class="pi pi-plus"></i> Thêm vào giỏ
+                                </button>
+                            </div>
+                            
+                            <div class="promotion-section">
+                                <h3 class="promotion-title">Ưu đãi đặc biệt</h3>
+                                <div class="promotion-card">
+                                    <div class="promotion-item">
+                                        <div class="promotion-icon">🎁</div>
+                                        <div>Tặng balo gaming ROG trị giá 1.200.000đ</div>
+                                    </div>
+                                    <div class="promotion-item">
+                                        <div class="promotion-icon">🎁</div>
+                                        <div>Chuột gaming ASUS ROG Gladius III trị giá 1.900.000đ</div>
+                                    </div>
+                                    <div class="promotion-item">
+                                        <div class="promotion-icon">🎁</div>
+                                        <div>Giảm 50% khi mua Office Home & Student 2024</div>
+                                    </div>
+                                    <div class="promotion-item">
+                                        <div class="promotion-icon">🎁</div>
+                                        <div>Trả góp 0% lãi suất trong 12 tháng</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div>
-                    <h2 style="text-align: center; font-size: 32px;">Thông Số Chính</h2>
-                </div>
-                <div class="content-detail" style="background-color: rgb(248,250,252);"> 
-                    <div class="detail-left">
-                        <p-card>
+            </div>
+        </div>
+        
+        <!-- Section Title -->
+        <h2 class="section-title">Thông Số Chính</h2>
+        
+        <!-- Product Description and Specifications -->
+        <div class="p-grid">
+            <!-- Description -->
+            <div class="p-col-12 p-lg-8">
+                <div class="p-card description-card">
+                    <div class="p-card-body">
+                        <div class="p-card-content description-content">
                             <div [innerHTML]="productDetail?.description"></div>
-                        </p-card>
+                        </div>
                     </div>
-                    <div class="detail-right">
-                        <p-card>
-                          <div style="height: 90px;">
-                            <h2 style="text-align: center; align-items: center; font-size: 17px; color: rgb(9,139,246)">Thông Số kỹ thuật</h2>
-                          </div>
-                          <div class="p-grid">
-                            <div class="p-col-12">
-                              <table class="w-full spec-table">
-                                <tbody>
-                                  <tr *ngFor="let attribute of productAttributes">
-                                    <td class="font-medium p-2">{{ attribute.key }}</td>
-                                    <td class="p-2" style="color: rgb(131, 135, 142); font-weight: 400;">
-                                      {{ attribute.value }}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </p-card>
-                      </div>  
                 </div>
+            </div>
+            
+            <!-- Specifications -->
+            <div class="p-col-12 p-lg-4">
+                <div class="p-card specs-card">
+                    <div class="specs-header">
+                        <h3>Thông số kỹ thuật</h3>
+                    </div>
+                    <div class="p-card-body">
+                        <div class="p-card-content specs-content">
+                            <table class="spec-table">
+                                <tr *ngFor="let attribute of productAttributes">
+                                    <td class="spec-name">{{ attribute.key }}</td>
+                                    <td class="spec-value">{{ attribute.value }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>

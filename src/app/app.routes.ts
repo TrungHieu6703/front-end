@@ -38,6 +38,7 @@ import { MasterComponent } from './components/master/master.component';
 import { CreateProductComponent } from './components/create-product/create-product.component';
 import { UpdateProductComponent } from './components/update-product/update-product.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { UserManagerComponent } from './components/user-manager/user-manager.component';
 export const routes: Routes = [
 
     {
@@ -59,6 +60,7 @@ export const routes: Routes = [
             { path: 'brands', component: BrandManagerComponent },
             { path: 'categories', component: CategoryComponent },
             { path: 'attribute-group', component: CategoryAttributeManagerComponent },
+            { path: 'users', component: UserManagerComponent }
         ]
     },
     {
@@ -104,6 +106,8 @@ export const routes: Routes = [
     { path: 'category-attribute', component: CategoryAttributeManagerComponent },
     { path: 'is-edit', component: MasterComponent },
     { path: 'create-product', component: CreateProductComponent },
-    { path: 'update-product', component: UpdateProductComponent },
+    { path: 'update-product/:id', component: UpdateProductComponent },
     { path: 'forgot-password', component: ForgotPasswordComponent },
+    { path: 'test2', component: ProductDetailComponent },
+    { path: 'header', component: HeaderComponent },
 ];

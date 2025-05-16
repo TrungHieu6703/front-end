@@ -1,4 +1,6 @@
-/* Đảm bảo các container cha cho phép hiển thị nội dung tràn ra ngoài */
+/* designation.component.css */
+
+/* CSS bạn đã có */
 :host ::ng-deep .p-dataview .p-dataview-content,
 :host ::ng-deep .grid,
 :host ::ng-deep .col-12,
@@ -6,8 +8,34 @@
     overflow: visible !important;
 }
 
-/* Đảm bảo các phần tử có position: static có z-index thấp hơn */
-:host ::ng-deep .p-dataview-grid > div {
-    position: static;
-    z-index: 1;
+.container {
+  max-width: 1200px; /* Chiều rộng tối đa mong muốn */
+  margin: 0 auto;    /* Tự động canh giữa theo chiều ngang */
+  padding: 0 15px; /* Tạo khoảng đệm 15px ở hai bên trái/phải */
 }
+/* ... */
+
+/* --- CSS MỚI ĐỂ HIỂN THỊ 5 CỘT --- */
+app-header {
+  display: block;
+  width: 100%;
+}
+/* Áp dụng cho màn hình lớn (ví dụ: từ 1200px trở lên) */
+@media (min-width: 1200px) { /* Đây là breakpoint 'xl' mặc định của PrimeFlex, có thể cần chỉnh lại nếu bạn đã tùy chỉnh breakpoint */
+  :host ::ng-deep .product-item-container.xl\:col { /* Target class bạn đã thêm và class xl:col */
+    flex: 0 0 20% !important; /* Quan trọng: Đặt flex-basis là 20% */
+    max-width: 20% !important; /* Quan trọng: Đặt max-width là 20% */
+    padding: 0 !important; /* Đảm bảo không có padding nếu dùng grid-nogutter */
+  }
+}
+
+/* Đảm bảo các breakpoint nhỏ hơn vẫn hoạt động đúng */
+/* Ví dụ cho lg (thường là 992px) nếu bạn dùng lg:col-3 (4 cột) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+   :host ::ng-deep .product-item-container.lg\:col-3 {
+      flex: 0 0 25% !important;
+      max-width: 25% !important;
+      padding: 0 !important;
+   }
+}
+/* Thêm các media query tương tự cho md và sm nếu cần ghi đè */

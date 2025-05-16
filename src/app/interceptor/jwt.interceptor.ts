@@ -44,12 +44,12 @@ export class JwtInterceptor implements HttpInterceptor {
         if (error.status === 403 || error.status === 401) {
           console.warn('Token hết hạn hoặc không hợp lệ! Đăng xuất người dùng...');
           
-          // Xóa token khỏi localStorage
-          this.authService.removeToken();  
-          this.authService.removeCurrentUsername();
+          // // Xóa token khỏi localStorage
+          // this.authService.removeToken();  
+          // this.authService.removeCurrentUsername();
 
-          // Chuyển hướng về trang đăng nhập
-          this.router.navigate(['/login'], { queryParams: { sessionExpired: true } });
+          // // Chuyển hướng về trang đăng nhập
+          // this.router.navigate(['/login'], { queryParams: { sessionExpired: true } });
         }
         return throwError(error);
       })

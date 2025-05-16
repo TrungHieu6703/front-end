@@ -1,18 +1,15 @@
-<!-- statistics.component.html -->
 <div class="statistics-container">
     <h1 class="page-title">Báo Cáo Thống Kê</h1>
-    
-    <!-- Loading và error -->
+
     <div *ngIf="loading" class="loading-indicator">
       <div class="spinner"></div>
       <p>Đang tải dữ liệu...</p>
     </div>
-    
-    <div *ngIf="error" class="error-message">
+
+    <div *ngIf="error && error !== 'Vui lòng chọn ngày bắt đầu và ngày kết thúc.'" class="error-message">
       <p>{{ error }}</p>
     </div>
-    
-    <!-- Dashboard Stats -->
+
     <div *ngIf="!loading && !error" class="dashboard-stats">
       <div class="stats-grid">
         <div class="stat-card">
@@ -24,7 +21,7 @@
             <p class="stat-value">{{ dashboardStats.totalOrders || 0 }}</p>
           </div>
         </div>
-        
+
         <div class="stat-card">
           <div class="stat-icon revenue-icon">
             <i class="fas fa-money-bill-wave"></i>
@@ -34,7 +31,7 @@
             <p class="stat-value">{{ formatCurrency(dashboardStats.totalRevenue || 0) }}</p>
           </div>
         </div>
-        
+
         <div class="stat-card">
           <div class="stat-icon pending-icon">
             <i class="fas fa-clock"></i>
@@ -44,7 +41,7 @@
             <p class="stat-value">{{ dashboardStats.pendingOrders || 0 }}</p>
           </div>
         </div>
-        
+
         <div class="stat-card">
           <div class="stat-icon product-icon">
             <i class="fas fa-box"></i>
@@ -56,10 +53,8 @@
         </div>
       </div>
     </div>
-    
-    <!-- Time Range Stats -->
-    <div *ngIf="!loading && !error" class="time-range-stats">
-      <div class="date-range-filter">
+
+    <div class="time-range-stats-container"> <div class="date-range-filter">
         <h2>Thống kê theo thời gian</h2>
         <div class="date-inputs">
           <div class="date-input">
@@ -72,39 +67,54 @@
           </div>
           <button class="apply-btn" (click)="applyDateRange()">Áp dụng</button>
         </div>
+         <div *ngIf="error === 'Vui lòng chọn ngày bắt đầu và ngày kết thúc.'" class="error-message date-error">
+            <p>{{ error }}</p>
+        </div>
+
+        <div class="export-buttons" *ngIf="!loading && timeRangeStats && timeRangeStats.totalOrders !== undefined">
+          <button class="export-btn excel-btn" (click)="exportToExcel()">
+            <i class="fas fa-file-excel"></i> Xuất Excel
+          </button>
+          <button class="export-btn csv-btn" (click)="exportToCsv()">
+            <i class="fas fa-file-csv"></i> Xuất CSV
+          </button>
+        </div>
       </div>
-      
-      <div class="charts-container">
-        <div class="chart-card">
-          <h3>Doanh thu theo ngày</h3>
-          <div class="chart-container">
-            <canvas #revenueChart width="400" height="300"></canvas>
+
+      <div *ngIf="!loading && timeRangeStats && timeRangeStats.totalOrders !== undefined"> <div class="charts-container">
+          <div class="chart-card">
+            <h3>Doanh thu theo ngày</h3>
+            <div class="chart-container">
+              <canvas #revenueChart width="400" height="300"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <h3>Doanh thu theo trạng thái đơn hàng</h3>
+            <div class="chart-container">
+              <canvas #statusChart width="400" height="300"></canvas>
+            </div>
           </div>
         </div>
-        
-        <div class="chart-card">
-          <h3>Doanh thu theo trạng thái đơn hàng</h3>
-          <div class="chart-container">
-            <canvas #statusChart width="400" height="300"></canvas>
+
+        <div class="time-range-summary">
+          <div class="summary-item">
+            <h3>Tổng đơn hàng trong khoảng thời gian</h3>
+            <p class="summary-value">{{ timeRangeStats.totalOrders || 0 }}</p>
+          </div>
+          <div class="summary-item">
+            <h3>Tổng doanh thu trong khoảng thời gian</h3>
+            <p class="summary-value">{{ formatCurrency(timeRangeStats.totalRevenue || 0) }}</p>
           </div>
         </div>
       </div>
-      
-      <div class="time-range-summary">
-        <div class="summary-item">
-          <h3>Tổng đơn hàng trong khoảng thời gian</h3>
-          <p class="summary-value">{{ timeRangeStats.totalOrders || 0 }}</p>
-        </div>
-        <div class="summary-item">
-          <h3>Tổng doanh thu trong khoảng thời gian</h3>
-          <p class="summary-value">{{ formatCurrency(timeRangeStats.totalRevenue || 0) }}</p>
-        </div>
-      </div>
+       <div *ngIf="!loading && timeRangeStats && timeRangeStats.totalOrders === undefined && startDate && endDate && !error" class="no-data-message">
+         <p>Không có dữ liệu thống kê cho khoảng thời gian đã chọn.</p>
+       </div>
     </div>
-    
-    <!-- Top Products -->
+
     <div *ngIf="!loading && !error && topProducts.length > 0" class="top-products">
-      <h2>Sản phẩm bán chạy</h2>
+       <h2>Sản phẩm bán chạy</h2>
       <div class="product-table-container">
         <table class="product-table">
           <thead>

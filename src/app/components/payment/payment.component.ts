@@ -64,6 +64,7 @@ export class PaymentComponent implements OnInit {
   selectedDistrict: string = '';
   selectedWard: string = '';
 
+  isAvailable?: boolean;
   constructor(private testService: TestService, private orderService: OrderService) { }
 
   ngOnInit() {
@@ -91,12 +92,26 @@ export class PaymentComponent implements OnInit {
     }, 0);
   }
 
-  updateQuantity(item: CartItem, change: number) {
-    const newQuantity = (item.quantity || 1) + change;
-    if (newQuantity > 0) {
-      item.quantity = newQuantity;
-      this.calculateTotalAmount();
-    }
+  updateQuantity(item: any, change: number): void {
+    const newQuantity = item.quantity + change;
+
+    if (newQuantity < 1) return;
+
+    this.testService.checkQuantity(item.id, newQuantity).subscribe(
+      (isAvailable) => {
+        if (isAvailable) {
+          item.quantity = newQuantity;
+          this.calculateTotalAmount();
+        } else {
+          alert('Số lượng sản phẩm trong kho không đủ.');
+        }
+      },
+      (error) => {
+        console.log(this.isAvailable)
+        console.error('Lỗi khi kiểm tra số lượng:', error);
+        alert('Đã xảy ra lỗi khi kiểm tra số lượng tồn kho.');
+      }
+    );
   }
 
   removeItem(index: number) {
@@ -188,12 +203,12 @@ export class PaymentComponent implements OnInit {
 
   placeOrder() {
     let shippingInfo = `Họ tên: ${this.fullName}
-SĐT: ${this.phoneNumber}
-Giới tính: ${this.gender}
-Địa chỉ: ${this.street}, ${this.ward}, ${this.district}, ${this.province}
-Loại địa chỉ: ${this.addressType}
-Ghi chú: ${this.note}
-Phương thức thanh toán: ${this.paymentMethod}`;
+    SĐT: ${this.phoneNumber}
+    Giới tính: ${this.gender}
+    Địa chỉ: ${this.street}, ${this.ward}, ${this.district}, ${this.province}
+    Loại địa chỉ: ${this.addressType}
+    Ghi chú: ${this.note}
+    Phương thức thanh toán: ${this.paymentMethod}`;
 
     console.log('ShippingInfo (formatted):', shippingInfo);
 
@@ -209,6 +224,7 @@ Phương thức thanh toán: ${this.paymentMethod}`;
       user_id: 'f45ab574-caec-4e21-8868-c79e78dde294', // Giả sử có ID người dùng, thực tế lấy từ auth service
       status: 'PENDING',
       total: this.totalAmount - this.discountAmount,
+      payment_method: this.paymentMethod,
       shippingInfo: shippingInfo,
       items: this.cartItems.map(item => ({
         productId: item.id,
@@ -217,16 +233,53 @@ Phương thức thanh toán: ${this.paymentMethod}`;
       }))
     };
 
+  // Kiểm tra giỏ hàng
+  if (this.cartItems.length === 0) {
+    alert('Giỏ hàng đang trống');
+    return;
+  }
+
+  if (!this.paymentMethod) {
+    alert('Vui lòng chọn phương thức thanh toán');
+    return;
+  }
+
     console.log('Payload đặt hàng:', JSON.stringify(payload, null, 2));
 
     // Gọi API thông qua service (demo)
     this.orderService.createOrder(payload).subscribe({
       next: (res) => {
         console.log('Đơn hàng được tạo:', res);
+        
+        // Xử lý theo phương thức thanh toán
+        if (this.paymentMethod === 'VNPay') {
+          // Nếu chọn VNPay, gọi API để lấy URL thanh toán
+          const totalPrice = this.totalAmount - this.discountAmount;
+          const orderId = res.data.id; // Giả sử API trả về đơn hàng với ID
+          console.log(orderId)
+          console.log(res)
+          this.orderService.getVnPayUrl(totalPrice, orderId).subscribe({
+            next: (paymentUrl) => {
+              console.log('URL thanh toán VNPay:', paymentUrl);
+              // Chuyển hướng đến trang thanh toán VNPay
+              window.location.href = paymentUrl;
+            },
+            error: (err) => {
+              console.error('Lỗi khi lấy URL thanh toán VNPay:', err);
+              alert('Có lỗi xảy ra khi khởi tạo thanh toán VNPay, vui lòng thử lại sau.');
+            }
+          });
+        } else if (this.paymentMethod === 'COD') {
+          // Nếu chọn COD, hiển thị thông báo thành công
+          alert('Đặt hàng thành công! Cảm ơn bạn đã mua hàng.');
+          // Chuyển hướng đến trang xác nhận hoặc trang chủ
+          // window.location.href = '/confirmation';
+        }
       },
       error: (err) => {
         console.error('Lỗi khi tạo đơn hàng:', err);
+        alert('Có lỗi xảy ra khi đặt hàng, vui lòng thử lại sau.');
       }
     });
-  }
+  }  
 }

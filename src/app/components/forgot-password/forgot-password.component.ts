@@ -128,34 +128,39 @@ export class ForgotPasswordComponent implements OnInit {
     };
 
     // Gửi yêu cầu khôi phục mật khẩu đến server
-    this.http.post('http://localhost:8080/users/forgot-password', emailDTO, httpOptions)
-      .subscribe({
-        next: (response) => {
-          console.log('Success response:', response);
-          this.isSubmitting = false;
+    this.http.post('http://localhost:8080/users/forgot-password', emailDTO, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      observe: 'response',
+      responseType: 'text' 
+    })
+    .subscribe({
+      next: (response) => {
+        console.log('Success response:', response);
+        this.isSubmitting = false;
+        this.successMessage = 'Yêu cầu đã được gửi. Vui lòng kiểm tra email của bạn để nhận mật khẩu mới.';
+        this.forgotForm.reset();
+        this.generateCaptcha();
+      },
+      error: (error) => {
+        console.log('Error response:', error);
+        this.isSubmitting = false;
+    
+        if (typeof error.error === 'string' &&
+            (error.error.includes('Congratulations') ||
+             error.error.includes('mail has been sent') ||
+             error.error.includes('success'))) {
           this.successMessage = 'Yêu cầu đã được gửi. Vui lòng kiểm tra email của bạn để nhận mật khẩu mới.';
           this.forgotForm.reset();
-          this.generateCaptcha();
-        },
-        error: (error) => {
-          console.log('Error response:', error);
-          this.isSubmitting = false;
-          
-          // Nếu lỗi chứa thông báo thành công (trường hợp server trả về lỗi nhưng email đã gửi)
-          if (error.error && typeof error.error === 'string' && 
-             (error.error.includes('Congratulations') || 
-              error.error.includes('mail has been sent') || 
-              error.error.includes('success'))) {
-            this.successMessage = 'Yêu cầu đã được gửi. Vui lòng kiểm tra email của bạn để nhận mật khẩu mới.';
-            this.forgotForm.reset();
-          } else if (error.status === 404) {
-            this.errorMessage = 'Email không tồn tại trong hệ thống.';
-          } else {
-            this.errorMessage = 'Có lỗi xảy ra khi kết nối đến máy chủ. Vui lòng thử lại sau.';
-          }
-          
-          this.generateCaptcha();
+        } else if (error.status === 404) {
+          this.errorMessage = 'Email không tồn tại trong hệ thống.';
+        } else {
+          this.errorMessage = 'Có lỗi xảy ra khi kết nối đến máy chủ. Vui lòng thử lại sau.';
         }
-      });
+    
+        this.generateCaptcha();
+      }
+    });    
   }
 }

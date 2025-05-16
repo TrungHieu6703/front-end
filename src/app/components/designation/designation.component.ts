@@ -15,6 +15,9 @@ import { WishlistService } from '../../services/wishlist.service';
 import { CompareButtonComponent } from '../compare-button/compare-button.component';
 import { SharedService } from '../../services/shared.service';
 import { ListProductService } from '../../services/list-product.service';
+import { BrandComponent } from '../brand/brand.component';
+import { LaptopComponent } from '../laptop/laptop.component';
+import { BannerComponent } from '../banner/banner.component';
 
 @Component({
   selector: 'app-designation',
@@ -32,7 +35,11 @@ import { ListProductService } from '../../services/list-product.service';
     CompareComponent,
     HeaderComponent,
     LaptopItemComponent,
-    CompareButtonComponent
+    CompareButtonComponent,
+    BannerComponent,
+    BrandComponent,
+    LaptopComponent,
+    
   ],
   providers: [WishlistService],
   templateUrl: './designation.component.html',
@@ -78,7 +85,7 @@ export class DesignationComponent implements OnInit {
     this.isCompareVisible = !this.isCompareVisible;
   }
 
-  addToListCompare(product: { id: string; image: string; name: string }): void {
+  addToListCompare(product: { id: string; avatar: string; name: string }): void {
     if (this.isCompared(product)) {
       console.log("Sản phẩm đã được thêm vào so sánh");
       return;
@@ -90,7 +97,7 @@ export class DesignationComponent implements OnInit {
       // Thêm id vào đối tượng sản phẩm khi thêm vào danh sách so sánh
       this.listCompare[emptyIndex] = { 
         id: product.id,
-        image: product.image, 
+        image: product.avatar, 
         name: product.name 
       };
     } else {

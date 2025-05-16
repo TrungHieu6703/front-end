@@ -1,0 +1,240 @@
+/* product-detail.component.scss */
+:host ::ng-deep {
+    .product-overview-card {
+      margin-bottom: 2rem;
+      .p-card-body {
+        padding: 0;
+      }
+      .p-card-content {
+        padding: 0;
+      }
+    }
+    
+    .description-card, .specs-card {
+      height: 100%;
+    }
+    
+    .p-rating .p-rating-icon.p-rating-icon-active {
+      color: #ffc107;
+    }
+    
+    .spec-table {
+      width: 100%;
+      tr:nth-child(odd) {
+        background-color: #f8fafc;
+      }
+      tr:nth-child(even) {
+        background-color: #ffffff;
+      }
+      td {
+        padding: 0.5rem;
+      }
+    }
+    
+    .p-galleria {
+      .p-galleria-item-container {
+        min-height: 300px;
+      }
+    }
+    
+    .promotion-card {
+      .p-card-body {
+        background-color: #fff8e6;
+      }
+      .p-card-content {
+        padding: 0.5rem;
+      }
+    }
+  }
+  
+  .product-detail-container {
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    margin: 5rem 0;
+  }
+  
+  .error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5rem 0;
+    gap: 1rem;
+  }
+  
+  .shop-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1976d2;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+  }
+  
+  .main-section {
+    max-width: 1200px;
+    margin: 6rem auto 2rem;
+    padding: 0 1rem;
+  }
+  
+  .left-section {
+    padding: 1.5rem;
+    
+    #product-name {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .subtitle {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+    
+    .gallery-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+  }
+  
+  .right-section {
+    background-color: #f8fafc;
+    padding: 1.5rem;
+    
+    .product-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      
+      span {
+        color: #666;
+      }
+    }
+    
+    .price-section {
+      margin-bottom: 1.5rem;
+      
+      .current-price {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #e63946;
+      }
+      
+      .original-price {
+        text-decoration: line-through;
+        color: #999;
+        font-size: 1.1rem;
+        margin-left: 0.5rem;
+      }
+      
+      .discount {
+        background-color: #e63946;
+        color: white;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        margin-left: 0.5rem;
+      }
+    }
+    
+    .availability-section {
+      margin-bottom: 1.5rem;
+      
+      .in-stock {
+        color: #28a745;
+      }
+      
+      .out-of-stock {
+        color: #dc3545;
+      }
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .promotion-section {
+      margin-top: 1.5rem;
+      
+      .promotion-title {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eee;
+      }
+      
+      .promotion-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 0.8rem;
+        
+        .promotion-icon {
+          margin-right: 0.8rem;
+          font-size: 1.2rem;
+        }
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+  
+  .section-title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin: 2rem 0;
+  }
+  
+  .spec-name {
+    font-weight: 500;
+  }
+  
+  .spec-value {
+    color: #83878e;
+  }
+  
+  /* Responsive adjustments */
+  @media screen and (max-width: 768px) {
+    .main-section {
+      margin-top: 5rem;
+    }
+    
+    .action-buttons {
+      flex-direction: column;
+    }
+  }
+  
+  @media screen and (max-width: 576px) {
+    .price-section {
+      flex-direction: column;
+      align-items: flex-start;
+      
+      .original-price, .discount {
+        margin-left: 0;
+        margin-top: 0.5rem;
+      }
+    }
+  }

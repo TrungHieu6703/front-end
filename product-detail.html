@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm - Shop Trung Trần</title>
+    <!-- PrimeIcons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeicons@6.0.1/primeicons.min.css">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .shop-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        /* Main Content */
+        .product-detail-container {
+            max-width: 1200px;
+            margin: 6rem auto 2rem;
+            padding: 0 1rem;
+        }
+        
+        /* Card Component */
+        .p-card {
+            background-color: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .p-card-body {
+            padding: 0;
+        }
+        
+        .p-card-content {
+            padding: 0;
+        }
+        
+        /* Grid System */
+        .p-grid {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -0.5rem;
+            margin-left: -0.5rem;
+            margin-top: -0.5rem;
+        }
+        
+        .p-col-12 {
+            width: 100%;
+            padding: 0.5rem;
+        }
+        
+        @media screen and (min-width: 768px) {
+            .p-md-6 {
+                width: 50%;
+            }
+            
+            .p-lg-8 {
+                width: 66.6667%;
+            }
+            
+            .p-lg-4 {
+                width: 33.3333%;
+            }
+        }
+        
+        /* Product Overview */
+        .left-section {
+            padding: 1.5rem;
+            background-color: #fff;
+        }
+        
+        .right-section {
+            background-color: #f8fafc;
+            padding: 1.5rem;
+        }
+        
+        #product-name {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        
+        .product-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Gallery */
+        .gallery-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .galleria {
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .galleria-main-image {
+            height: 300px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f9fa;
+            margin-bottom: 1rem;
+        }
+        
+        .galleria-main-image img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+        
+        .galleria-thumbnails {
+            display: flex;
+            overflow-x: auto;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .galleria-thumbnail {
+            width: 70px;
+            height: 40px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .galleria-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .galleria-thumbnail.active {
+            border-color: #1976d2;
+        }
+        
+        /* Rating */
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .p-rating {
+            display: flex;
+        }
+        
+        .p-rating .pi {
+            color: #ccc;
+            margin-right: 0.25rem;
+            font-size: 1.25rem;
+        }
+        
+        .p-rating .pi.active {
+            color: #ffc107;
+        }
+        
+        /* Price */
+        .price-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .current-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e63946;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 1.1rem;
+            margin-left: 0.5rem;
+        }
+        
+        .discount {
+            background-color: #e63946;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-left: 0.5rem;
+        }
+        
+        /* Availability */
+        .availability-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .in-stock {
+            color: #28a745;
+        }
+        
+        .out-of-stock {
+            color: #dc3545;
+        }
+        
+        /* Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .p-button {
+            padding: 0.75rem 1.25rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        
+        .p-button-primary {
+            background-color: #1976d2;
+            color: white;
+        }
+        
+        .p-button-primary:hover {
+            background-color: #1565c0;
+        }
+        
+        .p-button-secondary {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+        
+        .p-button-secondary:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .p-button .pi {
+            margin-right: 0.5rem;
+        }
+        
+        /* Promotions */
+        .promotion-section {
+            margin-top: 1.5rem;
+        }
+        
+        .promotion-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .promotion-card {
+            background-color: #fff8e6;
+            border-radius: 6px;
+            padding: 1rem;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .promotion-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.8rem;
+        }
+        
+        .promotion-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .promotion-icon {
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+        }
+        
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin: 2rem 0;
+        }
+        
+        /* Product Description */
+        .description-content {
+            padding: 1.5rem;
+        }
+        
+        .description-content p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        /* Specs Table */
+        .specs-card {
+            height: 100%;
+        }
+        
+        .specs-header {
+            background-color: #f8fafc;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .specs-header h3 {
+            margin: 0;
+            color: #098bf6;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+        
+        .specs-content {
+            padding: 0;
+        }
+        
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .spec-table tr:nth-child(odd) {
+            background-color: #f8fafc;
+        }
+        
+        .spec-table tr:nth-child(even) {
+            background-color: #fff;
+        }
+        
+        .spec-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .spec-name {
+            font-weight: 500;
+        }
+        
+        .spec-value {
+            color: #83878e;
+        }
+        
+        /* Toast Message */
+        .p-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+        
+        .p-toast-message {
+            display: flex;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .p-toast-message-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        
+        .p-toast-message-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+        
+        .p-toast-message-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .p-toast-icon-close {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            color: rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Responsive Adjustments */
+        @media screen and (max-width: 768px) {
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .price-section {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+            }
+        }
+        
+        @media screen and (max-width: 576px) {
+            .original-price, .discount {
+                margin-left: 0;
+                margin-top: 0.5rem;
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>    
+    <div class="product-detail-container">
+        <!-- Toast Container -->
+        <div id="toast-container" class="p-toast"></div>
+        
+        <!-- Product Overview -->
+        <div class="p-card product-overview-card">
+            <div class="p-card-body">
+                <div class="p-card-content">
+                    <div class="p-grid">
+                        <!-- Left Section -->
+                        <div class="p-col-12 p-md-6 left-section">
+                            <span class="subtitle">New 100% - Bảo Hành 12 tháng tại Trung Trần</span>
+                            
+                            <div class="gallery-container">
+                                <div class="galleria">
+                                    <div class="galleria-main-image">
+                                        <img id="main-image" src="https://dlcdnwebimgs.asus.com/gain/30A78DB1-8E44-47F6-A2D1-5501596BC8D5/w1000/h732" alt="Product Image">
+                                    </div>
+                                    <div class="galleria-thumbnails">
+                                        <div class="galleria-thumbnail active" data-index="0">
+                                            <img src="https://dlcdnwebimgs.asus.com/gain/30A78DB1-8E44-47F6-A2D1-5501596BC8D5/w1000/h732" alt="Thumbnail 1">
+                                        </div>
+                                        <div class="galleria-thumbnail" data-index="1">
+                                            <img src="https://dlcdnwebimgs.asus.com/gain/38E2C75F-14F0-4374-BE12-5E50F153C133/w1000/h732" alt="Thumbnail 2">
+                                        </div>
+                                        <div class="galleria-thumbnail" data-index="2">
+                                            <img src="https://dlcdnwebimgs.asus.com/gain/3EB0A9D9-0D75-4BD1-B9A3-C899E1D5544F/w1000/h732" alt="Thumbnail 3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Section -->
+                        <div class="p-col-12 p-md-6 right-section">
+                            <h1 class="product-title">Laptop Gaming A</h1>
+                            
+                            <div class="product-rating">
+                                <div class="p-rating">
+                                    <i class="pi pi-star-fill active"></i>
+                                    <i class="pi pi-star-fill active"></i>
+                                    <i class="pi pi-star-fill active"></i>
+                                    <i class="pi pi-star-fill active"></i>
+                                    <i class="pi pi-star-fill active"></i>
+                                </div>
+                                <span>4.8 (128 đánh giá)</span>
+                            </div>
+                            
+                            <div class="price-section">
+                                <span class="current-price">23.990.000 đ</span>
+                                <span class="original-price">29.990.000 đ</span>
+                                <span class="discount">-20%</span>
+                            </div>
+                            
+                            <div class="availability-section">
+                                <span class="in-stock">
+                                    <i class="pi pi-check-circle"></i> Còn hàng - Giao hàng trong 24h
+                                </span>
+                            </div>
+                            
+                            <div class="action-buttons">
+                                <button class="p-button p-button-primary" id="buy-now-btn">
+                                    <i class="pi pi-shopping-cart"></i> Mua ngay
+                                </button>
+                                <button class="p-button p-button-secondary" id="add-to-cart-btn">
+                                    <i class="pi pi-plus"></i> Thêm vào giỏ
+                                </button>
+                            </div>
+                            
+                            <div class="promotion-section">
+                                <h3 class="promotion-title">Ưu đãi đặc biệt</h3>
+                                <div class="promotion-card">
+                                    <div class="promotion-item">
+                                        <div class="promotion-icon">🎁</div>
+                                        <div>Tặng balo gaming ROG trị giá 1.200.000đ</div>
+                                    </div>
+                                    <div class="promotion-item">
+                                        <div class="promotion-icon">🎁</div>
+                                        <div>Chuột gaming ASUS ROG Gladius III trị giá 1.900.000đ</div>
+                                    </div>
+                                    <div class="promotion-item">
+                                        <div class="promotion-icon">🎁</div>
+                                        <div>Giảm 50% khi mua Office Home & Student 2024</div>
+                                    </div>
+                                    <div class="promotion-item">
+                                        <div class="promotion-icon">🎁</div>
+                                        <div>Trả góp 0% lãi suất trong 12 tháng</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section Title -->
+        <h2 class="section-title">Thông Số Chính</h2>
+        
+        <!-- Product Description and Specifications -->
+        <div class="p-grid">
+            <!-- Description -->
+            <div class="p-col-12 p-lg-8">
+                <div class="p-card description-card">
+                    <div class="p-card-body">
+                        <div class="p-card-content description-content">
+                            <p>Laptop Gaming ASUS ROG Strix G15 là dòng máy tính xách tay hiệu năng cao, được thiết kế đặc biệt cho game thủ với cấu hình mạnh mẽ, màn hình tần số quét cao và hệ thống tản nhiệt hiện đại.</p>
+                            <p>Sở hữu bộ vi xử lý AMD Ryzen 7 6800H cùng card đồ họa NVIDIA GeForce RTX 3050 4GB, máy đủ sức chiến mọi tựa game AAA ở mức cài đặt cao. Màn hình 15.6 inch Full HD (1920 x 1080) với tần số quét 144Hz cung cấp trải nghiệm chơi game mượt mà, không bị giật lag.</p>
+                            <p>Hệ thống tản nhiệt được tối ưu với công nghệ ROG Intelligent Cooling giúp máy luôn mát mẻ kể cả khi chơi game trong thời gian dài. Bàn phím gaming với đèn nền RGB có thể tùy chỉnh, tăng trải nghiệm chơi game về đêm.</p>
+                            <p>Với thiết kế mỏng nhẹ, pin lâu và hệ thống âm thanh chất lượng cao, ASUS ROG Strix G15 là lựa chọn hoàn hảo cho cả gaming và công việc đòi hỏi đồ họa cao.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Specifications -->
+            <div class="p-col-12 p-lg-4">
+                <div class="p-card specs-card">
+                    <div class="specs-header">
+                        <h3>Thông số kỹ thuật</h3>
+                    </div>
+                    <div class="p-card-body">
+                        <div class="p-card-content specs-content">
+                            <table class="spec-table">
+                                <tr>
+                                    <td class="spec-name">CPU</td>
+                                    <td class="spec-value">AMD Ryzen 7e)</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-name">RAM</td>
+                                    <td class="spec-value">16GB DDR5 4800MHz</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-name">Ổ cứng</td>
+                                    <td class="spec-value">512GB M.2 NVMe PCIe 4.0 SSD</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-name">Card đồ họa</td>
+                                    <td class="spec-value">NVIDIA </td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-name">Màn hình</td>
+                                    <td class="spec-value">1, Anti-glare</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-name">Hệ điều hành</td>
+                                    <td class="spec-value">Windows 11 Home</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-name">Pin</td>
+                                    <td class="spec-value">4 Cell, 90WHrs</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-name">Trọng lượng</td>
+                                    <td class="spec-value">2.1 kg</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gallery functionality
+            const thumbnails = document.querySelectorAll('.galleria-thumbnail');
+            const mainImage = document.getElementById('main-image');
+            
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    // Remove active class from all thumbnails
+                    thumbnails.forEach(thumb => {
+                        thumb.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked thumbnail
+                    this.classList.add('active');
+                    
+                    // Update main image source
+                    const imgSrc = this.querySelector('img').src;
+                    mainImage.src = imgSrc;
+                });
+            });
+            
+            // Toast message function
+            function showToast(severity, summary, detail) {
+                const toastContainer = document.getElementById('toast-container');
+                
+                // Create toast message
+                const toast = document.createElement('div');
+                toast.className = `p-toast-message p-toast-message-${severity}`;
+                
+                toast.innerHTML = `
+                    <div class="p-toast-message-content">
+                        <span class="p-toast-summary">${summary}</span>
+                        <div class="p-toast-detail">${detail}</div>
+                    </div>
+                    <button class="p-toast-icon-close">&times;</button>
+                `;
+                
+                // Add to container
+                toastContainer.appendChild(toast);
+                
+                // Remove toast after 3 seconds
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 300);
+                }, 3000);
+                
+                // Close button functionality
+                const closeBtn = toast.querySelector('.p-toast-icon-close');
+                closeBtn.addEventListener('click', () => {
+                    toast.remove();
+                });
+            }
+            
+            // Button click handlers
+            document.getElementById('buy-now-btn').addEventListener('click', function() {
+                showToast('info', 'Thông báo', 'Chức năng mua ngay đang được phát triển!');
+            });
+            
+            document.getElementById('add-to-cart-btn').addEventListener('click', function() {
+                showToast('success', 'Thành công', 'Đã thêm sản phẩm vào giỏ hàng!');
+            });
+        });
+    </script>
+</body>
+</html>

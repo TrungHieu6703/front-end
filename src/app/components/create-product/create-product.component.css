@@ -186,3 +186,42 @@
 .mr-2 {
   margin-right: 0.5rem;
 }
+
+.p-field-checkbox {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+:host ::ng-deep .p-checkbox {
+  margin-right: 0.5rem;
+}
+
+:host ::ng-deep .p-checkbox .p-checkbox-box.p-highlight {
+  border-color: var(--primary-color);
+  background: var(--primary-color);
+}
+
+:host ::ng-deep .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+  border-color: var(--primary-color);
+  background: var(--primary-color);
+}
+
+/* CSS cho bố cục mới */
+.hot-product-wrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+  gap: 0.5rem;
+}
+
+.hot-product-wrapper p-checkbox {
+  margin-right: 0.5rem;
+}
+
+.hot-product-wrapper label {
+  font-weight: normal;
+  margin-bottom: 0;
+  font-size: 0.85rem;
+  color: #718096;
+}

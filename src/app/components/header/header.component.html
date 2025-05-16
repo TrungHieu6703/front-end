@@ -6,15 +6,119 @@
   <nav class="nav">
     <a href="#">Giới thiệu</a>
 
-    <div class="menu-item" (mouseenter)="showDropdown('laptop')" (mouseleave)="hideDropdown()">
-      <a href="#">Laptop</a>
-      <ul class="dropdown" *ngIf="activeDropdown === 'laptop'" >
-        <li *ngFor="let brand of brands">
-          <h4>{{ brand.name }}</h4>
+    <div class="menu-item">
+      <a href="#" (mouseenter)="showDropdown('laptop')">Laptop</a>
+      <ul class="dropdown" [class.active]="activeDropdown === 'laptop'" (mouseenter)="keepDropdownOpen('laptop')" (mouseleave)="startHideDropdown()">
+        <!-- HP -->
+        <li class="dropdown-category">
+          <h4>HP</h4>
           <ul>
-            <li *ngFor="let productLine of brand.productLines"><a href="#">{{ productLine }}</a></li>
+            <li><a href="#">HP Probook</a></li>
+            <li><a href="#">HP Folio</a></li>
+            <li><a href="#">HP Elitebook</a></li>
+            <li><a href="#">HP Spectre</a></li>
+            <li><a href="#">HP Pavilion</a></li>
+            <li><a href="#">HP Envy</a></li>
           </ul>
-        <li>
+        </li>
+        
+        <!-- ASUS -->
+        <li class="dropdown-category">
+          <h4>ASUS</h4>
+          <ul>
+            <li><a href="#">Asus S Series</a></li>
+            <li><a href="#">Asus Vivobook</a></li>
+            <li><a href="#">Asus Zenbook</a></li>
+            <li><a href="#">Asus TUF</a></li>
+          </ul>
+        </li>
+        
+        <!-- DELL -->
+        <li class="dropdown-category">
+          <h4>DELL</h4>
+          <ul>
+            <li><a href="#">Dell XPS</a></li>
+            <li><a href="#">Dell Precision</a></li>
+            <li><a href="#">Dell Latitude</a></li>
+            <li><a href="#">Dell Inspiron</a></li>
+            <li><a href="#">Dell Alienware</a></li>
+          </ul>
+        </li>
+        
+        <!-- LENOVO -->
+        <li class="dropdown-category">
+          <h4>LENOVO</h4>
+          <ul>
+            <li><a href="#">Lenovo Yoga</a></li>
+            <li><a href="#">Lenovo Gaming</a></li>
+            <li><a href="#">Lenovo Legion</a></li>
+            <li><a href="#">IdeaPad</a></li>
+            <li><a href="#">IdeaPad Gaming</a></li>
+            <li><a href="#">Thinkbook</a></li>
+          </ul>
+        </li>
+        
+        <!-- THINKPAD -->
+        <li class="dropdown-category">
+          <h4>THINKPAD</h4>
+          <ul>
+            <li><a href="#">ThinkPad X1 Carbon</a></li>
+            <li><a href="#">ThinkPad X Series</a></li>
+            <li><a href="#">ThinkPad E Series</a></li>
+            <li><a href="#">ThinkPad T Series</a></li>
+            <li><a href="#">ThinkPad Workstations</a></li>
+          </ul>
+        </li>
+
+        <!-- ACER -->
+        <li class="dropdown-category">
+          <h4>ACER</h4>
+          <ul>
+            <li><a href="#">Acer Nitro</a></li>
+            <li><a href="#">Acer Predator</a></li>
+            <li><a href="#">Acer Aspire</a></li>
+            <li><a href="#">Acer Swift</a></li>
+          </ul>
+        </li>
+
+        <!-- APPLE -->
+        <li class="dropdown-category">
+          <h4>APPLE</h4>
+          <ul>
+            <li><a href="#">Macbook Air</a></li>
+            <li><a href="#">Macbook Pro</a></li>
+          </ul>
+        </li>
+
+        <!-- MSI -->
+        <li class="dropdown-category">
+          <h4>MSI</h4>
+          <ul>
+            <li><a href="#">MSI P Series</a></li>
+            <li><a href="#">MSI Bravo</a></li>
+          </ul>
+        </li>
+
+        <!-- MICROSOFT -->
+        <li class="dropdown-category">
+          <h4>MICROSOFT</h4>
+          <ul>
+            <li><a href="#">Surface Go</a></li>
+            <li><a href="#">Surface Pro 7</a></li>
+            <li><a href="#">Surface Laptop</a></li>
+          </ul>
+        </li>
+
+        <!-- LG -->
+        <li class="dropdown-category">
+          <h4>LG</h4>
+          <ul>
+            <li><a href="#">LG Gram</a></li>
+          </ul>
+        </li>
+        
+        <!-- Theo nhu cầu -->
+        <li class="dropdown-needs">
           <h4>Theo nhu cầu</h4>
           <ul>
             <li><a href="#">Mỏng Nhẹ</a></li>
@@ -26,29 +130,36 @@
             <li><a href="#">Game</a></li>
           </ul>
         </li>
-        <li>
+        
+        <!-- Liên hệ -->
+        <li class="contact-section">
           <h4>Liên hệ để được tư vấn</h4>
           <p>093.669.33.88</p>
         </li>
       </ul>
     </div>
     
-
-    <div class="menu-item" (mouseenter)="showDropdown('phukien')" (mouseleave)="hideDropdown()">
-      <a href="#">Phụ kiện</a>
-      <ul class="dropdown" *ngIf="activeDropdown === 'phukien'">
-        <li>
+    <div class="menu-item">
+      <a href="#" (mouseenter)="showDropdown('phukien')">Phụ kiện</a>
+      <ul class="dropdown phukien-dropdown" [class.active]="activeDropdown === 'phukien'" (mouseenter)="keepDropdownOpen('phukien')" (mouseleave)="startHideDropdown()">
+        <li class="dropdown-category">
+          <h4>PHỤ KIỆN</h4>
           <ul>
             <li><a href="#">Tai nghe, loa</a></li>
             <li><a href="#">Cáp</a></li>
             <li><a href="#">Ghế công thái học</a></li>
+            <li><a href="#">USB</a></li>
+            <li><a href="#">Chuột</a></li>
           </ul>
         </li>
-        <li>
+        <li class="dropdown-category">
+          <h4>&nbsp;</h4>
           <ul>
             <li><a href="#">RAM</a></li>
             <li><a href="#">Bàn phím</a></li>
             <li><a href="#">SSD</a></li>
+            <li><a href="#">Pin</a></li>
+            <li><a href="#">Thẻ nhớ</a></li>
           </ul>
         </li>
       </ul>
@@ -74,10 +185,7 @@
       <span class="badge">{{cartCount}}</span>
     </div>
     <div class="icon">
-      <i class="pi pi-user" style=" font-size: 1.9rem"></i>
+      <i class="pi pi-user" style="font-size: 1.9rem"></i>
     </div>
   </div>
 </header>
-
-
-

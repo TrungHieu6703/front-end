@@ -264,4 +264,82 @@
     border-radius: 4px;
   }
 
-  
+  /* statistics.component.css */
+/* ... (giữ nguyên CSS hiện có của bạn) ... */
+
+.date-range-filter {
+  margin-bottom: 20px;
+  background-color: #f9f9f9; /* Thêm nền cho dễ nhìn */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.date-range-filter h2 {
+  margin-top: 0; /* Reset margin top */
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.date-inputs {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: 15px; /* Thêm khoảng cách dưới */
+}
+
+/* CSS cho nút xuất file */
+.export-buttons {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.export-btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px; /* Khoảng cách giữa icon và text */
+}
+
+.excel-btn {
+  background-color: #217346; /* Màu xanh của Excel */
+  color: white;
+}
+
+.excel-btn:hover {
+  background-color: #1e663f;
+}
+
+.csv-btn {
+  background-color: #757575; /* Màu xám cho CSV */
+  color: white;
+}
+
+.csv-btn:hover {
+  background-color: #616161;
+}
+
+/* Thông báo lỗi chọn ngày */
+.error-message.date-error {
+  margin-top: 10px;
+  background-color: #fff3cd; /* Màu vàng nhạt cho cảnh báo */
+  color: #856404;
+  border-color: #ffeeba;
+  padding: 8px 12px; /* Giảm padding một chút */
+}
+
+.no-data-message {
+  text-align: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  margin-top: 20px;
+  color: #495057;
+}

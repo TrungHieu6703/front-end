@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Mega Menu Gọn Gàng</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .header {
+      background-color: #f8f8f8;
+      padding: 10px 30px;
+      display: flex;
+      gap: 40px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .menu-item {
+      position: relative;
+      cursor: pointer;
+      padding: 10px 0;
+    }
+
+    .menu-item:hover .mega-menu {
+      display: flex;
+    }
+
+    .mega-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100vw;
+      background-color: #fff;
+      border-top: 1px solid #ddd;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 20px 60px;
+      z-index: 999;
+      overflow-x: auto;
+    }
+
+    .mega-menu-inner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 30px;
+      width: 100%;
+      max-height: 400px;
+    }
+
+    .menu-column h4 {
+      font-size: 15px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    .menu-column ul {
+      list-style: none;
+    }
+
+    .menu-column li {
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #555;
+      cursor: pointer;
+    }
+
+    .menu-column li:hover {
+      text-decoration: underline;
+    }
+
+    .contact-box {
+      font-size: 14px;
+      color: #222;
+      margin-top: 10px;
+    }
+
+    .contact-box strong {
+      display: block;
+      color: #000;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="menu-item">
+      Laptop
+      <div class="mega-menu">
+        <div class="mega-menu-inner">
+          <div class="menu-column">
+            <h4>HP</h4>
+            <ul>
+              <li>HP Probook</li>
+              <li>HP Folio</li>
+              <li>HP Elitebook</li>
+              <li>HP Spectre</li>
+              <li>HP Pavilion</li>
+              <li>HP Envy</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4>ASUS</h4>
+            <ul>
+              <li>Asus S Series</li>
+              <li>Vivobook</li>
+              <li>Zenbook</li>
+              <li>TUF Gaming</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4>DELL</h4>
+            <ul>
+              <li>Dell XPS</li>
+              <li>Precision</li>
+              <li>Latitude</li>
+              <li>Inspiron</li>
+              <li>Alienware</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4>LENOVO</h4>
+            <ul>
+              <li>Yoga Series</li>
+              <li>Gaming</li>
+              <li>Legion</li>
+              <li>IdeaPad</li>
+              <li>Thinkbook</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4>THINKPAD</h4>
+            <ul>
+              <li>X1 Carbon</li>
+              <li>X Series</li>
+              <li>E Series</li>
+              <li>T Series</li>
+              <li>Workstations</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4>Theo nhu cầu</h4>
+            <ul>
+              <li>Mỏng nhẹ</li>
+              <li>Workstations</li>
+              <li>Siêu phẩm</li>
+              <li>Đồ họa, kỹ thuật</li>
+              <li>Học tập, văn phòng</li>
+              <li>Lập trình</li>
+              <li>Game</li>
+            </ul>
+            <div class="contact-box">
+              Tư vấn nhanh:
+              <strong>093.669.33.88</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-item">
+      Phụ kiện
+      <div class="mega-menu">
+        <div class="mega-menu-inner">
+          <div class="menu-column">
+            <h4>PHỤ KIỆN</h4>
+            <ul>
+              <li>Tai nghe, loa</li>
+              <li>Cáp</li>
+              <li>Ghế công thái học</li>
+              <li>Chuột</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <ul>
+              <li>Bàn phím</li>
+              <li>USB</li>
+              <li>SSD</li>
+              <li>RAM</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <ul>
+              <li>Pin</li>
+              <li>Thẻ nhớ</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

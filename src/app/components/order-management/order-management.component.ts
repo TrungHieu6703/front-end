@@ -4,14 +4,47 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
+// PrimeNG imports
+import { CardModule } from 'primeng/card';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { DialogModule } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
+import { PaginatorModule } from 'primeng/paginator';
+import { MessageService, ConfirmationService } from 'primeng/api';
+
+interface StatusOption {
+  label: string;
+  value: string;
+}
+
 @Component({
   selector: 'app-order-management',
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CardModule,
+    TableModule,
+    ButtonModule,
+    InputTextModule,
+    DropdownModule,
+    DialogModule,
+    ToastModule,
+    ConfirmDialogModule,
+    ProgressSpinnerModule,
+    TagModule,
+    TooltipModule,
+    PaginatorModule
   ],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './order-management.component.html',
   styleUrls: ['./order-management.component.css']
 })
@@ -26,13 +59,23 @@ export class OrderManagementComponent implements OnInit {
   // Bộ lọc
   statusFilter: string = 'ALL';
   searchQuery: string = '';
+  statusOptions: StatusOption[] = [
+    { label: 'Tất cả trạng thái', value: 'ALL' },
+    { label: 'Đang xử lý', value: 'PENDING' },
+    { label: 'Đã hoàn thành', value: 'APPROVED' },
+    { label: 'Đã hủy', value: 'REJECTED' }
+  ];
   
   // Phân trang
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalPages: number = 1;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
+  ) { }
 
   ngOnInit(): void {
     this.loadOrders();
@@ -48,7 +91,11 @@ export class OrderManagementComponent implements OnInit {
       },
       error: (err) => {
         console.error('Lỗi khi tải danh sách đơn hàng:', err);
-        this.error = 'Không thể tải danh sách đơn hàng. Vui lòng thử lại sau.';
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Lỗi',
+          detail: 'Không thể tải danh sách đơn hàng. Vui lòng thử lại sau.'
+        });
         this.loading = false;
       }
     });
@@ -61,7 +108,7 @@ export class OrderManagementComponent implements OnInit {
       filtered = filtered.filter(order => order.status === this.statusFilter);
     }
     
-    // Tìm kiếm theo ID
+    // Tìm kiếm theo ID hoặc người dùng
     if (this.searchQuery.trim() !== '') {
       const query = this.searchQuery.toLowerCase().trim();
       filtered = filtered.filter(order => 
@@ -87,9 +134,18 @@ export class OrderManagementComponent implements OnInit {
 
   closeOrderDetails(): void {
     this.showOrderDetails = false;
-    setTimeout(() => {
-      this.selectedOrder = null;
-    }, 300);
+  }
+
+  confirmUpdateStatus(orderId: string, newStatus: string): void {
+    const statusText = newStatus === 'APPROVED' ? 'duyệt' : 'hủy';
+    this.confirmationService.confirm({
+      message: `Bạn có chắc chắn muốn ${statusText} đơn hàng này?`,
+      header: 'Xác nhận',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.updateOrderStatus(orderId, newStatus);
+      }
+    });
   }
 
   updateOrderStatus(orderId: string, newStatus: string): void {
@@ -107,71 +163,81 @@ export class OrderManagementComponent implements OnInit {
           this.selectedOrder.status = newStatus;
         }
         
+        const statusText = newStatus === 'APPROVED' ? 'duyệt' : 'hủy';
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Thành công',
+          detail: `Đơn hàng đã được ${statusText} thành công.`
+        });
+        
         this.applyFilters();
         this.loading = false;
       },
       error: (err) => {
         console.error('Lỗi khi cập nhật trạng thái đơn hàng:', err);
-        this.error = 'Không thể cập nhật trạng thái đơn hàng. Vui lòng thử lại sau.';
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Lỗi',
+          detail: 'Không thể cập nhật trạng thái đơn hàng. Vui lòng thử lại sau.'
+        });
         this.loading = false;
       }
     });
   }
 
-  deleteOrder(orderId: string): void {
-    if (confirm('Bạn có chắc chắn muốn xóa đơn hàng này không?')) {
-      this.loading = true;
-      this.http.delete(`http://localhost:8080/orders/${orderId}`).subscribe({
-        next: () => {
-          // Xóa đơn hàng khỏi danh sách
-          this.orders = this.orders.filter(order => order.id !== orderId);
-          
-          // Nếu đang xem chi tiết đơn hàng này
-          if (this.selectedOrder && this.selectedOrder.id === orderId) {
-            this.closeOrderDetails();
-          }
-          
-          this.applyFilters();
-          this.loading = false;
-        },
-        error: (err) => {
-          console.error('Lỗi khi xóa đơn hàng:', err);
-          this.error = 'Không thể xóa đơn hàng. Vui lòng thử lại sau.';
-          this.loading = false;
-        }
-      });
-    }
+  confirmDelete(orderId: string): void {
+    this.confirmationService.confirm({
+      message: 'Bạn có chắc chắn muốn xóa đơn hàng này không?',
+      header: 'Xác nhận xóa',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteOrder(orderId);
+      }
+    });
   }
 
-  // Phân trang
+  deleteOrder(orderId: string): void {
+    this.loading = true;
+    this.http.delete(`http://localhost:8080/orders/${orderId}`).subscribe({
+      next: () => {
+        // Xóa đơn hàng khỏi danh sách
+        this.orders = this.orders.filter(order => order.id !== orderId);
+        
+        // Nếu đang xem chi tiết đơn hàng này
+        if (this.selectedOrder && this.selectedOrder.id === orderId) {
+          this.closeOrderDetails();
+        }
+        
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Thành công',
+          detail: 'Đơn hàng đã được xóa thành công.'
+        });
+        
+        this.applyFilters();
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Lỗi khi xóa đơn hàng:', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Lỗi',
+          detail: 'Không thể xóa đơn hàng. Vui lòng thử lại sau.'
+        });
+        this.loading = false;
+      }
+    });
+  }
+
+  // Phân trang với PrimeNG
+  onPageChange(event: any): void {
+    this.currentPage = event.page + 1;
+  }
+
+  // Lấy đơn hàng theo trang hiện tại
   get paginatedOrders(): any[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     return this.filteredOrders.slice(startIndex, startIndex + this.itemsPerPage);
-  }
-
-  goToPage(page: number): void {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-    }
-  }
-
-  getPaginationRange(): number[] {
-    const range = [];
-    const maxPagesToShow = 5;
-    
-    let startPage = Math.max(1, this.currentPage - Math.floor(maxPagesToShow / 2));
-    let endPage = startPage + maxPagesToShow - 1;
-    
-    if (endPage > this.totalPages) {
-      endPage = this.totalPages;
-      startPage = Math.max(1, endPage - maxPagesToShow + 1);
-    }
-    
-    for (let i = startPage; i <= endPage; i++) {
-      range.push(i);
-    }
-    
-    return range;
   }
 
   // Định dạng
@@ -184,12 +250,12 @@ export class OrderManagementComponent implements OnInit {
     }
   }
 
-  getStatusClass(status: string): string {
+  getStatusSeverity(status: string): 'success' | 'warning' | 'danger' | 'info' {
     switch (status) {
-      case 'APPROVED': return 'status-approved';
-      case 'PENDING': return 'status-pending';
-      case 'REJECTED': return 'status-rejected';
-      default: return '';
+      case 'APPROVED': return 'success';
+      case 'PENDING': return 'warning';
+      case 'REJECTED': return 'danger';
+      default: return 'info';
     }
   }
 

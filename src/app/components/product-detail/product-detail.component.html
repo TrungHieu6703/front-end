@@ -1,1 +1,124 @@
-<p>product-detail works!</p>
+<!-- product-detail.component.html -->
+<div class="product-detail-container">
+    <p-toast></p-toast>
+  
+    <!-- Loading Spinner -->
+    <div *ngIf="loading" class="loading-container">
+      <p-progressSpinner></p-progressSpinner>
+    </div>
+  
+    <div *ngIf="!loading && product" class="product-detail-content">
+      <!-- Header -->
+      <header class="shop-header">
+        <h2>SHOP TRUNG TRẦN</h2>
+      </header>
+  
+      <!-- Main Content -->
+      <div class="main-section">
+        <!-- Product Overview -->
+        <p-card styleClass="product-overview-card">
+          <div class="p-grid">
+            <div class="p-col-12 p-md-6 left-section">
+              <h2 id="product-name">{{ product.name }}</h2>
+              <span class="subtitle">New 100% - Bảo Hành 12 tháng tại Trung Trần</span>
+              
+              <div class="gallery-container">
+                <p-galleria [value]="product.images" [responsiveOptions]="responsiveOptions"
+                            [containerStyle]="{'max-width': '100%'}" [numVisible]="5" [circular]="true"
+                            [showItemNavigators]="true" [showThumbnails]="true" [showItemNavigatorsOnHover]="true">
+                  <ng-template pTemplate="item" let-item>
+                    <img [src]="item" style="width: 100%; height: 300px; object-fit: contain;" />
+                  </ng-template>
+                  <ng-template pTemplate="thumbnail" let-item>
+                    <div class="p-grid p-nogutter p-justify-center">
+                      <img [src]="item" style="width: 70px; height: 40px; object-fit: cover;" />
+                    </div>
+                  </ng-template>
+                </p-galleria>
+              </div>
+            </div>
+            
+            <div class="p-col-12 p-md-6 right-section">
+              <h1 class="product-title">{{ product.name }}</h1>
+              
+              <div class="product-rating">
+                <!-- <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating> -->
+                <span>{{ product.rating }} ({{ product.reviewCount }} đánh giá)</span>
+              </div>
+              
+              <div class="price-section">
+                <span class="current-price">{{ product.price | currency:'VND':'symbol':'1.0-0' }}</span>
+                <span *ngIf="product.originalPrice" class="original-price">
+                  {{ product.originalPrice | currency:'VND':'symbol':'1.0-0' }}
+                </span>
+                <span *ngIf="product.originalPrice" class="discount">
+                  {{ calculateDiscount(product.price, product.originalPrice) }}
+                </span>
+              </div>
+              
+              <div class="availability-section">
+                <span *ngIf="product.quantity > 0" class="in-stock">
+                  <i class="pi pi-check-circle"></i> Còn hàng - Giao hàng trong 24h
+                </span>
+                <span *ngIf="product.quantity <= 0" class="out-of-stock">
+                  <i class="pi pi-times-circle"></i> Hết hàng
+                </span>
+              </div>
+              
+              <div class="action-buttons">
+                <p-button label="Mua ngay" icon="pi pi-shopping-cart" styleClass="p-button-primary" 
+                         [disabled]="product.quantity <= 0" (onClick)="buyNow()"></p-button>
+                <p-button label="Thêm vào giỏ" icon="pi pi-plus" styleClass="p-button-secondary" 
+                         [disabled]="product.quantity <= 0" (onClick)="addToCart()"></p-button>
+              </div>
+              
+              <div class="promotion-section">
+                <h3 class="promotion-title">Ưu đãi đặc biệt</h3>
+                <p-card styleClass="promotion-card">
+                  <div *ngFor="let promo of product.promotions" class="promotion-item">
+                    <div class="promotion-icon">🎁</div>
+                    <div>{{ promo }}</div>
+                  </div>
+                </p-card>
+              </div>
+            </div>
+          </div>
+        </p-card>
+  
+        <!-- Product Details Section -->
+        <div class="p-mt-4">
+          <h2 class="section-title">Thông Số Chính</h2>
+        </div>
+  
+        <!-- Product Description and Specifications -->
+        <div class="p-grid">
+          <!-- Description -->
+          <div class="p-col-12 p-lg-8">
+            <p-card styleClass="description-card">
+              <div [innerHTML]="product.description"></div>
+            </p-card>
+          </div>
+          
+          <!-- Specifications -->
+          <div class="p-col-12 p-lg-4">
+            <p-card header="Thông số kỹ thuật" styleClass="specs-card">
+              <p-table [value]="product.attributes | keyvalue" styleClass="spec-table">
+                <ng-template pTemplate="body" let-attr>
+                  <tr>
+                    <td class="spec-name">{{ attr.key }}</td>
+                    <td class="spec-value">{{ attr.value }}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </p-card>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Error Message -->
+    <div *ngIf="!loading && !product" class="error-container">
+      <p-message severity="error" text="Không thể tải thông tin sản phẩm. Vui lòng thử lại sau." styleClass="p-mr-2"></p-message>
+      <p-button label="Tải lại" icon="pi pi-refresh" (onClick)="fetchProductDetail('1')"></p-button>
+    </div>
+  </div>

@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="section">
+      <div class="section-title">
+        <h2>Phân loại laptop</h2>
+        <a href="#">Xem tất cả <i class="fas fa-angle-right"></i></a>
+      </div>
+      <div class="products_sale">
+        <div class="item_sp" *ngFor="let category of categories">
+          <div class="bg_sp">
+            <a [href]="category.link" class="a_img">
+              <img [src]="category.imageUrl" [alt]="category.title">
+            </a>
+            <div class="chucnang">
+              <div class="item_chucnang" *ngFor="let icon of category.icons">
+                <img [src]="icon" alt="">
+              </div>
+            </div>
+            <a [href]="category.link" class="a_title">
+              {{ category.title }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

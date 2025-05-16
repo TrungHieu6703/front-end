@@ -1,331 +1,135 @@
-/* order-management.component.css */
+/* order-management.component.css - PrimeNG version */
 .order-management-container {
-  z-index: 100;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.page-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+/* Custom styling for paginator */
+:host ::ng-deep .p-paginator {
+  padding-top: 1rem;
+}
+
+/* Custom styling for cards */
+:host ::ng-deep .p-card {
+  margin-bottom: 1rem;
+}
+
+:host ::ng-deep .p-card .p-card-content {
+  padding-top: 0.5rem;
+}
+
+/* Custom styling for buttons in table */
+:host ::ng-deep .p-button.p-button-sm {
+  font-size: 0.875rem;
+  padding: 0.4rem;
+}
+
+:host ::ng-deep .p-button.p-button-sm .p-button-icon {
+  font-size: 0.875rem;
+}
+
+/* Spacing between elements */
+.p-mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.p-mb-3 {
+  margin-bottom: 1rem;
+}
+
+.p-mr-2 {
+  margin-right: 0.5rem;
+}
+
+/* Grid system */
+.p-grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+  margin-top: -0.5rem;
+}
+
+.p-col-12 {
+  flex: 0 0 100%;
+  padding: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .p-md-4 {
+    flex: 0 0 33.3333%;
+    max-width: 33.3333%;
   }
-  
-  .page-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-  }
-  
-  /* Lỗi và loading */
-  .error-message {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 10px 15px;
-    border-radius: 4px;
-    margin-bottom: 15px;
-  }
-  
-  .loading-spinner {
-    text-align: center;
-    padding: 20px;
-    color: #666;
-  }
-  
-  /* Bộ lọc */
+}
+
+/* Flexbox utilities */
+.p-d-flex {
+  display: flex !important;
+}
+
+.p-jc-between {
+  justify-content: space-between !important;
+}
+
+.p-jc-center {
+  justify-content: center !important;
+}
+
+.p-ai-center {
+  align-items: center !important;
+}
+
+/* Filter section styling */
+.filter-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
   .filter-section {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 4px;
-  }
-  
-  .search-box input {
-    width: 300px;
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .status-filter select {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: white;
-  }
-  
-  /* Bảng đơn hàng */
-  .orders-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  
-  .orders-table th,
-  .orders-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .orders-table th {
-    background-color: #f1f1f1;
-    color: #333;
-    font-weight: 600;
-  }
-  
-  .orders-table tr:hover {
-    background-color: #f9f9f9;
-  }
-  
-  .no-data {
-    text-align: center;
-    color: #666;
-    padding: 30px !important;
-  }
-  
-  /* Trạng thái */
-  .status-badge {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  .status-approved {
-    background-color: #d4edda;
-    color: #155724;
-  }
-  
-  .status-pending {
-    background-color: #fff3cd;
-    color: #856404;
-  }
-  
-  .status-rejected {
-    background-color: #f8d7da;
-    color: #721c24;
-  }
-  
-  /* Nút thao tác */
-  .actions-cell {
-    white-space: nowrap;
-  }
-  
-  .btn {
-    padding: 6px 10px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    color: white;
-  }
-  
-  .view-btn {
-    background-color: #17a2b8;
-  }
-  
-  .edit-btn {
-    background-color: #28a745;
-  }
-  
-  .cancel-btn {
-    background-color: #ffc107;
-    color: #212529;
-  }
-  
-  .delete-btn {
-    background-color: #dc3545;
-  }
-  
-  .approve-btn {
-    background-color: #28a745;
-  }
-  
-  .reject-btn {
-    background-color: #dc3545;
-  }
-  
-  .close-modal-btn {
-    background-color: #6c757d;
-  }
-  
-  /* Phân trang */
-  .pagination-section {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .pagination-btn {
-    width: 35px;
-    height: 35px;
-    margin: 0 5px;
-    border: 1px solid #ddd;
-    background-color: white;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
-  .pagination-btn.active {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-  }
-  
-  .pagination-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  
-  /* Modal chi tiết đơn hàng */
-  .order-details-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s;
-  }
-  
-  .order-details-modal.show {
-    opacity: 1;
-    visibility: visible;
-  }
-  
-  .modal-content {
-    background-color: white;
-    border-radius: 8px;
-    width: 80%;
-    max-width: 800px;
-    max-height: 90vh;
-    overflow: hidden;
-    display: flex;
     flex-direction: column;
   }
   
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .modal-header h2 {
-    margin: 0;
-    font-size: 20px;
-    color: #333;
-  }
-  
-  .close-btn {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #999;
-  }
-  
-  .modal-body {
-    padding: 20px;
-    overflow-y: auto;
-    flex: 1;
-  }
-  
-  .modal-footer {
-    padding: 15px 20px;
-    border-top: 1px solid #eee;
-    display: flex;
-    justify-content: flex-end;
-  }
-  
-  .modal-footer .btn {
-    margin-left: 10px;
-  }
-  
-  /* Thông tin chi tiết đơn hàng */
-  .order-info-section {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 4px;
-  }
-  
-  .order-info-item {
-    margin-right: 30px;
-    margin-bottom: 10px;
-  }
-  
-  .shipping-info-section,
-  .order-items-section {
-    margin-bottom: 20px;
-  }
-  
-  .shipping-info-section h3,
-  .order-items-section h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .shipping-info {
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 4px;
-  }
-  
-  .shipping-info pre {
-    white-space: pre-wrap;
-    margin: 0;
-    font-family: inherit;
-  }
-  
-  .order-items-table {
+  .filter-section > * {
+    margin-bottom: 1rem;
     width: 100%;
-    border-collapse: collapse;
   }
-  
-  .order-items-table th,
-  .order-items-table td {
-    padding: 10px 12px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
+}
+
+/* Pre tag styling in shipping info */
+pre {
+  white-space: pre-wrap;
+  margin: 0;
+  font-family: inherit;
+}
+
+/* Center loading spinner */
+:host ::ng-deep .p-progress-spinner {
+  width: 50px;
+  height: 50px;
+  display: block;
+  margin: 2rem auto;
+}
+
+/* Toast positioning */
+:host ::ng-deep .p-toast {
+  z-index: 3000;
+}
+
+/* Improve dialog responsiveness */
+@media (max-width: 640px) {
+  :host ::ng-deep .p-dialog {
+    width: 95% !important;
   }
-  
-  .order-items-table th {
-    background-color: #f1f1f1;
-    color: #333;
-    font-weight: 600;
-  }
-  
-  /* Responsive */
-  @media (max-width: 768px) {
-    .filter-section {
-      flex-direction: column;
-    }
-    
-    .search-box {
-      margin-bottom: 10px;
-    }
-    
-    .search-box input {
-      width: 100%;
-    }
-    
-    .actions-cell .btn {
-      margin-bottom: 5px;
-    }
-    
-    .modal-content {
-      width: 95%;
-    }
-  }
+}

@@ -103,41 +103,59 @@
     </p-table>
 
     <p-dialog
-        [(visible)]="categoryDialog"
-        [style]="{ width: '450px' }"
-        header="Chi tiết thuộc tính"
-        [modal]="true"
-        class="p-fluid">
-        
-        <ng-template pTemplate="content">
-            <div class="field">
-                <label for="name">Tên thuộc tính</label>
-                <input
-                    type="text"
-                    pInputText
-                    id="name"
-                    [(ngModel)]="category.name"
-                    required
-                    autofocus>
-                <small class="p-error" *ngIf="submitted && !category.name">
-                    Tên không được để trống.
-                </small>
-            </div>
+    [(visible)]="categoryDialog"
+    [style]="{ width: '450px' }"
+    header="Chi tiết Danh mục" [modal]="true"
+    class="p-fluid">
+
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="name">Tên Danh mục</label>
+            <input
+                type="text"
+                pInputText
+                id="name"
+                [(ngModel)]="category.name"
+                required
+                autofocus
+                [ngClass]="{'ng-invalid ng-dirty' : submitted && !category.name}">
+            <small class="p-error" *ngIf="submitted && !category.name">
+                Tên không được để trống.
+            </small>
+        </div>
+
+        <div class="field">
+            <label for="parentCategory">Danh mục cha</label>
+            <p-dropdown
+                id="parentCategory"
+                [options]="parentCategoryOptions"
+                [(ngModel)]="category.parentId"
+                placeholder="Chọn danh mục cha (Để trống nếu là cấp 1)"
+                [showClear]="true"
+                optionLabel="name"
+                optionValue="id"
+                [filter]="true"
+                filterBy="name"
+                emptyFilterMessage="Không tìm thấy danh mục"
+                appendTo="body"  #parentDropdown>
+            </p-dropdown>
+             </div>
         </ng-template>
 
-        <ng-template pTemplate="footer">
-            <p-button
-                label="Hủy"
-                icon="pi pi-times"
-                (click)="hideDialog()">
-            </p-button>
-            <p-button
-                label="Lưu"
-                icon="pi pi-check"
-                (click)="saveCategory()">
-            </p-button>
-        </ng-template>
-    </p-dialog>
+    <ng-template pTemplate="footer">
+        <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            (click)="hideDialog()"
+            styleClass="p-button-text">
+        </p-button>
+        <p-button
+            label="Lưu"
+            icon="pi pi-check"
+            (click)="saveCategory()"
+            [disabled]="submitted && !category.name"> </p-button>
+    </ng-template>
+</p-dialog>
 
-    <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
 </div>

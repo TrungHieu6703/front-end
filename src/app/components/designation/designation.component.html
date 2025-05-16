@@ -1,23 +1,29 @@
 <app-header></app-header>
-<div class="mb-4 p-8">
-  <p-card>
-    <div class="card">
-      <p-dataView #dv [value]="products" [layout]="'grid'" [rows]="8" [paginator]="true">
-        <ng-template let-product pTemplate="grid">
-          <div class="grid grid-nogutter">
-          <div class="col-12 sm:col-6 md:col-3 lg:col-3 xl:col-3 p-2" *ngFor="let product of products">
-            <app-laptop-item 
-              [product]="product" 
-              [isCompared]="isCompared(product)"
-              (addToCompare)="addToListCompare($event)"
-              >
-            </app-laptop-item>
-          </div>
-        </div>
-        </ng-template>
-      </p-dataView>  
-    </div>
-  </p-card>
+<app-banner></app-banner>
+<app-laptop></app-laptop>
+<app-brand></app-brand>
+
+<div class="container">
+  <div class="mb-4">
+    <p-card>
+      <div class="card">
+        <p-dataView #dv [value]="products" [layout]="'grid'" [rows]="10" [paginator]="true">
+          <ng-template pTemplate="grid" let-products>
+            <div class="grid grid-nogutter">
+              <div class="col-12 sm:col-6 md:col-4 lg:col-3 xl:col product-item-container p-2" *ngFor="let product of products">
+                <app-laptop-item
+                  [product]="product"
+                  [isCompared]="isCompared(product)"
+                  (addToCompare)="addToListCompare($event)">
+                </app-laptop-item>
+              </div>
+            </div>
+          </ng-template>
+        </p-dataView>
+      </div>
+    </p-card>
+  </div>
 </div>
+
 <app-compare *ngIf="isVisibleCompare" [listCompare]="listCompare"></app-compare>
 <app-compare-button *ngIf="isVisibleCompareLess"></app-compare-button>
