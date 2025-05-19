@@ -1,4 +1,5 @@
-<div class="grid-members">
+<app-header></app-header>
+<div class="grid-members" style="margin-top: 100px;">
   <!-- Sidebar -->
   <div class="grid-item">
     <div class="user-menu-side">
@@ -20,13 +21,13 @@
             <i class="fa fa-wpforms"></i> Quản lý đơn hàng
           </a>
         </li>
-        <li>
-          <a href="https://trungtran.vn/chinh-sach">
-            <i class="fa fa-id-card-o"></i> Chính sách
+        <li [class.selected]="activeTab === 'change-password'" (click)="changeTab('change-password')">
+          <a href="javascript:void(0)">
+            <i class="fa fa-lock"></i> Đổi mật khẩu
           </a>
         </li>
         <li>
-          <a href="https://trungtran.vn/dang-xuat">
+          <a (click)="logout()">
             <i class="fa fa-power-off"></i> Đăng xuất
           </a>
         </li>
@@ -39,91 +40,30 @@
     <!-- Account Info -->
     <div *ngIf="activeTab === 'account-info'" class="tab-content active">
       <div class="user-content-side">
-        <h2 class="member-title">Thông tin tài khoản</h2>
         <form>
           <!-- Personal Information Section -->
-          <h3>Thông tin tài khoản</h3>
           <div class="box-user col-md-12">
             <label class="label-input">Họ và tên</label>
             <input type="text" [(ngModel)]="userInfo.name" name="userName" class="form-control" />
           </div>
-          
+  
+
           <div class="box-user col-md-12">
-            <label class="label-input">Giới tính</label>
-            <div class="gender-options">
-              <label>
-                <input type="radio" name="gender" [(ngModel)]="userInfo.gender" value="Nam"> Nam
-              </label>
-              <label>
-                <input type="radio" name="gender" [(ngModel)]="userInfo.gender" value="Nữ"> Nữ
-              </label>
-              <label>
-                <input type="radio" name="gender" [(ngModel)]="userInfo.gender" value="Khác"> Khác
-              </label>
-            </div>
+            <label class="label-input">Điện thoại</label>
+            <input type="text" [(ngModel)]="userInfo.phone" name="userPhone" class="form-control" />
           </div>
           
           <div class="box-user col-md-12">
-            <label class="label-input">Ngày sinh</label>
-            <input type="text" [(ngModel)]="userInfo.birthday" name="userBirthday" class="form-control" placeholder="DD/MM/YYYY" />
+            <label class="label-input">Email</label>
+            <input type="email" [(ngModel)]="userInfo.email" name="userEmail" class="form-control" />
           </div>
           
-          <!-- Login Information Section -->
-          <h3>Thông tin đăng nhập</h3>
-          
-          <!-- Phone -->
-          <div class="box-user col-md-12">
-            <div class="login-field">
-              <div class="field-label">
-                <label class="label-input">Điện thoại</label>
-              </div>
-              <div class="field-value" *ngIf="!showChangePhone">
-                <span>{{ userInfo.phone }}</span>
-                <a href="javascript:void(0)" class="thaydoi" (click)="toggleChangePhone()">Thay đổi</a>
-              </div>
-              <div class="field-edit" *ngIf="showChangePhone">
-                <input type="text" [(ngModel)]="newPhone" name="newPhone" class="form-control" placeholder="Số điện thoại mới" />
-              </div>
-            </div>
-          </div>
-          
-          <!-- Email -->
-          <div class="box-user col-md-12">
-            <div class="login-field">
-              <div class="field-label">
-                <label class="label-input">Email</label>
-              </div>
-              <div class="field-value" *ngIf="!showChangeEmail">
-                <span>{{ userInfo.email}}</span>
-                <a href="javascript:void(0)" class="thaydoi" (click)="toggleChangeEmail()">Thay đổi</a>
-              </div>
-              <div class="field-edit" *ngIf="showChangeEmail">
-                <input type="email" [(ngModel)]="newEmail" name="newEmail" class="form-control" placeholder="Email mới" />
-              </div>
-            </div>
-          </div>
-          
-          <!-- Password -->
-          <div class="box-user col-md-12">
-            <div class="login-field">
-              <div class="field-label">
-                <label class="label-input">Mật khẩu</label>
-              </div>
-              <div class="field-value" *ngIf="!showChangePassword">
-                <span>************</span>
-                <a href="javascript:void(0)" class="thaydoi" (click)="toggleChangePassword()">Thay đổi</a>
-              </div>
-              <div class="field-edit" *ngIf="showChangePassword">
-                <input type="password" [(ngModel)]="newPassword" name="newPassword" class="form-control" placeholder="Mật khẩu mới" />
-              </div>
-            </div>
-          </div>
           <div class="box-user box-submit">
             <button type="button" class="submit-btn" (click)="saveUserChanges()">LƯU THAY ĐỔI</button>
-            <!-- <div *ngIf="loading" class="loading-spinner">
+            <div *ngIf="loading" class="loading-spinner">
               <div class="spinner"></div>
               <span>Đang cập nhật...</span>
-            </div> -->
+            </div>
           </div>
         </form>
       </div>
@@ -173,6 +113,41 @@
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- Change Password Tab -->
+    <div *ngIf="activeTab === 'change-password'" class="tab-content active">
+      <div class="user-content-side">
+        <h2 class="member-title">Đổi mật khẩu</h2>
+        <form>
+          <div class="box-user col-md-12">
+            <label class="label-input">Mật khẩu hiện tại</label>
+            <input type="password" [(ngModel)]="passwordData.currentPassword" name="currentPassword" class="form-control" placeholder="Nhập mật khẩu hiện tại" />
+          </div>
+            
+          <div class="box-user col-md-12">
+            <label class="label-input">Mật khẩu mới</label>
+            <input type="password" [(ngModel)]="passwordData.newPassword" name="newPassword" class="form-control" placeholder="Nhập mật khẩu mới" />
+          </div>
+            
+          <div class="box-user col-md-12">
+            <label class="label-input">Xác nhận mật khẩu mới</label>
+            <input type="password" [(ngModel)]="confirmNewPassword" name="confirmNewPassword" class="form-control" placeholder="Xác nhận mật khẩu mới" />
+          </div>
+          
+          <div *ngIf="passwordError" class="error-message">
+            <p>{{ passwordError }}</p>
+          </div>
+          
+          <div class="box-user box-submit">
+            <button type="button" class="submit-btn" (click)="changePassword()">ĐỔI MẬT KHẨU</button>
+            <div *ngIf="loading" class="loading-spinner">
+              <div class="spinner"></div>
+              <span>Đang cập nhật...</span>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
 

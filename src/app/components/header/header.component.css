@@ -46,73 +46,105 @@
   align-items: center;
 }
 
-.menu-item > a {
+.menu-item>a {
   padding: 10px 15px;
   display: flex;
   align-items: center;
 }
 
+
 /* ===== DROPDOWN ===== */
 .dropdown {
   position: absolute;
   top: 100%;
-  left: 50%;
+  left: 270%;
   transform: translateX(-50%);
   background: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   padding: 20px;
-  width: 1150px;
+  width: auto; /* Hoặc một giá trị cụ thể đủ rộng, ví dụ: 1200px */
   display: none;
-  flex-wrap: wrap;
-  gap: 15px;
+  /* Sử dụng Grid để chia cột */
+  grid-template-columns: repeat(5, 1fr) auto; /* 5 cột cho brand, 1 cột tự động cho phần bên phải */
+  grid-template-rows: auto auto; /* 2 hàng cho brand */
+  gap: 15px 20px; /* Khoảng cách giữa các hàng và cột */
   z-index: 100;
   list-style: none;
   margin-top: 10px;
 }
 
-/* Dropdown cho phụ kiện - hẹp hơn */
+/* CSS mới cho dropdown của Laptop */
+.dropdown.laptop-dropdown {
+  display: none; /* Sẽ được kích hoạt bằng class .active */
+  grid-template-areas: /* Định nghĩa khu vực cho Grid */
+    "brand1 brand2 brand3 brand4 brand5 rightbar"
+    "brand6 brand7 brand8 brand9 brand10 rightbar";
+  width: 900px; 
+  max-width: calc(100vw - 40px);
+  padding: 20px;
+}
+
+/* Gán các brand vào các khu vực đã định nghĩa */
+.dropdown.laptop-dropdown .dropdown-category:nth-child(1) { grid-area: brand1; }
+.dropdown.laptop-dropdown .dropdown-category:nth-child(2) { grid-area: brand2; }
+.dropdown.laptop-dropdown .dropdown-category:nth-child(3) { grid-area: brand3; }
+.dropdown.laptop-dropdown .dropdown-category:nth-child(4) { grid-area: brand4; }
+.dropdown.laptop-dropdown .dropdown-category:nth-child(5) { grid-area: brand5; }
+.dropdown.laptop-dropdown .dropdown-category:nth-child(6) { grid-area: brand6; }
+.dropdown.laptop-dropdown .dropdown-category:nth-child(7) { grid-area: brand7; }
+.dropdown.laptop-dropdown .dropdown-category:nth-child(8) { grid-area: brand8; }
+.dropdown.laptop-dropdown .dropdown-category:nth-child(9) { grid-area: brand9; }
+.dropdown.laptop-dropdown .dropdown-category:nth-child(10) { grid-area: brand10; }
+
+/* Phần bên phải (Theo nhu cầu và Liên hệ) */
+.laptop-sidebar {
+  grid-area: rightbar;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #eaeaea;
+  padding-left: 20px;
+  margin-left: 10px; /* Tạo khoảng cách với các brand */
+}
+
+.dropdown-needs, .contact-section {
+  flex: unset; /* Bỏ thiết lập flex cũ */
+  border-left: none; /* Bỏ đường kẻ cũ nếu có */
+  padding-left: 0;
+  margin-left: 0;
+  width: 100%; /* Cho chiếm hết chiều rộng của sidebar */
+}
+
+.dropdown-needs {
+  margin-bottom: 20px; /* Khoảng cách giữa "Theo nhu cầu" và "Liên hệ" */
+}
+
+/* Dropdown cho phụ kiện - giữ nguyên hoặc điều chỉnh nếu cần */
 .dropdown.phukien-dropdown {
-  width: 300px;
+  width: 300px; /* Hoặc điều chỉnh nếu muốn */
   padding: 15px;
   gap: 15px;
   left: 0;
   transform: translateX(0);
+  /* Nếu dùng grid thì cũng cần định nghĩa lại */
+  display: none; /* Sẽ được kích hoạt bằng class .active */
+  flex-wrap: wrap; /* Hoặc grid layout nếu bạn muốn kiểm soát chặt chẽ hơn */
 }
+
 
 /* ===== GIỮ DROPDOWN KHI DI CHUYỂN CHUỘT ===== */
 .dropdown.active {
-  display: flex;
+  display: grid; /* Sử dụng grid khi active cho laptop dropdown */
 }
 
-/* Tạo một phần mở rộng không nhìn thấy để giữ trạng thái hover */
-.menu-item::after {
-  content: '';
-  position: absolute;
-  height: 20px;
-  width: 100%;
-  bottom: -20px;
-  left: 0;
-  display: block;
-}
-
-/* ===== BỎ PHẦN VÙNG NGOÀI HOVER ===== */
-.menu-item:hover {
-  background: none;
+.dropdown.phukien-dropdown.active {
+  display: flex; /* Sử dụng flex khi active cho phụ kiện dropdown */
 }
 
 /* ===== STYLE CHO DROPDOWN ===== */
 .dropdown-category {
-  flex: 0 0 120px;
+  /* flex: 0 0 120px;  Bỏ hoặc điều chỉnh nếu dùng Grid */
   margin-bottom: 5px;
-}
-
-/* Cho phần "Theo nhu cầu" */
-.dropdown-needs {
-  flex: 0 0 160px;
-  border-left: 1px solid #eaeaea;
-  padding-left: 20px;
-  margin-left: 5px;
 }
 
 .dropdown h4 {
@@ -145,11 +177,9 @@
   color: #0056b3;
   padding-left: 3px;
 }
-
 /* Phần liên hệ */
 .contact-section {
   flex: 0 0 160px;
-  border-left: 1px solid #eaeaea;
   padding-left: 20px;
   margin-left: 5px;
 }
@@ -169,6 +199,7 @@
   border-radius: 20px;
   padding: 5px 10px;
   box-shadow: 0 2px 5px rgba(0, 184, 240, 0.368);
+  position: relative;
 }
 
 .search input {
@@ -205,4 +236,90 @@
   font-size: 12px;
   border-radius: 50%;
   padding: 3px 6px;
+}
+
+/* ===== SEARCH RESULTS DROPDOWN ===== */
+.search-results {
+  position: absolute;
+  top: 45px;
+  left: 0;
+  width: 700px;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  z-index: 1001;
+  max-height: 600px;
+  overflow-y: auto;
+  padding: 15px;
+  display: none;
+}
+
+.search-results.active {
+  display: block;
+  max-height: 460px;
+  width: 380px;
+}
+
+.search-results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.search-results-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.search-results-count {
+  font-size: 13px;
+  color: #666;
+}
+
+.close-search {
+  cursor: pointer;
+  padding: 5px;
+  font-size: 16px;
+  color: #999;
+  transition: color 0.2s ease;
+}
+
+.close-search:hover {
+  color: #333;
+}
+
+.search-results-empty {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+
+.search-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.loading-spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

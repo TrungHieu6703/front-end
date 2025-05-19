@@ -1,6 +1,6 @@
 import { NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-
+import { RouterLink } from '@angular/router';
 interface Category {
   id: string;
   title: string;
@@ -12,7 +12,7 @@ interface Category {
 @Component({
   selector: 'app-laptop',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, RouterLink],
   templateUrl: './laptop.component.html',
   styleUrls: ['./laptop.component.scss']
 })
@@ -22,7 +22,7 @@ export class LaptopComponent implements OnInit {
       id: 'office',
       title: 'Học tập, Văn phòng',
       imageUrl: 'assets/images/laptop/laptop-van-phong.webp',
-      link: 'https://trungtran.vn/laptop-van-phong/',
+      link: '/category/b20e6395-8c15-4e1b-b7a0-ea5cad93eb7f',
       icons: [
         'assets/images/laptop/word.jpg',
         'assets/images/laptop/ps.jpg',
@@ -33,7 +33,7 @@ export class LaptopComponent implements OnInit {
       id: 'graphics',
       title: 'Đồ Họa, Kỹ thuật',
       imageUrl: 'assets/images/laptop/laptop-do-hoa-ki-thuat.webp',
-      link: 'https://trungtran.vn/laptop-do-hoa/',
+      link: '/category/bfe77e54-215f-4aa6-9fe9-83e7ae497d38',
       icons: [
         'assets/images/laptop/pr.jpg',
         'assets/images/laptop/ae.jpg',
@@ -44,7 +44,7 @@ export class LaptopComponent implements OnInit {
       id: 'programming',
       title: 'Lập trình',
       imageUrl: 'assets/images/laptop/laptop-lap-trinh.webp',
-      link: 'https://trungtran.vn/laptop-chuyen-lap-trinh/',
+      link: '/category/1abd41b2-12a5-4d1f-a47a-ab0f2622b656',
       icons: [
         'assets/images/laptop/visual-studio.jpg',
         'assets/images/laptop/netbean.jpg',
@@ -55,7 +55,7 @@ export class LaptopComponent implements OnInit {
       id: 'gaming',
       title: 'Game',
       imageUrl: 'assets/images/laptop/laptop-gaming.webp',
-      link: 'https://trungtran.vn/laptop-chuyen-game/',
+      link: '/category/51539613-bda1-4936-9e73-1ba329109510',
       icons: [
         'assets/images/laptop/forza.jpg',
         'assets/images/laptop/witcher.jpg',
@@ -66,7 +66,7 @@ export class LaptopComponent implements OnInit {
       id: 'premium',
       title: 'Siêu phẩm',
       imageUrl: 'assets/images/laptop/laptop-sieu-pham.webp',
-      link: 'https://trungtran.vn/sieu-pham/',
+      link: '/category/7585dc25-0d2b-453e-8ac8-66853b3dc43c',
       icons: [
         'assets/images/laptop/word.jpg',
         'assets/images/laptop/forza.jpg',

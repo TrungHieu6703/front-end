@@ -1,3 +1,4 @@
+<app-header></app-header>
 <div class="main">
   <div class="main-container">
     <div class="content-detail" style="background-color: rgb(248,250,252);">
@@ -135,7 +136,7 @@
 
         <p-card>
           <div class="bnt_info">
-            <a href="" style="font-size: 16px;">PHƯƠNG THỨC THANH TOÁN</a>
+            <a href="" style="font-size: 16px; padding-top: 10px;">PHƯƠNG THỨC THANH TOÁN</a>
           </div>
           <div class="payment-method">
             <p-radioButton name="payment" value="COD" [(ngModel)]="paymentMethod" inputId="cod"></p-radioButton>
@@ -144,11 +145,6 @@
             <label for="vnpay">VNPay</label>
           </div>
         </p-card>
-
-        <!-- Nút để xác nhận địa chỉ -->
-        <div class="btn-area" style="margin-top: 10px;">
-          <button (click)="combineAddress()">Xác nhận địa chỉ</button>
-        </div>
       </div>
       <!-- Phần HTML cho giỏ hàng -->
       <div class="detail-right">
@@ -182,15 +178,6 @@
               </div>
             </div>
 
-            <!-- Mã giảm giá -->
-            <div class="ma_giam ma_giam_pc">
-              <p class="text_giam">Mã ưu đãi</p>
-              <div class="nhap_giam">
-                <input type="text" [(ngModel)]="promoCode" placeholder="Nhập mã giảm giá">
-                <a href="javascript:void(0)" class="add_code_price" (click)="applyPromoCode()">Áp dụng</a>
-              </div>
-            </div>
-
             <!-- Tổng giá trị -->
             <div class="total-price-products">
               <p>Tạm tính ({{ cartItems.length }}) sản phẩm:
@@ -198,9 +185,6 @@
               </p>
               <p>Phí vận chuyển:
                 <span>{{ shippingFee }}</span>
-              </p>
-              <p>Mã giảm giá:
-                <span id="code_dis" class="code_dis">{{ discountAmount | number:'1.0-0' }}đ</span>
               </p>
             </div>
             <p class="total_end">Tổng tiền:
@@ -211,12 +195,6 @@
             <div class="btn-area">
               <a (click)="placeOrder()" id="cod-btn" class="payment-btn cod-btn-payment" title="Đặt hàng">
                 Đặt hàng </a>
-              <p class="p_text_dieukhoan">
-                <span class="span_check"><input type="checkbox" id="dieukhoan" name="dieukhoan" value="1"></span>
-                <span class="span_dk">Bằng cách đặt hàng, bạn đồng ý với <a href="javascript:void(0)">Điều khoản sử
-                    dụng</a> của
-                  trungtran.vn</span>
-              </p>
             </div>
           </div>
         </p-card>

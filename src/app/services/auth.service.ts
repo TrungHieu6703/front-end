@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API_URL } from '../config/config';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 
 interface UserDTO {
@@ -11,6 +11,11 @@ interface UserDTO {
   password?: string;
   gender?: string;
   birthday?: string;
+}
+
+interface ChangePasswordDTO {
+  confirmPassword: string;
+  newPassword: string;
 }
 
 @Injectable({
@@ -71,4 +76,32 @@ export class AuthService {
   updateUser(id: string, userData: UserDTO): Observable<any> {
     return this.http.put(`${this.apiURL}/${id}`, userData);
   }
+
+    changePassword(userId: string, passwordData: ChangePasswordDTO): Observable<any> {
+    return this.http.put(`${this.apiURL}/change-password/${userId}`, passwordData);
+  }
+
+  isTokenValid(): Observable<boolean> {
+  // Nếu không có token, trả về false ngay lập tức
+  if (!this.getToken()) {
+    return of(false);
+  }
+  
+  // Thực hiện một API call nhẹ để xác thực token
+  return this.http.get<any>(`${this.apiURL}/me`).pipe(
+    map(response => {
+      // Nếu có response thành công, token vẫn còn hiệu lực
+      return true;
+    }),
+    catchError(error => {
+      // Nếu gặp lỗi 401 hoặc 403, token đã hết hạn
+      if (error.status === 401 || error.status === 403) {
+        // Xóa token và tên người dùng
+        this.removeToken();
+        this.removeCurrentUsername();
+      }
+      return of(false);
+    })
+  );
+}
 }

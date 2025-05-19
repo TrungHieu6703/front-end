@@ -39,6 +39,7 @@ import { CreateProductComponent } from './components/create-product/create-produ
 import { UpdateProductComponent } from './components/update-product/update-product.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { UserManagerComponent } from './components/user-manager/user-manager.component';
+import { IntroduceComponent } from './components/introduce/introduce.component';
 export const routes: Routes = [
 
     {
@@ -98,6 +99,7 @@ export const routes: Routes = [
     { path: 'local', component: TestApiComponent },
     { path: 'detail-compare', component: DetailCompareComponent },
     { path: 'test', component: TestComponent },
+    { path: 'gioi-thieu', component: IntroduceComponent },
     // { path: 'category/:categoryId', component: TestApiComponent },
     { path: 'brand/:id', component: BrandPageComponent },
     { path: 'product_line/:id', component: ProductLineComponent },

@@ -10,14 +10,7 @@
           <p>{{ slide.description }}</p>
           <a [href]="slide.buttonLink" class="btn">{{ slide.buttonText }}</a>
         </div>
-      </div>
-      
-      <!-- Navigation Arrows -->
-      <div class="banner-nav">
-        <button class="prev-btn" (click)="prevSlide()">&lt;</button>
-        <button class="next-btn" (click)="nextSlide()">&gt;</button>
-      </div>
-      
+      </div>  
       <!-- Indicator Dots -->
       <div class="banner-indicators">
         <span *ngFor="let slide of slides; let i = index" 

@@ -5,25 +5,30 @@
 
 <div class="container">
   <div class="mb-4">
-    <p-card>
-      <div class="card">
-        <p-dataView #dv [value]="products" [layout]="'grid'" [rows]="10" [paginator]="true">
-          <ng-template pTemplate="grid" let-products>
-            <div class="grid grid-nogutter">
-              <div class="col-12 sm:col-6 md:col-4 lg:col-3 xl:col product-item-container p-2" *ngFor="let product of products">
-                <app-laptop-item
-                  [product]="product"
-                  [isCompared]="isCompared(product)"
-                  (addToCompare)="addToListCompare($event)">
-                </app-laptop-item>
-              </div>
-            </div>
-          </ng-template>
-        </p-dataView>
+    <div class="section">
+      <div class="section-title">
+        <h2>Sản phẩm nổi bật</h2>
+        <a routerLink="/category/1e4de469-0280-11f0-8579-0242ac110002">Xem tất cả <i class="fas fa-angle-right"></i></a>
       </div>
-    </p-card>
+      </div>
+      <p-card>
+        <div class="card">
+          <p-dataView #dv [value]="products" [layout]="'grid'" [rows]="10" [paginator]="true">
+            <ng-template pTemplate="grid" let-products>
+              <div class="grid grid-nogutter">
+                <div class="col-12 sm:col-6 md:col-4 lg:col-3 xl:col product-item-container p-2"
+                  *ngFor="let product of products">
+                  <app-laptop-item [product]="product" [isCompared]="isCompared(product)"
+                    (addToCompare)="addToListCompare($event)">
+                  </app-laptop-item>
+                </div>
+              </div>
+            </ng-template>
+          </p-dataView>
+        </div>
+      </p-card>
+    </div>
   </div>
-</div>
 
-<app-compare *ngIf="isVisibleCompare" [listCompare]="listCompare"></app-compare>
-<app-compare-button *ngIf="isVisibleCompareLess"></app-compare-button>
+  <app-compare *ngIf="isVisibleCompare" [listCompare]="listCompare"></app-compare>
+  <app-compare-button *ngIf="isVisibleCompareLess"></app-compare-button>

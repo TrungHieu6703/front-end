@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common'; // NgIf is already in CommonModule if you use Angular 14+
 import { RouterModule } from '@angular/router';
 import { TableModule } from 'primeng/table';
 import { CardModule } from 'primeng/card';
@@ -8,7 +8,7 @@ import { DataViewModule } from 'primeng/dataview';
 import { TagModule } from 'primeng/tag';
 import { RatingModule } from 'primeng/rating';
 import { ButtonModule } from 'primeng/button';
-import { NgIf } from '@angular/common';
+import { SkeletonModule } from 'primeng/skeleton'; // Import SkeletonModule
 import { WishlistService } from '../../services/wishlist.service';
 import { CartService } from '../../services/cart.service';
 
@@ -25,40 +25,59 @@ import { CartService } from '../../services/cart.service';
     TagModule,
     RatingModule,
     ButtonModule,
-    NgIf],
+    NgIf, // NgIf can be removed if CommonModule is handling it (Angular 14+)
+    SkeletonModule // Add SkeletonModule here
+  ],
   providers: [],
   templateUrl: './laptop-item.component.html',
-  styleUrl: './laptop-item.component.css'
+  styleUrls: ['./laptop-item.component.css'] // Corrected from styleUrl to styleUrls
 })
 export class LaptopItemComponent implements OnInit {
   isInWishlist: boolean = false;
   isInCart: boolean = false;
+  
   constructor(private wishlistService: WishlistService, private cartService: CartService) {}
 
   @Input() product: any;
   @Input() isCompared: boolean = false;
+  @Input() mode: 'default' | 'compare' | 'search' = 'default';
+  @Input() loading: boolean = false; // New input for loading state
+
   @Output() addToCompare = new EventEmitter<any>();
+  @Output() productSelectedForDetailCompare = new EventEmitter<any>();
 
   ngOnInit() {
-    // Kiểm tra xem sản phẩm đã có trong wishlist chưa dựa trên ID
-    this.isInWishlist = this.wishlistService.isInWishlist(this.product.id);
-    // Giả sử CartService cũng được cập nhật tương tự
-    this.isInCart = this.cartService.isInCart(this.product.id);
+    // Only try to access product.id if product is not null and loading is false
+    if (this.product && !this.loading) {
+      this.isInWishlist = this.wishlistService.isInWishlist(this.product.id);
+      this.isInCart = this.cartService.isInCart(this.product.id);
+    }
   }
 
   addToCart() {
-    this.cartService.toggleCart(this.product);
-    this.isInCart = !this.isInCart;
+    if (this.product) {
+      this.cartService.toggleCart(this.product);
+      this.isInCart = !this.isInCart;
+    }
   }
 
   love() {
-    // Gọi service để toggle wishlist bằng ID
-    this.wishlistService.toggleWishlist(this.product);
-    // Cập nhật trạng thái wishlist local
-    this.isInWishlist = !this.isInWishlist;
+    if (this.product) {
+      this.wishlistService.toggleWishlist(this.product);
+      this.isInWishlist = !this.isInWishlist;
+    }
   }
 
   addToListCompare() {
-    this.addToCompare.emit(this.product);
+    if (this.product) {
+      this.addToCompare.emit(this.product);
+    }
+  }
+
+  addToListCompareDetail(): void {
+    if (this.product) {
+      console.log('Product ID from laptop-item for detail compare:', this.product.id);
+      this.productSelectedForDetailCompare.emit(this.product);
+    }
   }
 }

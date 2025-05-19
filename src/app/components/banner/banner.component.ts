@@ -11,21 +11,21 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 export class BannerComponent implements OnInit, OnDestroy {
   slides = [
     {
-      imageUrl: 'https://trungtran.vn/images/slideshow/2025/04/04/original/banner-web-moi-thinkbook-x-ai-2025_1743740593.webp',
+      imageUrl: 'assets/images/banner/banneri-thinkbook-x-ai.webp',
       title: 'Laptop Chất - Giá Tốt',
       description: 'Khuyến mãi đặc biệt - Giảm đến 30% cho laptop gaming cao cấp',
       buttonText: 'Xem ngay',
       buttonLink: '#'
     },
     {
-      imageUrl: 'assets/images/laptop-gaming.jpg', // Thay bằng path thực tế của bạn
+      imageUrl: 'assets/images/banner/banner--thinkbook.webp', // Thay bằng path thực tế của bạn
       title: 'Gaming Mạnh Mẽ',
       description: 'Trải nghiệm chơi game đỉnh cao với dòng laptop gaming hiệu năng cao',
       buttonText: 'Khám phá',
       buttonLink: '#'
     },
     {
-      imageUrl: 'assets/images/accessories.jpg', // Thay bằng path thực tế của bạn
+      imageUrl: 'assets/images/banner/banner-ideapad.webp', // Thay bằng path thực tế của bạn
       title: 'Phụ Kiện Chính Hãng',
       description: 'Bộ sưu tập phụ kiện laptop đa dạng với bảo hành chính hãng',
       buttonText: 'Mua ngay',

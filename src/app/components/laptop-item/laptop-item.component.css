@@ -1,3 +1,4 @@
+/* CSS cho chế độ mặc định */
 /* Thiết lập cơ bản cho card */
 .p-4 {
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
@@ -257,4 +258,270 @@
   text-decoration: none;
   text-align: left;
   text-indent: 0px;
+}
+
+/* CSS MỚI CHO CHẾ ĐỘ SEARCH */
+/* CSS MỚI CHO CHẾ ĐỘ SEARCH - GIỮ NGUYÊN HTML */
+
+/* Container chính cho mỗi sản phẩm trong kết quả tìm kiếm */
+
+.search-result-item {
+  width: 100%;
+  background-color: #fff;
+  border-bottom: 1px solid #f0f0f0; /* Đường kẻ mảnh phân cách các sản phẩm */
+  /* margin-bottom: 0; Bỏ nếu đã dùng border-bottom */
+  overflow: hidden; /* Đảm bảo không có gì tràn ra ngoài không mong muốn */
+  transition: background-color 0.2s ease;
+  /* padding: 10px; Di chuyển padding vào search-item-container nếu cần thiết */
+}
+
+
+
+.search-result-item:hover {
+  background-color: #f9f9f9; /* Hiệu ứng hover nhẹ */
+}
+
+/* Container bọc trực tiếp ảnh, thông tin, và nút */
+.search-item-container {
+  display: flex; /* Sắp xếp các thành phần con (ảnh, chi tiết) trên một hàng */
+  align-items: center; /* Căn giữa các thành phần con theo chiều dọc */
+  padding: 12px 10px; /* Padding cho mỗi item, ví dụ 12px trên dưới, 10px trái phải */
+  gap: 12px; /* Khoảng cách giữa ảnh và khối thông tin */
+}
+
+/* Phần ảnh sản phẩm */
+.search-item-image {
+  flex: 0 0 60px; /* Kích thước cố định cho ảnh, ví dụ chiều rộng 60px */
+  height: 60px; /* Chiều cao cố định cho ảnh */
+  position: relative; /* Cho các nhãn HOT/Sale (nếu giữ lại) */
+  border: 1px solid #eee; /* Viền nhẹ cho ảnh */
+  border-radius: 4px; /* Bo góc nhẹ cho ảnh */
+  overflow: hidden; /* Đảm bảo ảnh không tràn ra ngoài viền */
+}
+
+.search-item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Hiển thị toàn bộ ảnh, có thể có khoảng trống nếu tỷ lệ không khớp */
+  /* object-fit: cover; Sẽ crop ảnh để lấp đầy, tùy bạn chọn */
+}
+
+/* Điều chỉnh nhãn HOT và GIẢM GIÁ nếu bạn muốn giữ lại và làm nhỏ hơn */
+.search-hot-label,
+.search-discount-label {
+  position: absolute;
+  top: 2px;
+  font-size: 9px; /* Kích thước font nhỏ hơn */
+  padding: 1px 3px; /* Padding nhỏ hơn */
+  border-radius: 2px;
+  z-index: 2;
+  font-weight: bold;
+}
+
+.search-hot-label {
+  left: 2px;
+  background-color: #FFA500;
+  color: white;
+}
+
+.search-discount-label {
+  right: 2px;
+  background-color: #E53935;
+  color: white;
+}
+
+/* Phần thông tin sản phẩm (tên, giá, nút) */
+.search-item-details {
+  flex: 1; /* Cho phép khối này chiếm phần không gian còn lại */
+  display: flex;
+  flex-direction: column; /* Sắp xếp tên sản phẩm ở trên, giá và nút ở dưới */
+  justify-content: center; /* Căn giữa nội dung bên trong theo chiều dọc */
+  min-width: 0; /* Quan trọng để flex item co lại đúng cách và text-overflow hoạt động */
+}
+
+/* Tên sản phẩm */
+.search-product-name {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500; /* Hoặc normal tùy theo font bạn dùng */
+  font-size: 14px; /* Kích thước font cho tên sản phẩm */
+  line-height: 1.4; /* Chiều cao dòng cho dễ đọc */
+  margin-bottom: 4px; /* Khoảng cách nhỏ giữa tên và dòng giá/nút */
+  /* Giữ lại phần giới hạn dòng nếu cần */
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Giới hạn 2 dòng */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-product-name:hover {
+  color: #FF5E22; /* Màu cam khi hover */
+}
+
+/* Khối chứa giá và các nút hành động */
+.search-price-actions {
+  display: flex;
+  justify-content: space-between; /* Đẩy giá và nút hành động ra hai phía */
+  align-items: center; /* Căn các item con theo chiều dọc */
+  width: 100%; /* Đảm bảo nó chiếm toàn bộ chiều rộng của .search-item-details */
+}
+
+/* Phần giá */
+.search-price {
+  display: flex;
+  align-items: baseline; /* Căn giá theo đường cơ sở */
+  gap: 8px; /* Khoảng cách giữa giá hiện tại và giá cũ */
+}
+
+.current-price {
+  color: rgb(255, 94, 34); /* Màu cam đỏ cho giá */
+  font-size: 15px; /* Kích thước font giá */
+  font-weight: bold;
+}
+
+.old-price {
+  color: #888; /* Màu xám nhạt hơn cho giá cũ */
+  font-size: 12px;
+  text-decoration: line-through;
+}
+
+/* Khối các nút hành động (Yêu thích, Thêm vào giỏ) */
+.search-actions {
+  display: flex;
+  align-items: center;
+  /* gap: 10px; Không cần gap nếu chỉ có 1 nút Mua ngay */
+}
+
+/* Ẩn nút Yêu thích trong chế độ tìm kiếm theo ảnh */
+.search-wishlist {
+  display: none !important;
+}
+
+/* Nút "Thêm vào giỏ" (sẽ hiển thị như "Mua ngay" theo hình ảnh) */
+.search-add-cart {
+  background-color: #FF5E22; /* Màu cam cho nút */
+  color: white;
+  font-weight: 500; /* Độ đậm của chữ */
+  padding: 6px 12px; /* Padding cho nút (điều chỉnh cho vừa) */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 13px;
+  white-space: nowrap; /* Tránh nút bị xuống dòng nếu text dài */
+  /* display: flex; align-items: center; justify-content: center; gap: 5px; đã có */
+}
+
+.search-add-cart:hover {
+  background-color: #E65100; /* Màu cam đậm hơn khi hover */
+}
+
+/* Nếu nút "Mua ngay" của bạn có icon, bạn có thể muốn ẩn nó nếu ảnh không có */
+/* .search-add-cart i {
+  display: none;
+} */
+
+/* Hoặc nếu bạn muốn giữ icon và chỉ thay đổi text "Thêm vào giỏ" thành "Mua ngay"
+   thì bạn cần thay đổi trong file .html:
+   <button class="search-add-cart" (click)="addToCart()">
+     <i class="pi pi-shopping-cart"></i>  Bỏ icon này nếu không muốn
+     <span>Mua ngay</span> Thay đổi text ở đây
+   </button>
+*/
+
+.search-add-cart i {
+  font-size: 14px;
+}
+
+.search-compare {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFA500;
+  color: white;
+  font-weight: 600;
+  padding: 0 15px;
+  height: 36px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-compare:hover {
+  background-color: #cc8400;
+}
+
+.search-result-item.compare {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+  transition: all 0.3s;
+}
+
+.search-item-container.compare {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-item-image.compare img {
+  width: 100px;
+  height: auto;
+  object-fit: contain;
+  border: 1px solid #ccc;
+  padding: 4px;
+  background-color: #f9f9f9;
+}
+
+.search-item-details.compare {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.search-product-name.compare {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+  text-decoration: none;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.search-price-actions.compare {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-price.compare .current-price.compare {
+  color: #e53935;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.search-price.compare .old-price.compare {
+  text-decoration: line-through;
+  font-size: 14px;
+  color: #888;
+  margin-left: 8px;
+}
+
+.search-add-cart.compare {
+  background-color: #fff;
+  border: 1px solid #007bff;
+  color: #007bff;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.search-add-cart.compare:hover {
+  background-color: #007bff;
+  color: #fff;
 }

@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-compare',
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [NgFor, NgIf, RouterLink],
   templateUrl: './compare.component.html',
   styleUrl: './compare.component.css'
 })

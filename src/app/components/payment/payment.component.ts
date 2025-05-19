@@ -6,6 +6,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TestService } from '../../services/test.service';
 import { CommonModule } from '@angular/common';
 import { OrderService } from '../../services/order.service';
+import { HeaderComponent } from '../header/header.component';
+import { CartService } from '../../services/cart.service'; // Thêm import CartService
 
 interface CartItem {
   id: string;
@@ -33,7 +35,7 @@ interface Ward {
 @Component({
   selector: 'app-payment',
   standalone: true,
-  imports: [CardModule, RadioButtonModule, FormsModule, InputTextModule, CommonModule],
+  imports: [CardModule, RadioButtonModule, FormsModule, InputTextModule, CommonModule, HeaderComponent],
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css']
 })
@@ -65,7 +67,11 @@ export class PaymentComponent implements OnInit {
   selectedWard: string = '';
 
   isAvailable?: boolean;
-  constructor(private testService: TestService, private orderService: OrderService) { }
+  constructor(
+    private testService: TestService, 
+    private orderService: OrderService,
+    private cartService: CartService  // Thêm CartService vào constructor
+  ) { }
 
   ngOnInit() {
     this.loadCartItems();
@@ -115,8 +121,22 @@ export class PaymentComponent implements OnInit {
   }
 
   removeItem(index: number) {
+    // Lấy ID sản phẩm cần xóa từ cartItems
+    const productId = this.cartItems[index].id;
+    
+    // Xóa sản phẩm khỏi mảng cartItems trong component
     this.cartItems.splice(index, 1);
+    
+    // Cập nhật tổng tiền
     this.calculateTotalAmount();
+    
+    // Xóa sản phẩm khỏi CartService (giỏ hàng lưu trong cookie)
+    const currentCart = this.cartService.getCart();
+    const updatedCart = currentCart.filter(id => id !== productId);
+    
+    // Tạo một đối tượng giả để gọi toggleCart (hoặc tạo phương thức riêng trong CartService)
+    const fakeProduct = { id: productId, name: '', image: '', price: '', is_compare: false };
+    this.cartService.toggleCart(fakeProduct);
   }
 
   applyPromoCode() {

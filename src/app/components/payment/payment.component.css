@@ -24,6 +24,7 @@ body {
 
 .main-container {
     max-width: 1150px;
+    padding-top: 100px;
     display: flex;
     flex-direction: column;
     gap: 5rem;
@@ -91,6 +92,7 @@ p-card {
     white-space: normal;
     display: block; /* Ensure p-card is treated as a block element */
     width: 100%;
+    margin-bottom: 20px;
 }
 
 p-card::ng-deep .p-card {

@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 export class ListProductService {
 
   private apiURL = API_URL + 'products'
+  private apiURLHot = API_URL + 'products/hot'
 
   constructor(private http: HttpClient) { }
 
@@ -20,6 +21,11 @@ export class ListProductService {
     (this.apiURL);
   }
   
+  getPostsHot(): Observable<{ message: string; status: number; data: ListProduct[] }> {
+    return this.http.get<{ message: string; status: number; data: ListProduct[] }>
+    (this.apiURLHot);
+  }
+
   deletePost(id: string): Observable<void> {
     const url = `${this.apiURL}/${id}`;
     return this.http.delete<void>(url);

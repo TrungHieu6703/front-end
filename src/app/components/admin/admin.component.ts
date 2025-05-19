@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-admin',
   standalone: true,
@@ -22,6 +23,12 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class AdminComponent {
   sidebarVisible: boolean = false;
+
+
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   menus = [
     {
@@ -59,6 +66,8 @@ export class AdminComponent {
   ];
 
   logout(){
-    console.log('logout')
+    this.authService.removeCurrentUsername()
+    this.authService.removeToken()
+    this.router.navigate(['/designation']);
   }
 }

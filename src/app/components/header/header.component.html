@@ -1,191 +1,223 @@
 <header class="header">
-  <div class="logo">
-    <img src="https://trungtran.vn/images/config/logo_trung_tran_2_1732504425.svg" alt="Logo" />
-  </div>
-
+  <a [routerLink]="['/designation']">
+    <div class="logo">
+      <img src="https://trungtran.vn/images/config/logo_trung_tran_2_1732504425.svg" alt="Logo" />
+    </div>
+  </a>
   <nav class="nav">
-    <a href="#">Giới thiệu</a>
 
+    <a [routerLink]="['/gioi-thieu']">
+      Giới thiệu
+    </a>
     <div class="menu-item">
-      <a href="#" (mouseenter)="showDropdown('laptop')">Laptop</a>
-      <ul class="dropdown" [class.active]="activeDropdown === 'laptop'" (mouseenter)="keepDropdownOpen('laptop')" (mouseleave)="startHideDropdown()">
-        <!-- HP -->
+      <a [routerLink]="['/category/1e4de469-0280-11f0-8579-0242ac110002']" (mouseenter)="showDropdown('laptop')">
+        Laptop
+      </a>
+      <ul class="dropdown laptop-dropdown" [class.active]="activeDropdown === 'laptop'"
+        (mouseenter)="keepDropdownOpen('laptop')" (mouseleave)="startHideDropdown()">
         <li class="dropdown-category">
           <h4>HP</h4>
           <ul>
-            <li><a href="#">HP Probook</a></li>
-            <li><a href="#">HP Folio</a></li>
-            <li><a href="#">HP Elitebook</a></li>
-            <li><a href="#">HP Spectre</a></li>
-            <li><a href="#">HP Pavilion</a></li>
-            <li><a href="#">HP Envy</a></li>
+            <li><a routerLink="/product_line/b411b611-945d-43df-a3dc-25b76d3246fc">HP Probook</a></li>
+            <li><a routerLink="/product_line/a9ecf788-ac8b-4396-a350-424bbd6e213c">HP Folio</a></li>
+            <li><a routerLink="/product_line/da671e16-72ce-4a51-9657-6a8b336092d3">HP Elitebook</a></li>
+            <li><a routerLink="/product_line/2fc7a992-81b2-4cb5-912b-a5e3c3433de8">HP Spectre</a></li>
+            <li><a routerLink="/product_line/18dbdde9-0635-43cf-89eb-5f90ec941951">HP Pavilion</a></li>
+            <li><a routerLink="/product_line/f1eefcc6-4bd9-4e5f-a671-ede6fd1d9daa">HP Envy</a></li>
           </ul>
         </li>
-        
-        <!-- ASUS -->
+
         <li class="dropdown-category">
           <h4>ASUS</h4>
           <ul>
-            <li><a href="#">Asus S Series</a></li>
-            <li><a href="#">Asus Vivobook</a></li>
-            <li><a href="#">Asus Zenbook</a></li>
-            <li><a href="#">Asus TUF</a></li>
+            <li><a routerLink="/product_line/6e5622c8-edb5-4a8f-8fce-3b66842d102a">Asus S Series</a></li>
+            <li><a routerLink="/product_line/487eba7f-9f77-4e81-a7e6-c287f9ba692f">Asus Vivobook</a></li>
+            <li><a routerLink="/product_line/1b9416d9-43f3-4d93-af1f-107cbbb5e672">Asus Zenbook</a></li>
+            <li><a routerLink="/product_line/7b962c0d-9b4f-4f64-8052-30c02a3bd065">Asus TUF</a></li>
           </ul>
         </li>
-        
-        <!-- DELL -->
+
         <li class="dropdown-category">
           <h4>DELL</h4>
           <ul>
-            <li><a href="#">Dell XPS</a></li>
-            <li><a href="#">Dell Precision</a></li>
-            <li><a href="#">Dell Latitude</a></li>
-            <li><a href="#">Dell Inspiron</a></li>
-            <li><a href="#">Dell Alienware</a></li>
+            <li><a routerLink="/product_line/3fff8c9f-7ffa-406a-9834-9e3c512129d7">Dell XPS</a></li>
+            <li><a routerLink="/product_line/79ab4412-73fd-4282-adb7-0aac05135f7f">Dell Precision</a></li>
+            <li><a routerLink="/product_line/11e63efc-1aea-11f0-ae29-0242ac110002">Dell Latitude</a></li>
+            <li><a routerLink="/product_line/f05bfeaf-ab46-41a3-a617-97364ee4845f">Dell Inspiron</a></li>
+            <li><a routerLink="/product_line/3806c97c-ae17-4274-8dab-308774d20bcf">Dell Alienware</a></li>
           </ul>
         </li>
-        
-        <!-- LENOVO -->
+
         <li class="dropdown-category">
           <h4>LENOVO</h4>
           <ul>
-            <li><a href="#">Lenovo Yoga</a></li>
-            <li><a href="#">Lenovo Gaming</a></li>
-            <li><a href="#">Lenovo Legion</a></li>
-            <li><a href="#">IdeaPad</a></li>
-            <li><a href="#">IdeaPad Gaming</a></li>
-            <li><a href="#">Thinkbook</a></li>
+            <li><a routerLink="/product_line/75f9837a-cf72-4a9a-ab4e-c91632feede7">Lenovo Yoga</a></li>
+            <li><a routerLink="/product_line/823a55fa-2b4a-43fb-9217-2b142021d99e">Lenovo Gaming</a></li>
+            <li><a routerLink="/product_line/be6e1b5a-8819-4874-8d8c-4a78ba4ef33e">Lenovo Legion</a></li>
+            <li><a routerLink="/product_line/151e6f39-e14d-4209-a913-f87e8a6c53dd">IdeaPad</a></li>
+            <li><a routerLink="/product_line/66ea4094-9712-4e96-99c4-27a872248086">IdeaPad Gaming</a></li>
+            <li><a routerLink="/product_line/45e7a6c7-5fbc-4642-84ab-dd3c3a008829">Thinkbook</a></li>
           </ul>
         </li>
-        
-        <!-- THINKPAD -->
+
         <li class="dropdown-category">
           <h4>THINKPAD</h4>
           <ul>
-            <li><a href="#">ThinkPad X1 Carbon</a></li>
-            <li><a href="#">ThinkPad X Series</a></li>
-            <li><a href="#">ThinkPad E Series</a></li>
-            <li><a href="#">ThinkPad T Series</a></li>
-            <li><a href="#">ThinkPad Workstations</a></li>
+            <li><a routerLink="/product_line/73d9de7e-217b-46ec-a379-cc40bcc28616">ThinkPad X1 Carbon</a></li>
+            <li><a routerLink="/product_line/aad115fb-185a-400a-be53-41d630bb4b34">ThinkPad X Series</a></li>
+            <li><a routerLink="/product_line/01832def-17f4-41a3-8c6c-a50432dae401">ThinkPad E Series</a></li>
+            <li><a routerLink="/product_line/636a43d0-9703-4064-ab08-675cddff09cb">ThinkPad T Series</a></li>
+            <li><a routerLink="/product_line/b4d397d7-2b84-44ba-bf02-7a31eb08302c">ThinkPad Workstations</a></li>
           </ul>
         </li>
 
-        <!-- ACER -->
         <li class="dropdown-category">
           <h4>ACER</h4>
           <ul>
-            <li><a href="#">Acer Nitro</a></li>
-            <li><a href="#">Acer Predator</a></li>
-            <li><a href="#">Acer Aspire</a></li>
-            <li><a href="#">Acer Swift</a></li>
+            <li><a routerLink="/product_line/656c2cd3-b034-4aef-b6f2-67e24c5284c3">Acer Nitro</a></li>
+            <li><a routerLink="/product_line/3d7e46c7-e590-49d8-a368-c3939d1ae576">Acer Predator</a></li>
+            <li><a routerLink="/product_line/218fa1ba-dbdb-4981-be64-d7e732739b30">Acer Aspire</a></li>
           </ul>
         </li>
 
-        <!-- APPLE -->
         <li class="dropdown-category">
           <h4>APPLE</h4>
           <ul>
-            <li><a href="#">Macbook Air</a></li>
-            <li><a href="#">Macbook Pro</a></li>
+            <li><a routerLink="/product_line/a1c15616-bdfc-4f0f-ad42-b769337d22b4">Macbook Air</a></li>
+            <li><a routerLink="/product_line/e16dcdaf-a4b5-44b5-bb45-47cbfe7b781d">Macbook Pro</a></li>
           </ul>
         </li>
 
-        <!-- MSI -->
         <li class="dropdown-category">
           <h4>MSI</h4>
           <ul>
-            <li><a href="#">MSI P Series</a></li>
-            <li><a href="#">MSI Bravo</a></li>
+            <li><a routerLink="/product_line/8ddefd1c-acc7-46a1-983f-e3c60fd92181">MSI P Series</a></li>
+            <li><a routerLink="/product_line/b0befc6f-2d3f-49bc-8f26-e8968482d596">MSI Bravo</a></li>
           </ul>
         </li>
 
-        <!-- MICROSOFT -->
         <li class="dropdown-category">
           <h4>MICROSOFT</h4>
           <ul>
-            <li><a href="#">Surface Go</a></li>
-            <li><a href="#">Surface Pro 7</a></li>
-            <li><a href="#">Surface Laptop</a></li>
+            <li><a routerLink="/product_line/f8d22b72-86ad-439f-92c3-ae0b8d156e89">Surface Go</a></li>
+            <li><a routerLink="/product_line/eb825e71-907d-435a-a17e-db11526d0fa5">Surface Pro 7</a></li>
           </ul>
         </li>
 
-        <!-- LG -->
+
         <li class="dropdown-category">
           <h4>LG</h4>
           <ul>
-            <li><a href="#">LG Gram</a></li>
+            <li><a [routerLink]="['/#']">LG Gram</a></li>
           </ul>
         </li>
-        
-        <!-- Theo nhu cầu -->
-        <li class="dropdown-needs">
-          <h4>Theo nhu cầu</h4>
-          <ul>
-            <li><a href="#">Mỏng Nhẹ</a></li>
-            <li><a href="#">Workstations</a></li>
-            <li><a href="#">Siêu phẩm</a></li>
-            <li><a href="#">Đồ Họa, Kỹ thuật</a></li>
-            <li><a href="#">Học tập, Văn phòng</a></li>
-            <li><a href="#">Lập trình</a></li>
-            <li><a href="#">Game</a></li>
-          </ul>
-        </li>
-        
-        <!-- Liên hệ -->
-        <li class="contact-section">
-          <h4>Liên hệ để được tư vấn</h4>
-          <p>093.669.33.88</p>
-        </li>
+
+        <div class="laptop-sidebar">
+          <li class="dropdown-needs">
+            <h4>Theo nhu cầu</h4>
+            <ul>
+              <li><a routerLink="/category/2560970e-98b5-413c-ad7b-91eeea6d6e14">Mỏng Nhẹ</a></li>
+              <li><a routerLink="/category/3ddbde8d-ecd7-4d0e-8914-691c1865bd47">Workstations</a></li>
+              <li><a routerLink="/category/7585dc25-0d2b-453e-8ac8-66853b3dc43c">Siêu phẩm</a></li>
+              <li><a routerLink="/category/bfe77e54-215f-4aa6-9fe9-83e7ae497d38">Đồ Họa, Kỹ thuật</a></li>
+              <li><a routerLink="/category/b20e6395-8c15-4e1b-b7a0-ea5cad93eb7f">Học tập, Văn phòng</a></li>
+              <li><a routerLink="/category/1abd41b2-12a5-4d1f-a47a-ab0f2622b656">Lập trình</a></li>
+              <li><a routerLink="/category/51539613-bda1-4936-9e73-1ba329109510">Game</a></li>
+            </ul>
+
+          </li>
+
+          <li class="contact-section">
+            <h4>Liên hệ để được tư vấn</h4>
+            <p>093.669.33.88</p>
+          </li>
+        </div>
       </ul>
     </div>
-    
+
     <div class="menu-item">
-      <a href="#" (mouseenter)="showDropdown('phukien')">Phụ kiện</a>
-      <ul class="dropdown phukien-dropdown" [class.active]="activeDropdown === 'phukien'" (mouseenter)="keepDropdownOpen('phukien')" (mouseleave)="startHideDropdown()">
+      <a routerLink="/category/663f912f-0283-11f0-8579-0242ac110002" (mouseenter)="showDropdown('phukien')">Phụ kiện</a>
+
+      <ul class="dropdown phukien-dropdown" [class.active]="activeDropdown === 'phukien'"
+        (mouseenter)="keepDropdownOpen('phukien')" (mouseleave)="startHideDropdown()">
+
         <li class="dropdown-category">
           <h4>PHỤ KIỆN</h4>
           <ul>
-            <li><a href="#">Tai nghe, loa</a></li>
-            <li><a href="#">Cáp</a></li>
-            <li><a href="#">Ghế công thái học</a></li>
-            <li><a href="#">USB</a></li>
-            <li><a href="#">Chuột</a></li>
+            <li><a routerLink="/category/885813ea-4a9b-4421-abdd-02e8d57e8162">Tai nghe, loa</a></li>
+            <li><a routerLink="/category/c5c60c81-21c8-4fe1-be4c-8260cbf0fa37">Cáp</a></li>
+            <li><a routerLink="/category/04c947aa-7a8f-4e5f-8ef3-b80477fed97d">Ghế công thái học</a></li>
+            <li><a routerLink="/category/fd1d0f68-fd4e-4baf-ade4-bd0d962df173">USB</a></li>
+            <li><a routerLink="/category/2a566001-2a74-49fd-accc-ee403a2ac39c">Chuột</a></li>
           </ul>
         </li>
+
         <li class="dropdown-category">
           <h4>&nbsp;</h4>
           <ul>
-            <li><a href="#">RAM</a></li>
-            <li><a href="#">Bàn phím</a></li>
-            <li><a href="#">SSD</a></li>
-            <li><a href="#">Pin</a></li>
-            <li><a href="#">Thẻ nhớ</a></li>
+            <li><a routerLink="/category/caad6d5f-30cb-47f7-85aa-f3da12221d1a">RAM</a></li>
+            <li><a routerLink="/category/822d6c1e-7632-4d56-8230-6ff0c40598c7">Bàn phím</a></li>
+            <li><a routerLink="/category/9cfdd604-31c2-4366-b928-4bb3d3d62a36">SSD</a></li>
+            <li><a routerLink="/category/d1e09a5b-56d4-411b-998c-fb422180dd0b">Pin</a></li>
+            <li><a routerLink="/category/10b2e5dd-c47e-48f2-a116-05db2fb3300c">Thẻ nhớ</a></li>
           </ul>
         </li>
+
       </ul>
     </div>
 
-    <a href="#">Khuyến mãi</a>
+    <a [routerLink]="['/#']">Khuyến mãi</a>
   </nav>
 
-  <div class="search">
-    <input type="text" placeholder="Tìm kiếm laptop và phụ kiện..." />
+  <div class="search" (click)="onSearchContainerClick($event)">
+    <input type="text" placeholder="Tìm kiếm laptop và phụ kiện..." [(ngModel)]="searchTerm" (input)="onSearch()"
+      (focus)="onSearchInputFocus()" #searchBox />
     <button>
       <i class="pi pi-search" style="font-size: 1.3rem"></i>
     </button>
+
+    <!-- Search Results Dropdown -->
+    <div class="search-results" [class.active]="showSearchResults">
+      <div class="search-results-header">
+        <div class="search-results-title">Kết quả tìm kiếm</div>
+        <div class="search-results-count" *ngIf="!isSearching">
+          {{ searchResults.length || 0 }} sản phẩm
+        </div>
+        <div class="close-search" (click)="clearSearch()">
+          <i class="pi pi-times"></i>
+        </div>
+      </div>
+
+      <!-- Loading Indicator -->
+      <div class="search-loading" *ngIf="isSearching">
+        <div class="loading-spinner"></div>
+      </div>
+
+      <!-- Empty Results Message -->
+      <div class="search-results-empty" *ngIf="!isSearching && searchResults.length === 0">
+        Không tìm thấy sản phẩm phù hợp với "{{ searchTerm }}"
+      </div>
+
+      <!-- Search Results List -->
+      <div *ngIf="!isSearching && searchResults.length > 0">
+        <app-laptop-item *ngFor="let product of searchResults" [product]="product" [mode]="'search'"
+          (addToCompare)="addProductToCompare($event)"></app-laptop-item>
+      </div>
+    </div>
   </div>
 
   <div class="icons">
     <div class="icon">
-      <i class="pi pi-heart" style="font-size: 1.9rem"></i>
-      <a href="/yeu-thich"><span class="badge"> {{wishlistCount}} </span></a>
+      <i class="pi pi-heart" [routerLink]="['/yeu-thich']" style="font-size: 1.9rem"></i>
+      <a ><span class="badge"> {{wishlistCount}} </span></a>
     </div>
-    <div class="icon">
+    <div class="icon" (click)="goToCart()">
       <i class="pi pi-shopping-cart" style="font-size: 1.9rem"></i>
       <span class="badge">{{cartCount}}</span>
     </div>
-    <div class="icon">
+    <div class="icon" (click)="goToAccount()">
       <i class="pi pi-user" style="font-size: 1.9rem"></i>
     </div>
   </div>
+  <p-toast position="top-right"></p-toast>
 </header>

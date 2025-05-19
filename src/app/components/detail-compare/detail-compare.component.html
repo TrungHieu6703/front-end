@@ -1,19 +1,20 @@
+<app-header></app-header>
 <div class="container">
     <div class="breadcrumb">
         <a [routerLink]="['/']">Trang chủ</a>
         <span>/</span>
         <a [routerLink]="['/compare']">So sánh sản phẩm</a>
     </div>
-    
+
     <div *ngIf="loading" class="loading">
         <p>Đang tải dữ liệu so sánh...</p>
     </div>
-    
+
     <div *ngIf="error" class="error-message">
         <p>{{ error }}</p>
         <button class="back-button" [routerLink]="['/products']">Quay lại danh sách sản phẩm</button>
     </div>
-    
+
     <div class="content-compare" *ngIf="!loading && !error && products.length > 0">
         <div class="header-compare">
             <!-- Cột đầu tiên cho tiêu đề -->
@@ -23,7 +24,7 @@
                 </div>
                 <p class="p-tuvan"><a href="javascript:void(0)">Bạn có cần tư vấn gì không?</a></p>
             </div>
-            
+
             <!-- Cột cho mỗi sản phẩm -->
             <div class="item-compare" *ngFor="let product of products">
                 <div class="bao_item">
@@ -31,27 +32,22 @@
                         <i class="pi pi-times"></i>
                     </a>
                     <a [routerLink]="['/product', product.id]" class="product" target="_blank" [title]="product.name">
-                        <img [src]="product.images && product.images.length > 0 ? product.images[0] : 'https://trungtran.vn/images/more_ss.png'" 
-                             [alt]="product.name" width="150" height="150">
+                        <img [src]="product.images && product.images.length > 0 ? product.images[0] : 'https://trungtran.vn/images/more_ss.png'"
+                            [alt]="product.name" width="150" height="150">
                         <span>{{ product.name }}</span>
                     </a>
                     <p class="price">
                         <span>{{ formatPrice(product.price) }}</span>
                         <!-- <del *ngIf="product.originalPrice && product.originalPrice > product.price">{{ formatPrice(product.originalPrice) }}</del> -->
                     </p>
-                    <p class="p-more">
-                        <a [routerLink]="['/product', product.id]" target="_blank">
-                            <span>Thêm vào giỏ hàng</span>
-                        </a>
-                    </p>
                 </div>
             </div>
-            
+
             <!-- Các cột trống để thêm sản phẩm mới -->
             <ng-container *ngFor="let i of [].constructor(maxProductsToCompare - products.length); let index = index">
                 <div class="item-compare" *ngIf="index < (maxProductsToCompare - products.length)">
                     <div class="bao_item">
-                        <a class="add-btn" [routerLink]="['/products']" [queryParams]="{compare: true}" title="Thêm sản phẩm">
+                        <a class="add-btn" (click)="openSearchModal()" title="Thêm sản phẩm">
                             <img src="https://trungtran.vn/images/more_ss.png" alt="more">
                             <span>Thêm sản phẩm</span>
                         </a>
@@ -59,12 +55,12 @@
                 </div>
             </ng-container>
         </div>
-        
+
         <div class="content-compare-news">
             <div class="div-thongtin">
                 <p>Thông tin cơ bản</p>
             </div>
-            
+
             <!-- Bảng so sánh -->
             <table class="comparison-table">
                 <tr *ngFor="let attribute of attributes">
@@ -75,9 +71,43 @@
             </table>
         </div>
     </div>
-    
+
     <div *ngIf="!loading && !error && products.length === 0" class="no-products">
         <p>Không có sản phẩm nào để so sánh</p>
         <button class="back-button" [routerLink]="['/products']">Quay lại danh sách sản phẩm</button>
+    </div>
+
+    <!-- Modal tìm kiếm sản phẩm -->
+    <<div class="search-modal-overlay" *ngIf="showSearchModal" (click)="closeSearchModal($event)">
+        <div class="search-modal">
+            <div class="modal-header">
+                <div class="modal-title">Tìm kiếm sản phẩm để so sánh</div>
+                <button class="close-modal" (click)="closeSearchModal($event)">
+                    <i class="pi pi-times"></i>
+                </button>
+            </div>
+            <div class="search-input-container" (click)="onSearchContainerClick($event)">
+                <input type="text" class="search-input" placeholder="Nhập tên sản phẩm cần tìm..."
+                    [(ngModel)]="searchTerm" (input)="onSearch()" (focus)="onSearchInputFocus()" #searchBox>
+
+            </div>
+            <div class="search-results" [class.active]="showSearchResults">
+                <div class="search-loading" *ngIf="isSearching">
+                    <div class="loading-spinner"></div>
+                </div>
+
+                <div class="search-results-empty" *ngIf="!isSearching && searchResults.length === 0">
+                    Không tìm thấy sản phẩm phù hợp với "{{ searchTerm }}"
+                </div>
+
+                <div *ngIf="!isSearching && searchResults.length > 0">
+                    <app-laptop-item *ngFor="let product of searchResults" 
+                                     [product]="product" 
+                                     [mode]="'compare'"
+                                     (productSelectedForDetailCompare)="addProductToCompare($event)">
+                    </app-laptop-item>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

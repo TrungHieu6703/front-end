@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới Thiệu - Trung Tran</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: #333;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .page-title {
+            position: relative;
+            background-color: #f5f5f5;
+            padding: 50px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .page-title h1 {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .page-title h1:after {
+            content: "";
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background-color: #2d5aa3;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .breadcrumb {
+            margin-top: 15px;
+        }
+        
+        .breadcrumb a {
+            color: #666;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            color: #2d5aa3;
+        }
+        
+        .breadcrumb span {
+            color: #2d5aa3;
+        }
+        
+        .intro-section {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+        
+        .intro-image {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+        
+        .intro-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .intro-content {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+        
+        .intro-content h2 {
+            font-size: 28px;
+            color: #2d5aa3;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .intro-content h2:after {
+            content: "";
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background-color: #2d5aa3;
+            bottom: -10px;
+            left: 0;
+        }
+        
+        .intro-content p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .mission-section {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 50px;
+        }
+        
+        .mission-section h2 {
+            font-size: 28px;
+            color: #2d5aa3;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .mission-section h2:after {
+            content: "";
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background-color: #2d5aa3;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .mission-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .mission-item {
+            flex: 0 0 calc(33.33% - 20px);
+            min-width: 300px;
+            background-color: #f9f9f9;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .mission-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .mission-icon {
+            font-size: 40px;
+            color: #2d5aa3;
+            margin-bottom: 15px;
+        }
+        
+        .mission-item h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .mission-item p {
+            color: #666;
+        }
+        
+        .values-section {
+            margin-bottom: 50px;
+        }
+        
+        .values-section h2 {
+            font-size: 28px;
+            color: #2d5aa3;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .values-section h2:after {
+            content: "";
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background-color: #2d5aa3;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .values-items {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .value-item {
+            flex: 0 0 calc(50% - 20px);
+            min-width: 300px;
+            margin: 10px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .value-icon {
+            width: 50px;
+            height: 50px;
+            background-color: #e8f0fe;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .value-icon i {
+            font-size: 20px;
+            color: #2d5aa3;
+        }
+        
+        .value-content h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .value-content p {
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .team-section {
+            margin-bottom: 50px;
+        }
+        
+        .team-section h2 {
+            font-size: 28px;
+            color: #2d5aa3;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .team-section h2:after {
+            content: "";
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background-color: #2d5aa3;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .team-members {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .team-member {
+            flex: 0 0 calc(25% - 30px);
+            min-width: 250px;
+            margin: 15px;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .member-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .member-info {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .member-info h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .member-info p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .member-socials {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .member-socials a {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            color: #2d5aa3;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .member-socials a:hover {
+            background-color: #2d5aa3;
+            color: #fff;
+        }
+        
+        .cta-section {
+            background-color: #2d5aa3;
+            color: #fff;
+            padding: 60px 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 50px;
+        }
+        
+        .cta-section h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #fff;
+            color: #2d5aa3;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .intro-section {
+                flex-direction: column;
+            }
+            
+            .mission-item, .value-item {
+                flex: 0 0 100%;
+            }
+            
+            .team-member {
+                flex: 0 0 calc(50% - 30px);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .team-member {
+                flex: 0 0 100%;
+            }
+            
+            .page-title h1 {
+                font-size: 28px;
+            }
+            
+            .mission-section, .values-section {
+                padding: 30px 15px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body>
+    <!-- Page Title -->
+    <div class="page-title">
+        <div class="container">
+            <h1>Giới Thiệu</h1>
+            <div class="breadcrumb">
+                <a [routerLink]="['/#']">Trang chủ</a> / <span>Giới thiệu</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Intro Section -->
+        <div class="intro-section">
+            <div class="intro-image">
+                <img src="https://trungtran.vn/images/slideshow/2023/05/03/slideshow_large/banner-footer-anh-trung_1683094141.webp" alt="Giới thiệu công ty">
+            </div>
+            <div class="intro-content">
+                <h2>Chào mừng đến với Trung Tran</h2>
+                <p>Trung Tran được thành lập vào năm 2010, là đơn vị tiên phong trong lĩnh vực công nghệ thông tin và truyền thông tại Việt Nam. Với hơn 10 năm kinh nghiệm, chúng tôi đã trở thành đối tác tin cậy của nhiều doanh nghiệp lớn nhỏ trong và ngoài nước.</p>
+                <p>Chúng tôi cung cấp các giải pháp công nghệ toàn diện, từ thiết kế website, phát triển ứng dụng, đến tư vấn chiến lược kinh doanh số. Đội ngũ nhân viên giàu kinh nghiệm và tâm huyết của chúng tôi luôn nỗ lực không ngừng để mang đến những sản phẩm và dịch vụ chất lượng cao nhất.</p>
+                <p>Với phương châm "Sáng tạo - Chất lượng - Hiệu quả", Trung Tran cam kết đồng hành cùng khách hàng trên hành trình chuyển đổi số và phát triển bền vững.</p>
+            </div>
+        </div>
+
+        <!-- Mission Section -->
+        <div class="mission-section">
+            <h2>Sứ mệnh của chúng tôi</h2>
+            <div class="mission-items">
+                <div class="mission-item">
+                    <div class="mission-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Sáng tạo không ngừng</h3>
+                    <p>Luôn cập nhật xu hướng mới nhất và đổi mới liên tục để mang đến những giải pháp tiên tiến nhất cho khách hàng.</p>
+                </div>
+                <div class="mission-item">
+                    <div class="mission-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Phát triển bền vững</h3>
+                    <p>Đặt nền móng cho sự phát triển lâu dài, mang lại giá trị bền vững cho khách hàng, đối tác và xã hội.</p>
+                </div>
+                <div class="mission-item">
+                    <div class="mission-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Đồng hành cùng thành công</h3>
+                    <p>Trở thành đối tác đáng tin cậy, đồng hành cùng khách hàng trong mọi bước đi trên con đường kinh doanh.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Values Section -->
+        <div class="values-section">
+            <h2>Giá trị cốt lõi</h2>
+            <div class="values-items">
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="value-content">
+                        <h3>Chất lượng hàng đầu</h3>
+                        <p>Chúng tôi cam kết cung cấp sản phẩm và dịch vụ với chất lượng cao nhất, đáp ứng và vượt trên mong đợi của khách hàng.</p>
+                    </div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <div class="value-content">
+                        <h3>Trung thực và minh bạch</h3>
+                        <p>Hoạt động dựa trên nguyên tắc trung thực, minh bạch trong mọi giao dịch và mối quan hệ đối tác.</p>
+                    </div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="value-content">
+                        <h3>Đổi mới và sáng tạo</h3>
+                        <p>Không ngừng tìm kiếm và áp dụng những ý tưởng mới, công nghệ tiên tiến để tạo ra giá trị khác biệt.</p>
+                    </div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="value-content">
+                        <h3>Tận tâm với khách hàng</h3>
+                        <p>Đặt lợi ích của khách hàng lên hàng đầu, lắng nghe và thấu hiểu để đáp ứng tốt nhất nhu cầu của họ.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+    <script>
+        // Thêm hiệu ứng khi cuộn trang
+        window.addEventListener('scroll', function() {
+            const missionItems = document.querySelectorAll('.mission-item');
+            const valueItems = document.querySelectorAll('.value-item');
+            
+            // Hiển thị phần tử khi cuộn đến
+            function fadeIn(element, distance) {
+                const position = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (position < windowHeight - distance) {
+                    element.style.opacity = 1;
+                    element.style.transform = 'translateY(0)';
+                }
+            }
+            
+            // Áp dụng hiệu ứng cho các phần tử
+            missionItems.forEach(item => {
+                fadeIn(item, 50);
+            });
+            
+            valueItems.forEach(item => {
+                fadeIn(item, 50);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -4,6 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { OrderService } from '../../services/order.service';
 import { HttpClientModule } from '@angular/common/http';
+import { HeaderComponent } from '../header/header.component';
+import { Router } from '@angular/router';
+
+interface ChangePasswordDTO {
+  currentPassword: string;
+  confirmPassword: string;
+  newPassword: string;
+}
 
 @Component({
   selector: 'app-account',
@@ -11,7 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     CommonModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    HeaderComponent
   ],
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.css'],
@@ -34,11 +43,21 @@ export class AccountComponent implements OnInit {
   newEmail: string = '';
   newPassword: string = '';
 
+  // Password change fields
+  passwordData: ChangePasswordDTO = {
+    currentPassword: '',
+    confirmPassword: '',
+    newPassword: ''
+  };
+  confirmNewPassword: string = '';
+  passwordError: string = '';
+
   activeTab: string = 'account-info';
 
   constructor(
     private authService: AuthService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -64,6 +83,16 @@ export class AccountComponent implements OnInit {
     if (tab === 'order-management' && this.userInfo?.id) {
       this.loadUserOrders();
     }
+    // Reset các giá trị khi chuyển tab
+    if (tab === 'change-password') {
+      this.passwordData = {
+        currentPassword: '',
+        confirmPassword: '',
+        newPassword: ''
+      };
+      this.confirmNewPassword = '';
+      this.passwordError = '';
+    }
   }
 
   toggleChangePhone() {
@@ -76,11 +105,6 @@ export class AccountComponent implements OnInit {
     if (this.showChangeEmail) this.newEmail = this.userInfo.email;
   }
 
-  toggleChangePassword() {
-    this.showChangePassword = !this.showChangePassword;
-    if (this.showChangePassword) this.newPassword = ''; // Không hiển thị mật khẩu đã mã hóa
-  }
-
   saveUserChanges() {
     if (!this.userInfo.id) {
       alert('Không thể cập nhật thông tin, vui lòng đăng nhập lại!');
@@ -91,15 +115,9 @@ export class AccountComponent implements OnInit {
       name: this.userInfo.name,
       phone: this.showChangePhone ? this.newPhone : this.userInfo.phone,
       email: this.showChangeEmail ? this.newEmail : this.userInfo.email,
-      password: this.showChangePassword ? this.newPassword : this.userInfo.password,
       gender: this.userInfo.gender,
       birthday: this.userInfo.birthday
     };
-
-    // Chỉ gửi password nếu có đổi
-    if (this.showChangePassword && this.newPassword.trim() !== '') {
-      userData.password = this.newPassword;
-    }
 
     this.loading = true;
 
@@ -140,6 +158,51 @@ export class AccountComponent implements OnInit {
       error: (err) => {
         this.loading = false;
         this.orders = [];
+      }
+    });
+  }
+
+  changePassword() {
+    if (!this.userInfo.id) {
+      alert('Không thể đổi mật khẩu, vui lòng đăng nhập lại!');
+      return;
+    }
+
+    // Kiểm tra mật khẩu mới và xác nhận mật khẩu có khớp nhau không
+    if (this.passwordData.newPassword !== this.confirmNewPassword) {
+      this.passwordError = 'Mật khẩu mới và xác nhận mật khẩu không khớp nhau';
+      return;
+    }
+
+    // Kiểm tra mật khẩu mới có đủ độ dài không
+    if (this.passwordData.newPassword.length < 6) {
+      this.passwordError = 'Mật khẩu mới phải có ít nhất 6 ký tự';
+      return;
+    }
+    
+    // Cập nhật confirmPassword từ confirmNewPassword
+    this.passwordData.confirmPassword = this.confirmNewPassword;
+
+    this.loading = true;
+    this.passwordError = '';
+
+    this.authService.changePassword(this.userInfo.id, this.passwordData).subscribe({
+      next: (response) => {
+        this.loading = false;
+        if (response && response.data) {
+          alert('Đổi mật khẩu thành công!');
+          // Reset form
+          this.passwordData = {
+            currentPassword: '',
+            confirmPassword: '',
+            newPassword: ''
+          };
+          this.confirmNewPassword = '';
+        }
+      },
+      error: (err) => {
+        this.loading = false;
+        this.passwordError = err.error?.message || 'Không thể đổi mật khẩu. Vui lòng thử lại sau!';
       }
     });
   }
@@ -208,5 +271,11 @@ export class AccountComponent implements OnInit {
     if (!date) return '';
     const dateObj = new Date(date);
     return dateObj.toLocaleDateString('vi-VN');
+  }
+
+  logout(){
+    this.authService.removeCurrentUsername()
+    this.authService.removeToken()
+    this.router.navigate(['/designation']);
   }
 }

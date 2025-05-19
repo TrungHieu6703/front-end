@@ -61,7 +61,7 @@ export class DesignationComponent implements OnInit {
   }
 
   loadListProducts() {
-    this.listProductService.getPosts().subscribe({
+    this.listProductService.getPostsHot().subscribe({
       next: (response) => {
         if (response && Array.isArray(response)) {
           this.products = response;

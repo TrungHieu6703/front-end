@@ -10,6 +10,7 @@ import { RatingModule } from 'primeng/rating';
 import { ButtonModule } from 'primeng/button';
 import { WishlistService } from '../../services/wishlist.service';
 import { LaptopItemComponent } from '../laptop-item/laptop-item.component';
+import { HeaderComponent } from '../header/header.component';
 @Component({
   selector: 'app-wishlist',
   standalone: true,
@@ -22,7 +23,9 @@ import { LaptopItemComponent } from '../laptop-item/laptop-item.component';
     TagModule,
     RatingModule,
     ButtonModule,
-    LaptopItemComponent],
+    LaptopItemComponent,
+    HeaderComponent
+  ],
   templateUrl: './wishlist.component.html',
   styleUrl: './wishlist.component.css'
 })
