@@ -15,7 +15,7 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [NgIf, NgFor, NgClass, RouterModule, LaptopItemComponent, FormsModule, ToastModule, RouterLink],
+  imports: [NgIf, NgFor, RouterModule, LaptopItemComponent, FormsModule, ToastModule, RouterLink],
   templateUrl: './header.component.html',
   providers:[MessageService],
   styleUrl: './header.component.css'

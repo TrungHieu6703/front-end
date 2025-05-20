@@ -1,17 +1,22 @@
+// Thêm import DomSanitizer vào first.component.ts
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ImportsModule } from '../../imports';
 import { PhotoService } from './photo.service';
 import { NgModel } from '@angular/forms';
 import { HeaderComponent } from '../header/header.component';
 import { EditorComponent } from '../editor/editor.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CompareService } from '../../services/product-compare.service';
 import { MessageService } from 'primeng/api';
-
+import { GalleriaModule } from 'primeng/galleria';
+import { CommonModule } from '@angular/common';
+import { CartService } from '../../services/cart.service';
+import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-first',
   standalone: true,
-  imports: [ImportsModule, HeaderComponent],
+  imports: [ImportsModule, HeaderComponent, GalleriaModule, CommonModule, ToastModule],
   providers: [PhotoService, MessageService],
   templateUrl: './first.component.html',
   styleUrl: './first.component.css'
@@ -20,8 +25,15 @@ export class FirstComponent implements OnInit {
   productId: string = '';
   productDetail: any;
   productImages: any[] = [];
-  productAttributes: {key: string, value: string}[] = [];
-  
+  productAttributes: { key: string, value: string }[] = [];
+  sanitizedDescription: SafeHtml | undefined;
+
+  // Thêm các biến mới cho gallery tùy chỉnh
+  selectedImageIndex: number = 0;
+  thumbnailStartIndex: number = 0;
+  numVisibleThumbnails: number = 5;
+  displayedThumbnails: any[] = [];
+
   responsiveOptions: any[] = [
     {
       breakpoint: '1024px',
@@ -41,14 +53,17 @@ export class FirstComponent implements OnInit {
     private photoService: PhotoService,
     private route: ActivatedRoute,
     private compareService: CompareService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private sanitizer: DomSanitizer,
+    private cartService: CartService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
     // Lấy productId từ route parameter
     this.route.paramMap.subscribe(params => {
       this.productId = params.get('id') || '';
-      
+
       // Tải chi tiết sản phẩm
       this.fetchProductDetail(this.productId);
     });
@@ -62,12 +77,20 @@ export class FirstComponent implements OnInit {
       next: (data) => {
         this.productDetail = data;
         console.log(this.productDetail);
-        
+
+        // Xử lý và sanitize description HTML
+        if (this.productDetail && this.productDetail.description) {
+          this.sanitizedDescription = this.sanitizer.bypassSecurityTrustHtml(this.productDetail.description);
+        }
+
         // Xử lý dữ liệu ảnh để hiển thị trong p-galleria
         this.processProductImages();
-        
+
         // Xử lý thuộc tính sản phẩm
         this.processProductAttributes();
+
+        // Cập nhật thumbnails hiển thị
+        this.updateDisplayedThumbnails();
       },
       error: (err) => {
         console.error('Lỗi khi tải thông tin sản phẩm:', err);
@@ -120,18 +143,33 @@ export class FirstComponent implements OnInit {
     return `-${Math.round(discount)}`;
   }
 
-  // Thêm vào giỏ hàng
   addToCart(productId: string) {
-    // Xử lý thêm vào giỏ hàng ở đây
-    console.log('Thêm sản phẩm vào giỏ:', productId);
-    
-    // Hiển thị thông báo thành công
+    this.cartService.addToCart(productId)
     this.showToast('success', 'Thành công', 'Đã thêm sản phẩm vào giỏ hàng!');
   }
 
+  buyNow(productId: string) {
+    this.cartService.buyNow(productId).subscribe(isValid => {
+      if (isValid) {
+        this.router.navigate(['/gio-hang']);
+      } else {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Yêu cầu đăng nhập',
+          detail: 'Vui lòng đăng nhập để xem giỏ hàng của bạn',
+          life: 5000
+        });
+
+        this.router.navigate(['/dang-nhap'], {
+          queryParams: { sessionExpired: true, returnUrl: '/gio-hang' }
+        });
+      }
+    });
+
+  }
   // Hiển thị toast message
   showToast(severity: string, summary: string, detail: string) {
-    this.messageService.add({severity, summary, detail, life: 3000});
+    this.messageService.add({ severity, summary, detail, life: 3000 });
   }
 
   // Thiết lập event listeners cho nút đóng toast messages
@@ -145,5 +183,43 @@ export class FirstComponent implements OnInit {
         }
       }
     });
+  }
+
+  // Phương thức mới cho gallery tùy chỉnh
+
+  // Chọn ảnh
+  selectImage(index: number) {
+    if (index >= 0 && index < this.productImages.length) {
+      this.selectedImageIndex = index;
+
+      // Đảm bảo thumbnail đang chọn hiển thị trong vùng nhìn thấy
+      if (index < this.thumbnailStartIndex) {
+        this.thumbnailStartIndex = index;
+        this.updateDisplayedThumbnails();
+      } else if (index >= this.thumbnailStartIndex + this.numVisibleThumbnails) {
+        this.thumbnailStartIndex = index - this.numVisibleThumbnails + 1;
+        this.updateDisplayedThumbnails();
+      }
+    }
+  }
+
+  // Điều hướng thumbnails
+  navigateThumbnails(direction: 'prev' | 'next') {
+    if (direction === 'prev' && this.thumbnailStartIndex > 0) {
+      this.thumbnailStartIndex--;
+    } else if (direction === 'next' &&
+      this.thumbnailStartIndex + this.numVisibleThumbnails < this.productImages.length) {
+      this.thumbnailStartIndex++;
+    }
+
+    this.updateDisplayedThumbnails();
+  }
+
+  // Cập nhật thumbnails hiển thị
+  updateDisplayedThumbnails() {
+    this.displayedThumbnails = this.productImages.slice(
+      this.thumbnailStartIndex,
+      Math.min(this.thumbnailStartIndex + this.numVisibleThumbnails, this.productImages.length)
+    );
   }
 }

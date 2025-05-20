@@ -7,8 +7,11 @@ import { TestService } from '../../services/test.service';
 import { CommonModule } from '@angular/common';
 import { OrderService } from '../../services/order.service';
 import { HeaderComponent } from '../header/header.component';
-import { CartService } from '../../services/cart.service'; // Thêm import CartService
-
+import { CartService } from '../../services/cart.service';
+import { ActivatedRoute, Router } from '@angular/router'; // Thêm import Router và ActivatedRoute
+import { MessageService } from 'primeng/api'; // Import MessageService để hiển thị toast
+import { ToastModule } from 'primeng/toast'; // Import ToastModule
+import { NgZone } from '@angular/core';
 interface CartItem {
   id: string;
   name: string;
@@ -35,7 +38,16 @@ interface Ward {
 @Component({
   selector: 'app-payment',
   standalone: true,
-  imports: [CardModule, RadioButtonModule, FormsModule, InputTextModule, CommonModule, HeaderComponent],
+  imports: [
+    CardModule, 
+    RadioButtonModule, 
+    FormsModule, 
+    InputTextModule, 
+    CommonModule, 
+    HeaderComponent,
+    ToastModule // Thêm ToastModule vào imports
+  ],
+  providers: [MessageService], // Thêm MessageService vào providers
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css']
 })
@@ -67,15 +79,55 @@ export class PaymentComponent implements OnInit {
   selectedWard: string = '';
 
   isAvailable?: boolean;
+  
   constructor(
     private testService: TestService, 
     private orderService: OrderService,
-    private cartService: CartService  // Thêm CartService vào constructor
+    private cartService: CartService,
+    private router: Router, // Thêm Router
+    private route: ActivatedRoute, // Thêm ActivatedRoute
+    private messageService: MessageService // Thêm MessageService
   ) { }
 
   ngOnInit() {
     this.loadCartItems();
     this.loadProvinces();
+    
+    // Kiểm tra callback từ VNPay
+    this.checkPaymentStatus();
+  }
+
+  // Thêm hàm kiểm tra trạng thái thanh toán từ URL
+  checkPaymentStatus() {
+    this.route.queryParams.subscribe(params => {
+      if (params['payment']) {
+        if (params['payment'] === 'success') {
+          // Hiển thị thông báo thành công
+          alert("Cảm ơn bạn đã mua hàng. Đơn hàng của bạn đã được xác nhận!")
+          // Xóa toàn bộ giỏ hàng
+          this.clearCart();
+          
+          // Chuyển hướng về trang chủ sau 2 giây
+          setTimeout(() => {
+            this.router.navigate(['/designation']);
+          }, 2000);
+          
+        } else if (params['payment'] === 'failed') {
+          // Hiển thị thông báo thất bại
+          alert("Có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại.")
+        }
+      }
+    });
+  }
+
+  // Thêm hàm xóa toàn bộ giỏ hàng
+  clearCart() {
+    // Xóa giỏ hàng trong component
+    this.cartItems = [];
+    this.calculateTotalAmount();
+    
+    // Xóa giỏ hàng trong service
+    this.cartService.clearCart();
   }
 
   loadCartItems() {
@@ -109,13 +161,21 @@ export class PaymentComponent implements OnInit {
           item.quantity = newQuantity;
           this.calculateTotalAmount();
         } else {
-          alert('Số lượng sản phẩm trong kho không đủ.');
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Không đủ hàng',
+            detail: 'Số lượng sản phẩm trong kho không đủ.'
+          });
         }
       },
       (error) => {
         console.log(this.isAvailable)
         console.error('Lỗi khi kiểm tra số lượng:', error);
-        alert('Đã xảy ra lỗi khi kiểm tra số lượng tồn kho.');
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Lỗi',
+          detail: 'Đã xảy ra lỗi khi kiểm tra số lượng tồn kho.'
+        });
       }
     );
   }
@@ -137,16 +197,24 @@ export class PaymentComponent implements OnInit {
     // Tạo một đối tượng giả để gọi toggleCart (hoặc tạo phương thức riêng trong CartService)
     const fakeProduct = { id: productId, name: '', image: '', price: '', is_compare: false };
     this.cartService.toggleCart(fakeProduct);
+    
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Đã xóa sản phẩm',
+      detail: 'Sản phẩm đã được xóa khỏi giỏ hàng'
+    });
   }
 
-  applyPromoCode() {
-    this.discountAmount = this.totalAmount * 0.05;
-    this.calculateTotalAmount();
-  }
-
-  // ==============================
-  // Phần địa chỉ dùng fetch() tránh lỗi CORS
-  // ==============================
+  // applyPromoCode() {
+  //   this.discountAmount = this.totalAmount * 0.05;
+  //   this.calculateTotalAmount();
+    
+  //   this.messageService.add({
+  //     severity: 'success',
+  //     summary: 'Áp dụng mã giảm giá',
+  //     detail: 'Mã giảm giá đã được áp dụng thành công!'
+  //   });
+  // }
 
   async loadProvinces() {
     try {
@@ -155,6 +223,11 @@ export class PaymentComponent implements OnInit {
       this.provinces = data;
     } catch (error) {
       console.error('Lỗi khi lấy danh sách tỉnh/thành phố:', error);
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Lỗi',
+        detail: 'Không thể tải danh sách tỉnh/thành phố'
+      });
     }
   }
 
@@ -176,6 +249,11 @@ export class PaymentComponent implements OnInit {
         }
       } catch (error) {
         console.error('Lỗi khi lấy thông tin quận/huyện:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Lỗi',
+          detail: 'Không thể tải danh sách quận/huyện'
+        });
       }
     }
   }
@@ -196,6 +274,11 @@ export class PaymentComponent implements OnInit {
         }
       } catch (error) {
         console.error('Lỗi khi lấy thông tin phường/xã:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Lỗi',
+          detail: 'Không thể tải danh sách phường/xã'
+        });
       }
     }
   }
@@ -209,17 +292,21 @@ export class PaymentComponent implements OnInit {
     }
   }
 
-  combineAddress(): void {
-    const address = {
-      province: this.province,
-      district: this.district,
-      ward: this.ward,
-      street: this.street
-    };
+  // combineAddress(): void {
+  //   const address = {
+  //     province: this.province,
+  //     district: this.district,
+  //     ward: this.ward,
+  //     street: this.street
+  //   };
 
-    console.log('Địa chỉ đầy đủ:', address);
-    alert(`Địa chỉ: ${this.street}, ${this.ward}, ${this.district}, ${this.province}`);
-  }
+  //   console.log('Địa chỉ đầy đủ:', address);
+  //   this.messageService.add({
+  //     severity: 'info',
+  //     summary: 'Địa chỉ',
+  //     detail: `${this.street}, ${this.ward}, ${this.district}, ${this.province}`
+  //   });
+  // }
 
   placeOrder() {
     let shippingInfo = `Họ tên: ${this.fullName}
@@ -253,16 +340,34 @@ export class PaymentComponent implements OnInit {
       }))
     };
 
-  // Kiểm tra giỏ hàng
-  if (this.cartItems.length === 0) {
-    alert('Giỏ hàng đang trống');
-    return;
-  }
+    // Kiểm tra giỏ hàng
+    if (this.cartItems.length === 0) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Giỏ hàng trống',
+        detail: 'Vui lòng thêm sản phẩm vào giỏ hàng'
+      });
+      return;
+    }
 
-  if (!this.paymentMethod) {
-    alert('Vui lòng chọn phương thức thanh toán');
-    return;
-  }
+    if (!this.paymentMethod) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Thiếu thông tin',
+        detail: 'Vui lòng chọn phương thức thanh toán'
+      });
+      return;
+    }
+
+    // Validate địa chỉ
+    if (!this.street || !this.ward || !this.district || !this.province) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Thiếu thông tin',
+        detail: 'Vui lòng điền đầy đủ thông tin địa chỉ'
+      });
+      return;
+    }
 
     console.log('Payload đặt hàng:', JSON.stringify(payload, null, 2));
 
@@ -286,19 +391,37 @@ export class PaymentComponent implements OnInit {
             },
             error: (err) => {
               console.error('Lỗi khi lấy URL thanh toán VNPay:', err);
-              alert('Có lỗi xảy ra khi khởi tạo thanh toán VNPay, vui lòng thử lại sau.');
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Lỗi',
+                detail: 'Có lỗi xảy ra khi khởi tạo thanh toán VNPay, vui lòng thử lại sau.'
+              });
             }
           });
         } else if (this.paymentMethod === 'COD') {
           // Nếu chọn COD, hiển thị thông báo thành công
-          alert('Đặt hàng thành công! Cảm ơn bạn đã mua hàng.');
-          // Chuyển hướng đến trang xác nhận hoặc trang chủ
-          // window.location.href = '/confirmation';
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Đặt hàng thành công',
+            detail: 'Cảm ơn bạn đã mua hàng!'
+          });
+          
+          // Xóa giỏ hàng sau khi đặt hàng thành công
+          this.clearCart();
+          
+          // Chuyển hướng đến trang xác nhận hoặc trang chủ sau 2 giây
+          setTimeout(() => {
+            this.router.navigate(['/']);
+          }, 2000);
         }
       },
       error: (err) => {
         console.error('Lỗi khi tạo đơn hàng:', err);
-        alert('Có lỗi xảy ra khi đặt hàng, vui lòng thử lại sau.');
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Lỗi',
+          detail: 'Có lỗi xảy ra khi đặt hàng, vui lòng thử lại sau.'
+        });
       }
     });
   }  

@@ -2,63 +2,33 @@
     <p-toast></p-toast>
     <p-toolbar class="mb-4 gap-2">
         <ng-template pTemplate="left">
-            <p-button
-                severity="success"
-                label="Thêm mới"
-                icon="pi pi-plus"
-                class="mr-2"
-                (click)="openNew()">
+            <p-button severity="success" label="Thêm mới" icon="pi pi-plus" class="mr-2" (click)="openNew()">
             </p-button>
-            <p-button
-                severity="danger"
-                label="Xóa"
-                icon="pi pi-trash"
-                (click)="deleteSelectedListProducts()"
+            <p-button severity="danger" label="Xóa" icon="pi pi-trash" (click)="deleteSelectedListProducts()"
                 [disabled]="!selectedListProducts || !selectedListProducts.length">
             </p-button>
         </ng-template>
-        <ng-template pTemplate="right">
-            <p-fileUpload 
-                mode="basic" 
-                accept="image/*" 
-                [maxFileSize]="1000000" 
-                label="Import" 
-                chooseLabel="Import" 
-                class="mr-2 inline-block" />
-            <p-button 
-                severity="help" 
-                label="Export" 
-                icon="pi pi-upload" />
-        </ng-template>
     </p-toolbar>
 
-    <p-table
-        #dt
-        [value]="listproducts || []"
-        [rows]="10"
-        [paginator]="true"
-        [globalFilterFields]="['name']"
-        [(selection)]="selectedListProducts"
-        [rowHover]="true"
-        dataKey="id"
-        currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục"
-        [showCurrentPageReport]="true"
-        >
-        
-    
+    <p-table #dt [value]="listproducts || []" [rows]="10" [paginator]="true" [globalFilterFields]="['name']"
+        [(selection)]="selectedListProducts" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục" [showCurrentPageReport]="true">
+
+
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 <h5 class="m-0">Manage Products</h5>
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Filter" />
+                    <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                        placeholder="Filter" />
                 </span>
             </div>
         </ng-template>
-        
+
         <ng-template pTemplate="header">
             <tr>
-                <th >
+                <th>
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
                 <th pSortableColumn="name">
@@ -73,36 +43,34 @@
                 <th>Hành động</th>
             </tr>
         </ng-template>
-        
+
         <ng-template pTemplate="body" let-listproduct>
             <tr>
-                <td >
+                <td>
                     <p-tableCheckbox [value]="listproduct"></p-tableCheckbox>
                 </td>
                 <td>{{ listproduct.name }}</td>
-                <td><img [src]="listproduct.avatar" width="50" class="shadow-4" style="width: 64px" class="rounded" /></td>                
+                <td><img [src]="listproduct.avatar" width="50" class="shadow-4" style="width: 64px" class="rounded" />
+                </td>
                 <td>{{ listproduct.category }}</td>
                 <td>{{ listproduct.brand }}</td>
                 <td>{{ listproduct.price }}</td>
                 <td>{{ listproduct.quantity }}</td>
                 <td>
                     <div class="flex">
-                        <p-button 
-                            icon="pi pi-pencil" 
-                            [rounded]="true" 
-                            [text]="true" 
-                            severity="success"
-                            (click)="editListProduct(listproduct)" 
-                            class="mr-2">
+                        <!-- Nút sửa -->
+                        <p-button icon="pi pi-pencil"
+                            styleClass="p-button-rounded p-button-text p-button-sm p-button-success mr-2"
+                            (onClick)="editListProduct(listproduct)" >
                         </p-button>
-                        <p-button 
-                            icon="pi pi-trash" 
-                            [rounded]="true" 
-                            [text]="true" 
-                            severity="danger"
-                            (click)="deleteListProduct(listproduct)">
+
+                        <!-- Nút xóa -->
+                        <p-button icon="pi pi-trash"
+                            styleClass="p-button-rounded p-button-text p-button-sm p-button-danger"
+                            (onClick)="deleteListProduct(listproduct)">
                         </p-button>
                     </div>
+
                 </td>
             </tr>
         </ng-template>
@@ -110,23 +78,13 @@
 
     </p-table>
 
-    <p-dialog
-        [(visible)]="listproductDialog"
-        [style]="{ width: '450px' }"
-        header="Chi tiết thuộc tính"
-        [modal]="true"
+    <p-dialog [(visible)]="listproductDialog" [style]="{ width: '450px' }" header="Chi tiết thuộc tính" [modal]="true"
         class="p-fluid">
-        
+
         <ng-template pTemplate="content">
             <div class="field">
                 <label for="name">Tên thuộc tính</label>
-                <input
-                    type="text"
-                    pInputText
-                    id="name"
-                    [(ngModel)]="listproduct.name"
-                    required
-                    autofocus>
+                <input type="text" pInputText id="name" [(ngModel)]="listproduct.name" required autofocus>
                 <small class="p-error" *ngIf="submitted && !listproduct.name">
                     Tên không được để trống.
                 </small>
@@ -134,15 +92,9 @@
         </ng-template>
 
         <ng-template pTemplate="footer">
-            <p-button
-                label="Hủy"
-                icon="pi pi-times"
-                (click)="hideDialog()">
+            <p-button label="Hủy" icon="pi pi-times" (click)="hideDialog()">
             </p-button>
-            <p-button
-                label="Lưu"
-                icon="pi pi-check"
->
+            <p-button label="Lưu" icon="pi pi-check">
             </p-button>
         </ng-template>
     </p-dialog>

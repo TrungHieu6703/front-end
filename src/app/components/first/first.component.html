@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ productDetail?.name || 'Chi tiết sản phẩm' }}</title>
 </head>
+
 <body>
     <app-header></app-header>
-    
+
     <!-- Toast Container -->
     <div id="toast-container" class="p-toast"></div>
-    
+    <p-toast></p-toast>
     <div class="product-detail-container">
         <!-- Product Overview -->
         <div class="p-card product-overview-card">
@@ -21,33 +23,48 @@
                         <div class="p-col-12 p-md-6 left-section">
                             <h1 id="product-name">{{ productDetail?.name }}</h1>
                             <span class="subtitle">New 100% - Bảo Hành 12 tháng tại Trung Trần</span>
-                            
+
+                            <!-- Galleria Basic PrimeNG -->
                             <div class="gallery-container">
-                                <p-galleria 
-                                    [value]="productImages" 
-                                    [showIndicators]="true" 
-                                    [showThumbnails]="true" 
-                                    [changeItemOnIndicatorHover]="true" 
-                                    [responsiveOptions]="responsiveOptions" 
-                                    [containerStyle]="{ 'max-width': '500px' }"> 
-                                    <ng-template pTemplate="item" let-item>
-                                        <div class="galleria-main-image">
-                                            <img [src]="item.itemImageSrc" alt="Product Image">
+                                <div class="product-galleria-wrapper">
+                                    <!-- Hình ảnh chính -->
+                                    <div class="product-galleria-main">
+                                        <img [src]="productImages[selectedImageIndex]?.itemImageSrc"
+                                            class="product-main-image" alt="Product Image">
+                                    </div>
+
+                                    <!-- Phần thumbnail -->
+                                    <div class="product-galleria-thumbnails">
+                                        <div class="thumbnail-navigation">
+                                            <button class="thumbnail-nav-btn" [disabled]="thumbnailStartIndex <= 0"
+                                                (click)="navigateThumbnails('prev')">
+                                                <i class="pi pi-chevron-left"></i>
+                                            </button>
+
+                                            <div class="thumbnail-container">
+                                                <div *ngFor="let image of displayedThumbnails; let i = index"
+                                                    class="thumbnail-item"
+                                                    [class.active]="(i + thumbnailStartIndex) === selectedImageIndex"
+                                                    (click)="selectImage(i + thumbnailStartIndex)">
+                                                    <img [src]="image.itemImageSrc" alt="Thumbnail">
+                                                </div>
+                                            </div>
+
+                                            <button class="thumbnail-nav-btn"
+                                                [disabled]="thumbnailStartIndex + numVisibleThumbnails >= productImages.length"
+                                                (click)="navigateThumbnails('next')">
+                                                <i class="pi pi-chevron-right"></i>
+                                            </button>
                                         </div>
-                                    </ng-template>
-                                    <ng-template pTemplate="thumbnail" let-item>
-                                        <div class="galleria-thumbnail">
-                                            <img [src]="item.itemImageSrc" alt="Thumbnail">
-                                        </div>
-                                    </ng-template>
-                                </p-galleria>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        
+
                         <!-- Right Section -->
                         <div class="p-col-12 p-md-6 right-section">
                             <h1 class="product-title">{{ productDetail?.name }}</h1>
-                            
+
                             <div class="product-rating">
                                 <div class="p-rating">
                                     <i class="pi pi-star-fill active"></i>
@@ -58,13 +75,15 @@
                                 </div>
                                 <span>4.8 (128 đánh giá)</span>
                             </div>
-                            
+
                             <div class="price-section">
                                 <span class="current-price">{{ formatPrice(productDetail?.price) }}</span>
-                                <span class="original-price" *ngIf="productDetail?.originalPrice">{{ formatPrice(productDetail?.originalPrice) }}</span>
-                                <span class="discount" *ngIf="productDetail?.originalPrice">{{ calculateDiscount(productDetail?.price, productDetail?.originalPrice) }}%</span>
+                                <span class="original-price" *ngIf="productDetail?.originalPrice">{{
+                                    formatPrice(productDetail?.originalPrice) }}</span>
+                                <span class="discount" *ngIf="productDetail?.originalPrice">{{
+                                    calculateDiscount(productDetail?.price, productDetail?.originalPrice) }}%</span>
                             </div>
-                            
+
                             <div class="availability-section">
                                 <span class="in-stock" *ngIf="productDetail?.quantity > 0">
                                     <i class="pi pi-check-circle"></i> Còn hàng - Giao hàng trong 24h
@@ -73,16 +92,18 @@
                                     <i class="pi pi-times-circle"></i> Hết hàng
                                 </span>
                             </div>
-                            
+
                             <div class="action-buttons">
-                                <button class="p-button p-button-primary" [disabled]="productDetail?.quantity <= 0">
+                                <button class="p-button p-button-primary" [disabled]="productDetail?.quantity <= 0"
+                                    (click)="buyNow(productDetail?.id)">
                                     <i class="pi pi-shopping-cart"></i> Mua ngay
                                 </button>
-                                <button class="p-button p-button-secondary" [disabled]="productDetail?.quantity <= 0" (click)="addToCart(productDetail?.id)">
+                                <button class="p-button p-button-secondary" [disabled]="productDetail?.quantity <= 0"
+                                    (click)="addToCart(productDetail?.id)">
                                     <i class="pi pi-plus"></i> Thêm vào giỏ
                                 </button>
                             </div>
-                            
+
                             <div class="promotion-section">
                                 <h3 class="promotion-title">Ưu đãi đặc biệt</h3>
                                 <div class="promotion-card">
@@ -109,23 +130,27 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Section Title -->
         <h2 class="section-title">Thông Số Chính</h2>
-        
+
         <!-- Product Description and Specifications -->
         <div class="p-grid">
             <!-- Description -->
             <div class="p-col-12 p-lg-8">
                 <div class="p-card description-card">
                     <div class="p-card-body">
+                        <div class="p-card-title"
+                            style="padding: 1rem; border-bottom: 1px solid #e9ecef; background-color: #f8fafc;">
+                            <h3>Mô tả sản phẩm</h3>
+                        </div>
                         <div class="p-card-content description-content">
-                            <div [innerHTML]="productDetail?.description"></div>
+                            <div [innerHTML]="sanitizedDescription"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Specifications -->
             <div class="p-col-12 p-lg-4">
                 <div class="p-card specs-card">
@@ -147,4 +172,5 @@
         </div>
     </div>
 </body>
+
 </html>

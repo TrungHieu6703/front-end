@@ -10,13 +10,6 @@
                     class="mr-2"
                     (click)="openNew()">
                 </p-button>
-                <p-button
-                    severity="danger"
-                    label="Xóa đã chọn"
-                    icon="pi pi-trash"
-                    (click)="deleteSelectedAttributes()"
-                    [disabled]="!selectedAttributes || !selectedAttributes.length">
-                </p-button>
             </ng-template>
         </p-toolbar>
 

@@ -1,171 +1,174 @@
 <!-- order-management.component.html -->
 <div class="order-management-container">
-  <h1 class="page-title">Quản lý đơn hàng</h1>
-  
-  <!-- Toast cho thông báo -->
-  <p-toast></p-toast>
+    <h1 class="page-title">Quản lý đơn hàng</h1>
 
-  <!-- Lỗi và loading -->
-  <p-progressSpinner *ngIf="loading" styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
-  
-  <!-- Card chứa nội dung chính -->
-  <p-card>
-      <!-- Bộ lọc -->
-      <div class="filter-section p-d-flex p-jc-between p-mb-3">
-          <span class="p-input-icon-left">
-              <i class="pi pi-search"></i>
-              <input pInputText type="text" [(ngModel)]="searchQuery" (input)="applyFilters()" placeholder="Tìm kiếm theo mã đơn hàng hoặc khách hàng..."/>
-          </span>
-          
-          <p-dropdown [options]="statusOptions" [(ngModel)]="statusFilter" (onChange)="applyFilters()" optionLabel="label" optionValue="value" placeholder="Trạng thái"></p-dropdown>
-      </div>
-      
-      <!-- Danh sách đơn hàng -->
-      <p-table [value]="paginatedOrders" [paginator]="false" responsiveLayout="scroll"
-              styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
-              [loading]="loading">
-          <ng-template pTemplate="header">
-              <tr>
-                  <th>Mã đơn hàng</th>
-                  <th>Ngày đặt</th>
-                  <th>Phương thức thanh toán</th>
-                  <th>Tổng tiền</th>
-                  <th>Trạng thái</th>
-                  <th>Thao tác</th>
-              </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-order>
-              <tr>
-                  <td>{{ order.id }}</td>
-                  <td>{{ formatDate(order.createdDate) }}</td>
-                  <td>{{ order.payment_method }}</td>
-                  <td>{{ formatCurrency(order.total) }}</td>
-                  <td>
-                      <p-tag [severity]="getStatusSeverity(order.status)" [value]="getStatusText(order.status)"></p-tag>
-                  </td>
-                  <td>
-                      <p-button icon="pi pi-eye" styleClass="p-button-rounded p-button-info p-button-sm p-mr-2" 
-                              (onClick)="viewOrderDetails(order)" pTooltip="Xem chi tiết"></p-button>
-                      <p-button *ngIf="order.status === 'PENDING'" icon="pi pi-check" styleClass="p-button-rounded p-button-success p-button-sm p-mr-2" 
-                              (onClick)="confirmUpdateStatus(order.id, 'APPROVED')" pTooltip="Duyệt đơn hàng"></p-button>
-                      <p-button *ngIf="order.status === 'PENDING'" icon="pi pi-times" styleClass="p-button-rounded p-button-warning p-button-sm p-mr-2" 
-                              (onClick)="confirmUpdateStatus(order.id, 'REJECTED')" pTooltip="Hủy đơn hàng"></p-button>
-                      <p-button icon="pi pi-trash" styleClass="p-button-rounded p-button-danger p-button-sm" 
-                              (onClick)="confirmDelete(order.id)" pTooltip="Xóa đơn hàng"></p-button>
-                  </td>
-              </tr>
-          </ng-template>
-          <ng-template pTemplate="emptymessage">
-              <tr>
-                  <td colspan="6">
-                      <div class="p-d-flex p-jc-center p-ai-center">
-                          <i class="pi pi-inbox" style="font-size: 2rem; margin-right: 8px"></i>
-                          <span>Không có đơn hàng nào</span>
-                      </div>
-                  </td>
-              </tr>
-          </ng-template>
-      </p-table>
-      
-      <!-- Phân trang -->
-      <p-paginator *ngIf="totalPages > 1"
-          [rows]="itemsPerPage"
-          [totalRecords]="filteredOrders.length"
-          [first]="(currentPage-1) * itemsPerPage"
-          (onPageChange)="onPageChange($event)">
-      </p-paginator>
-  </p-card>
-  
-  <!-- Dialog xác nhận xóa -->
-  <p-confirmDialog [style]="{width: '450px'}" acceptLabel="Đồng ý" rejectLabel="Hủy bỏ"></p-confirmDialog>
-  
-  <!-- Dialog chi tiết đơn hàng -->
-  <p-dialog 
-      [(visible)]="showOrderDetails" 
-      [style]="{width: '90%', maxWidth: '900px'}" 
-      [modal]="true" 
-      [draggable]="false" 
-      [resizable]="false"
-      header="Chi tiết đơn hàng #{{selectedOrder?.id}}">
-      
-      <div *ngIf="selectedOrder">
-          <!-- Thông tin chung -->
-          <p-card styleClass="p-mb-3">
-              <div class="p-grid">
-                  <div class="p-col-12 p-md-4">
-                      <div class="p-mb-2"><strong>Trạng thái:</strong></div>
-                      <p-tag [severity]="getStatusSeverity(selectedOrder.status)" [value]="getStatusText(selectedOrder.status)"></p-tag>
-                  </div>
-                  <div class="p-col-12 p-md-4">
-                      <div class="p-mb-2"><strong>Khách hàng:</strong></div>
-                      <span>{{ selectedOrder.userId }}</span>
-                  </div>
-                  <div class="p-col-12 p-md-4">
-                      <div class="p-mb-2"><strong>Tổng tiền:</strong></div>
-                      <span>{{ formatCurrency(selectedOrder.total) }}</span>
-                  </div>
-              </div>
-          </p-card>
-          
-          <!-- Thông tin giao hàng -->
-          <h3>Thông tin giao hàng</h3>
-          <p-card styleClass="p-mb-3">
-              <pre>{{ selectedOrder.shippingInfo || 'Không có thông tin giao hàng' }}</pre>
-          </p-card>
-          
-          <!-- Chi tiết sản phẩm -->
-          <h3>Sản phẩm</h3>
-          <p-table [value]="selectedOrder.orderDetails || []" styleClass="p-datatable-sm">
-              <ng-template pTemplate="header">
-                  <tr>
-                      <th>Sản phẩm</th>
-                      <th>Đơn giá</th>
-                      <th>Số lượng</th>
-                      <th>Thành tiền</th>
-                  </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-item>
-                  <tr>
-                      <td>{{ item.productId }}</td>
-                      <td>{{ formatCurrency(item.price) }}</td>
-                      <td>{{ item.quantity }}</td>
-                      <td>{{ formatCurrency(item.price * item.quantity) }}</td>
-                  </tr>
-              </ng-template>
-              <ng-template pTemplate="emptymessage">
-                  <tr>
-                      <td colspan="4">
-                          <div class="p-d-flex p-jc-center p-ai-center">
-                              <i class="pi pi-inbox" style="font-size: 1.5rem; margin-right: 8px"></i>
-                              <span>Không có thông tin sản phẩm</span>
-                          </div>
-                      </td>
-                  </tr>
-              </ng-template>
-          </p-table>
-      </div>
-      
-      <ng-template pTemplate="footer">
-          <p-button *ngIf="selectedOrder?.status === 'PENDING'" 
-              label="Duyệt đơn hàng" 
-              icon="pi pi-check" 
-              styleClass="p-button-success p-mr-2" 
-              (onClick)="updateOrderStatus(selectedOrder.id, 'APPROVED')">
-          </p-button>
-          
-          <p-button *ngIf="selectedOrder?.status === 'PENDING'" 
-              label="Hủy đơn hàng" 
-              icon="pi pi-times" 
-              styleClass="p-button-danger p-mr-2" 
-              (onClick)="updateOrderStatus(selectedOrder.id, 'REJECTED')">
-          </p-button>
-          
-          <p-button 
-              label="Đóng" 
-              icon="pi pi-times" 
-              styleClass="p-button-secondary" 
-              (onClick)="closeOrderDetails()">
-          </p-button>
-      </ng-template>
-  </p-dialog>
+    <!-- Toast cho thông báo -->
+    <p-toast></p-toast>
+
+    <!-- Lỗi và loading -->
+    <p-progressSpinner *ngIf="loading" styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)"
+        animationDuration=".5s"></p-progressSpinner>
+
+    <!-- Card chứa nội dung chính -->
+    <p-card>
+        <!-- Bộ lọc -->
+        <div class="filter-section p-d-flex p-jc-between p-mb-3">
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" [(ngModel)]="searchQuery" (input)="applyFilters()"
+                    placeholder="Tìm kiếm theo mã đơn hàng hoặc khách hàng..." />
+            </span>
+
+            <p-dropdown [options]="statusOptions" [(ngModel)]="statusFilter" (onChange)="applyFilters()"
+                optionLabel="label" optionValue="value" placeholder="Trạng thái"></p-dropdown>
+        </div>
+
+        <!-- Danh sách đơn hàng -->
+        <p-table [value]="paginatedOrders" [paginator]="false" responsiveLayout="scroll"
+            styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [loading]="loading">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Mã đơn hàng</th>
+                    <th>Ngày đặt</th>
+                    <th>Phương thức thanh toán</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-order>
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ formatDate(order.createdDate) }}</td>
+                    <td>{{ order.payment_method }}</td>
+                    <td>{{ formatCurrency(order.total) }}</td>
+                    <td>
+                        <p-tag
+                            [style]="{'color': getStatusColor(order.status), 'background': 'transparent', 'border': 'none'}"
+                            [value]="getStatusText(order.status)">
+                        </p-tag>
+                    </td>
+
+                    <td>
+                        <!-- Nút xem chi tiết - màu xanh dương (info) -->
+                        <p-button icon="pi pi-eye"
+                            styleClass="p-button-rounded p-button-text p-button-sm p-mr-2 p-button-info"
+                            (onClick)="viewOrderDetails(order)" pTooltip="Xem chi tiết"></p-button>
+
+                        <!-- Nút duyệt đơn hàng - màu xanh lá (success) -->
+                        <p-button *ngIf="order.status === 'PENDING'" icon="pi pi-check"
+                            styleClass="p-button-rounded p-button-text p-button-sm p-mr-2 p-button-success"
+                            (onClick)="confirmUpdateStatus(order.id, 'APPROVED')" pTooltip="Duyệt đơn hàng"></p-button>
+
+                        <!-- Nút hủy đơn hàng - màu vàng/cam (warning) -->
+                        <p-button *ngIf="order.status === 'PENDING'" icon="pi pi-times"
+                            styleClass="p-button-rounded p-button-text p-button-sm p-mr-2 p-button-warning"
+                            (onClick)="confirmUpdateStatus(order.id, 'REJECTED')" pTooltip="Hủy đơn hàng"></p-button>
+
+                        <!-- Nút xóa đơn hàng - màu đỏ (danger) -->
+                        <p-button icon="pi pi-trash"
+                            styleClass="p-button-rounded p-button-text p-button-sm p-button-danger"
+                            (onClick)="confirmDelete(order.id)" pTooltip="Xóa đơn hàng"></p-button>
+                    </td>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="6">
+                        <div class="p-d-flex p-jc-center p-ai-center">
+                            <i class="pi pi-inbox" style="font-size: 2rem; margin-right: 8px"></i>
+                            <span>Không có đơn hàng nào</span>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <!-- Phân trang -->
+        <p-paginator *ngIf="totalPages > 1" [rows]="itemsPerPage" [totalRecords]="filteredOrders.length"
+            [first]="(currentPage-1) * itemsPerPage" (onPageChange)="onPageChange($event)">
+        </p-paginator>
+    </p-card>
+
+    <!-- Dialog xác nhận xóa -->
+    <p-confirmDialog [style]="{width: '450px'}" acceptLabel="Đồng ý" rejectLabel="Hủy bỏ"></p-confirmDialog>
+
+    <!-- Dialog chi tiết đơn hàng -->
+    <p-dialog [(visible)]="showOrderDetails" [style]="{width: '90%', maxWidth: '900px'}" [modal]="true"
+        [draggable]="false" [resizable]="false" header="Chi tiết đơn hàng #{{selectedOrder?.id}}">
+
+        <div *ngIf="selectedOrder">
+            <!-- Thông tin chung -->
+            <p-card styleClass="p-mb-3">
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-4">
+                        <div class="p-mb-2"><strong>Trạng thái:</strong></div>
+                          <p-tag
+                            [style]="{'color': getStatusColor(selectedOrder.status), 'background': 'transparent', 'border': 'none'}"
+                            [value]="getStatusText(selectedOrder.status)">
+                        </p-tag>
+                    </div>
+                    <div class="p-col-12 p-md-4">
+                        <div class="p-mb-2"><strong>Khách hàng:</strong></div>
+                        <span>{{ selectedOrder.userId }}</span>
+                    </div>
+                    <div class="p-col-12 p-md-4">
+                        <div class="p-mb-2"><strong>Tổng tiền:</strong></div>
+                        <span>{{ formatCurrency(selectedOrder.total) }}</span>
+                    </div>
+                </div>
+            </p-card>
+
+            <!-- Thông tin giao hàng -->
+            <h3>Thông tin giao hàng</h3>
+            <p-card styleClass="p-mb-3">
+                <pre>{{ selectedOrder.shippingInfo || 'Không có thông tin giao hàng' }}</pre>
+            </p-card>
+
+            <!-- Chi tiết sản phẩm -->
+            <h3>Sản phẩm</h3>
+            <p-table [value]="selectedOrder.orderDetails || []" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Đơn giá</th>
+                        <th>Số lượng</th>
+                        <th>Thành tiền</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td>{{ item.productId }}</td>
+                        <td>{{ formatCurrency(item.price) }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ formatCurrency(item.price * item.quantity) }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="4">
+                            <div class="p-d-flex p-jc-center p-ai-center">
+                                <i class="pi pi-inbox" style="font-size: 1.5rem; margin-right: 8px"></i>
+                                <span>Không có thông tin sản phẩm</span>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <ng-template pTemplate="footer">
+            <p-button *ngIf="selectedOrder?.status === 'PENDING'" label="Duyệt đơn hàng" icon="pi pi-check"
+                styleClass="p-button-success p-mr-2" (onClick)="updateOrderStatus(selectedOrder.id, 'APPROVED')">
+            </p-button>
+
+            <p-button *ngIf="selectedOrder?.status === 'PENDING'" label="Hủy đơn hàng" icon="pi pi-times"
+                styleClass="p-button-danger p-mr-2" (onClick)="updateOrderStatus(selectedOrder.id, 'REJECTED')">
+            </p-button>
+
+            <p-button label="Đóng" icon="pi pi-times" styleClass="p-button-secondary" (onClick)="closeOrderDetails()">
+            </p-button>
+        </ng-template>
+    </p-dialog>
 </div>

@@ -1,132 +1,183 @@
 .category-attribute-container {
-    padding: 1.5rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .header {
-    margin-bottom: 1.5rem;
-  }
-  
-  .header h3 {
-    margin: 0;
-    font-weight: 500;
-    color: #495057;
-  }
-  
-  .attribute-list {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 -0.5rem;
-  }
-  
-  .p-col-12 {
-    padding: 0.5rem;
-  }
-  
-  .attribute-item {
-    background: #f8f9fa;
-    border-radius: 4px;
-    padding: 1rem;
-    height: 100%;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s;
-  }
-  
-  .attribute-item:hover {
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  }
-  
-  .attribute-header {
-    margin-bottom: 0.75rem;
-    font-size: 1rem;
-  }
-  
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.header h3 {
+  margin: 0;
+  font-weight: 500;
+  color: #495057;
+}
+
+.attribute-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -0.5rem;
+}
+
+.p-col-12 {
+  padding: 0.5rem;
+}
+
+.attribute-item {
+  background: #f8f9fa;
+  border-radius: 4px;
+  padding: 1rem;
+  height: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+}
+
+.attribute-item:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.attribute-header {
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.attribute-options {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.p-field-checkbox {
+  display: flex;
+  align-items: center;
+  margin-right: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.p-field-checkbox label {
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+  color: #495057;
+}
+
+.no-attributes {
+  color: #6c757d;
+  font-style: italic;
+  text-align: center;
+  padding: 1rem;
+}
+
+/* Styling cho dialog chọn thuộc tính */
+.dialog-subtitle {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #495057;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.select-all-container {
+  margin-bottom: 0.75rem;
+}
+
+.select-all-option {
+  padding: 0.5rem;
+  background-color: #f2f7ff;
+  border-radius: 4px;
+  border: 1px solid #cfe2ff;
+}
+
+.attribute-selection-list {
+  max-height: 350px;
+  overflow-y: auto;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  padding: 0.75rem;
+}
+
+.attribute-select-item {
+  padding: 0.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.attribute-select-item:last-child {
+  border-bottom: none;
+}
+
+.no-attributes-message {
+  text-align: center;
+  padding: 1.5rem;
+  color: #6c757d;
+  font-style: italic;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Toast positioning */
+:host ::ng-deep .p-toast {
+  z-index: 1000;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
   .attribute-options {
-    display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
   }
   
   .p-field-checkbox {
-    display: flex;
-    align-items: center;
-    margin-right: 1.5rem;
-    margin-bottom: 0.5rem;
+    margin-right: 0;
+    margin-bottom: 0.75rem;
   }
-  
-  .p-field-checkbox label {
-    margin-left: 0.5rem;
-    font-size: 0.875rem;
-    color: #495057;
-  }
-  
-  .no-attributes {
-    color: #6c757d;
-    font-style: italic;
-    text-align: center;
-    padding: 1rem;
-  }
-  
-  /* Toast positioning */
-  :host ::ng-deep .p-toast {
-    z-index: 1000;
-  }
-  
-  /* Responsive adjustments */
-  @media screen and (max-width: 768px) {
-    .attribute-options {
-      flex-direction: column;
-    }
-    
-    .p-field-checkbox {
-      margin-right: 0;
-      margin-bottom: 0.75rem;
-    }
-  }
-  
-  /* Styling for PrimeNG Accordion */
-  :host ::ng-deep .p-accordion .p-accordion-header .p-accordion-header-link {
-    padding: 1rem 1.25rem;
-    font-weight: 500;
-  }
-  
-  :host ::ng-deep .p-accordion .p-accordion-content {
-    padding: 1.25rem;
-  }
-  
-  /* Styling for PrimeNG Checkbox */
-  :host ::ng-deep .p-checkbox .p-checkbox-box.p-highlight {
-    border-color: #3B82F6;
-    background: #3B82F6;
-  }
-  
-  :host ::ng-deep .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
-    border-color: #2563EB;
-    background: #2563EB;
-  }
-  
-  :host ::ng-deep .p-checkbox .p-checkbox-box.p-disabled {
-    opacity: 0.6;
-  }
-  
-  /* Styling for PrimeNG Button */
-  :host ::ng-deep .p-button.p-button-sm {
-    font-size: 0.875rem;
-    padding: 0.4rem 0.8rem;
-  }
-  
-  /* Styling for PrimeNG Dialog */
-  :host ::ng-deep .p-dialog .p-dialog-header {
-    padding: 1.25rem;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #e9ecef;
-  }
-  
-  :host ::ng-deep .p-dialog .p-dialog-content {
-    padding: 1.25rem;
-  }
-  
-  :host ::ng-deep .p-dialog .p-dialog-footer {
-    padding: 1rem 1.25rem;
-    border-top: 1px solid #e9ecef;
-  }
+}
+
+/* Styling for PrimeNG Accordion */
+:host ::ng-deep .p-accordion .p-accordion-header .p-accordion-header-link {
+  padding: 1rem 1.25rem;
+  font-weight: 500;
+}
+
+:host ::ng-deep .p-accordion .p-accordion-content {
+  padding: 1.25rem;
+}
+
+/* Styling for PrimeNG Checkbox */
+:host ::ng-deep .p-checkbox .p-checkbox-box.p-highlight {
+  border-color: #3B82F6;
+  background: #3B82F6;
+}
+
+:host ::ng-deep .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+  border-color: #2563EB;
+  background: #2563EB;
+}
+
+:host ::ng-deep .p-checkbox .p-checkbox-box.p-disabled {
+  opacity: 0.6;
+}
+
+/* Styling for PrimeNG Button */
+:host ::ng-deep .p-button.p-button-sm {
+  font-size: 0.875rem;
+  padding: 0.4rem 0.8rem;
+}
+
+/* Styling for PrimeNG Dialog */
+:host ::ng-deep .p-dialog .p-dialog-header {
+  padding: 1.25rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-content {
+  padding: 1.25rem;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-footer {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #e9ecef;
+}

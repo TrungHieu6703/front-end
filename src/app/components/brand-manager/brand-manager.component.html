@@ -10,13 +10,6 @@
                     class="mr-2"
                     (click)="openNew()">
                 </p-button>
-                <p-button
-                    severity="danger"
-                    label="Xóa đã chọn"
-                    icon="pi pi-trash"
-                    (click)="deleteSelectedBrands()"
-                    [disabled]="!selectedBrands || !selectedBrands.length">
-                </p-button>
             </ng-template>
         </p-toolbar>
 

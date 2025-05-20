@@ -1,106 +1,125 @@
 <div class="category-attribute-container">
-    <p-toast></p-toast>
-    
-    <div class="header">
-      <h3>Gán thuộc tính cho các danh mục</h3>
-    </div>
-    
-    <p-accordion [activeIndex]="activeIndex">
-      <p-accordionTab *ngFor="let category of categories; let i = index" [header]="category.name">
-        <div class="p-d-flex p-jc-end p-mb-3">
-          <p-button 
-            icon="pi pi-plus" 
-            label="Thêm thuộc tính" 
-            styleClass="p-button-outlined p-button-sm"
-            (onClick)="showAddAttributeModal(category.id)"
-            [disabled]="getAvailableAttributes(category.id).length === 0"
-          ></p-button>
-        </div>
-        
-        <!-- Danh sách thuộc tính của danh mục -->
-        <div class="p-grid attribute-list" *ngIf="selectedData[category.id]">
-          <div class="p-col-12 p-md-6 p-mb-2" *ngFor="let attrId of getAttributeIds(category.id)">
-            <div class="attribute-item">
-              <div class="attribute-header">
-                <strong>{{ getAttributeName(attrId) }}</strong>
+  <p-toast></p-toast>
+  
+  <div class="header">
+    <h3>Gán thuộc tính cho các danh mục</h3>
+  </div>
+  
+  <p-accordion [activeIndex]="activeIndex">
+    <p-accordionTab *ngFor="let category of categories; let i = index" [header]="category.name">
+      <div class="p-d-flex p-jc-end p-mb-3">
+        <p-button 
+          icon="pi pi-plus" 
+          label="Thêm thuộc tính" 
+          styleClass="p-button-outlined p-button-sm"
+          (onClick)="showAddAttributeModal(category.id)"
+          [disabled]="getAvailableAttributes(category.id).length === 0"
+        ></p-button>
+      </div>
+      
+      <!-- Danh sách thuộc tính của danh mục -->
+      <div class="p-grid attribute-list" *ngIf="selectedData[category.id]">
+        <div class="p-col-12 p-md-6 p-mb-2" *ngFor="let attrId of getAttributeIds(category.id)">
+          <div class="attribute-item">
+            <div class="attribute-header">
+              <strong>{{ getAttributeName(attrId) }}</strong>
+            </div>
+            <div class="attribute-options">
+              <div class="p-field-checkbox">
+                <p-checkbox 
+                  [(ngModel)]="selectedData[category.id][attrId].visible" 
+                  [binary]="true"
+                  (onChange)="toggleCheckboxState(category.id, attrId, 'visible')" 
+                  inputId="cat{{category.id}}-attr{{attrId}}-visible"
+                ></p-checkbox>
+                <label for="cat{{category.id}}-attr{{attrId}}-visible">Visible</label>
               </div>
-              <div class="attribute-options">
-                <div class="p-field-checkbox">
-                  <p-checkbox 
-                    [(ngModel)]="selectedData[category.id][attrId].visible" 
-                    [binary]="true"
-                    (onChange)="toggleCheckboxState(category.id, attrId, 'visible')" 
-                    inputId="cat{{category.id}}-attr{{attrId}}-visible"
-                  ></p-checkbox>
-                  <label for="cat{{category.id}}-attr{{attrId}}-visible">Visible</label>
-                </div>
-                
-                <div class="p-field-checkbox">
-                  <p-checkbox 
-                    [(ngModel)]="selectedData[category.id][attrId].display" 
-                    [binary]="true"
-                    [disabled]="!selectedData[category.id][attrId].visible"
-                    (onChange)="toggleCheckboxState(category.id, attrId, 'display')" 
-                    inputId="cat{{category.id}}-attr{{attrId}}-display"
-                  ></p-checkbox>
-                  <label for="cat{{category.id}}-attr{{attrId}}-display">Display</label>
-                </div>
-                
-                <div class="p-field-checkbox">
-                  <p-checkbox 
-                    [(ngModel)]="selectedData[category.id][attrId].filter" 
-                    [binary]="true"
-                    [disabled]="!selectedData[category.id][attrId].visible"
-                    (onChange)="toggleCheckboxState(category.id, attrId, 'filter')" 
-                    inputId="cat{{category.id}}-attr{{attrId}}-filter"
-                  ></p-checkbox>
-                  <label for="cat{{category.id}}-attr{{attrId}}-filter">Filter</label>
-                </div>
+              
+              <div class="p-field-checkbox">
+                <p-checkbox 
+                  [(ngModel)]="selectedData[category.id][attrId].display" 
+                  [binary]="true"
+                  [disabled]="!selectedData[category.id][attrId].visible"
+                  (onChange)="toggleCheckboxState(category.id, attrId, 'display')" 
+                  inputId="cat{{category.id}}-attr{{attrId}}-display"
+                ></p-checkbox>
+                <label for="cat{{category.id}}-attr{{attrId}}-display">Display</label>
+              </div>
+              
+              <div class="p-field-checkbox">
+                <p-checkbox 
+                  [(ngModel)]="selectedData[category.id][attrId].filter" 
+                  [binary]="true"
+                  [disabled]="!selectedData[category.id][attrId].visible"
+                  (onChange)="toggleCheckboxState(category.id, attrId, 'filter')" 
+                  inputId="cat{{category.id}}-attr{{attrId}}-filter"
+                ></p-checkbox>
+                <label for="cat{{category.id}}-attr{{attrId}}-filter">Filter</label>
               </div>
             </div>
           </div>
-          
-          <!-- Không có thuộc tính nào -->
-          <div class="p-col-12" *ngIf="getAttributeIds(category.id).length === 0">
-            <p class="no-attributes">Chưa có thuộc tính nào được thêm vào danh mục này.</p>
+        </div>
+        
+        <!-- Không có thuộc tính nào -->
+        <div class="p-col-12" *ngIf="getAttributeIds(category.id).length === 0">
+          <p class="no-attributes">Chưa có thuộc tính nào được thêm vào danh mục này.</p>
+        </div>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+  
+  <div class="p-mt-4 p-d-flex p-jc-end">
+    <p-button 
+      label="Lưu tất cả thiết lập" 
+      icon="pi pi-save" 
+      (onClick)="saveAllSelections()" 
+      [loading]="loading"
+    ></p-button>
+  </div>
+  
+  <!-- Dialog thêm thuộc tính -->
+  <p-dialog 
+    header="Chọn thuộc tính để thêm" 
+    [(visible)]="displayAddDialog" 
+    [style]="{width: '550px'}" 
+    [modal]="true"
+  >
+    <div class="p-fluid" *ngIf="currentCategoryId">
+      <div class="p-field">
+        <h4 class="dialog-subtitle">Chọn các thuộc tính muốn thêm vào danh mục:</h4>
+        
+        <div class="select-all-container" *ngIf="availableAttributes.length > 0">
+          <div class="p-field-checkbox select-all-option">
+            <p-checkbox 
+              [(ngModel)]="selectAllChecked" 
+              [binary]="true" 
+              (onChange)="toggleSelectAll()"
+              inputId="select-all-attributes"
+            ></p-checkbox>
+            <label for="select-all-attributes"><strong>Chọn tất cả</strong></label>
           </div>
         </div>
-      </p-accordionTab>
-    </p-accordion>
-    
-    <div class="p-mt-4 p-d-flex p-jc-end">
-      <p-button 
-        label="Lưu tất cả thiết lập" 
-        icon="pi pi-save" 
-        (onClick)="saveAllSelections()" 
-        [loading]="loading"
-      ></p-button>
-    </div>
-    
-    <!-- Dialog thêm thuộc tính -->
-    <p-dialog 
-      header="Chọn thuộc tính để thêm" 
-      [(visible)]="displayAddDialog" 
-      [style]="{width: '450px'}" 
-      [modal]="true"
-    >
-      <div class="p-fluid" *ngIf="currentCategoryId && attributeOptions.length > 0">
-        <div class="p-field">
-          <p-dropdown 
-            [options]="attributeOptions" 
-            [(ngModel)]="selectedAttributeId" 
-            placeholder="Chọn thuộc tính" 
-            optionLabel="label" 
-            optionValue="value"
-          ></p-dropdown>
+        
+        <div class="attribute-selection-list" *ngIf="availableAttributes.length > 0">
+          <div class="p-field-checkbox attribute-select-item" *ngFor="let attr of availableAttributes">
+            <p-checkbox 
+              [(ngModel)]="attr.selected" 
+              [binary]="true" 
+              (onChange)="updateSelectAllState()"
+              [inputId]="'attr-select-' + attr.id"
+            ></p-checkbox>
+            <label [for]="'attr-select-' + attr.id">{{attr.name}}</label>
+          </div>
+        </div>
+        
+        <div *ngIf="availableAttributes.length === 0" class="no-attributes-message">
+          <p>Tất cả thuộc tính đã được thêm vào danh mục này.</p>
         </div>
       </div>
-      
-      <div *ngIf="currentCategoryId && attributeOptions.length === 0">
-        <p class="p-text-center">Tất cả thuộc tính đã được thêm vào danh mục này.</p>
-      </div>
-      
-      <ng-template pTemplate="footer">
+    </div>
+    
+    <ng-template pTemplate="footer">
+      <div class="dialog-footer">
         <p-button 
           label="Hủy" 
           icon="pi pi-times" 
@@ -110,10 +129,10 @@
         <p-button 
           label="Thêm" 
           icon="pi pi-check" 
-          [disabled]="!selectedAttributeId" 
-          (onClick)="addAttributeToCategory()"
+          [disabled]="!hasSelectedAttributes()" 
+          (onClick)="addSelectedAttributesToCategory()"
         ></p-button>
-      </ng-template>
-    </p-dialog>
-  </div>
-  
+      </div>
+    </ng-template>
+  </p-dialog>
+</div>

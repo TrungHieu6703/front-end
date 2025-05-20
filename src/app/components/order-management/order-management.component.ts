@@ -250,14 +250,24 @@ export class OrderManagementComponent implements OnInit {
     }
   }
 
-  getStatusSeverity(status: string): 'success' | 'warning' | 'danger' | 'info' {
+  getStatusSeverity(status: string): string {
     switch (status) {
-      case 'APPROVED': return 'success';
-      case 'PENDING': return 'warning';
-      case 'REJECTED': return 'danger';
-      default: return 'info';
+      case 'APPROVED': return 'Đã hoàn thành';
+      case 'PENDING': return 'Đang xử lý';
+      case 'REJECTED': return 'Đã hủy';
+      default: return status;
     }
   }
+
+  getStatusColor(status: string): string {
+  switch (status) {
+    case 'APPROVED': return '#28a745';
+    case 'PENDING': return '#ffc107';
+    case 'REJECTED': return '#dc3545';
+    default: return '#17a2b8';
+  }
+}
+
 
   formatCurrency(value: number): string {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);

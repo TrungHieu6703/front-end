@@ -24,6 +24,10 @@ interface Attribute {
   name: string;
 }
 
+interface AttributeSelectionItem extends Attribute {
+  selected: boolean;
+}
+
 interface CategoryAttribute {
   categoryId: string;
   attributeId: string;
@@ -61,8 +65,8 @@ export class CategoryAttributeManagerComponent implements OnInit {
   currentCategoryId: string | null = null;
   loading = false;
   displayAddDialog = false;
-  selectedAttributeId: string = '';
-  attributeOptions: any[] = [];
+  availableAttributes: AttributeSelectionItem[] = [];
+  selectAllChecked: boolean = false;
   activeIndex: number = 0;
 
   constructor(
@@ -150,18 +154,35 @@ export class CategoryAttributeManagerComponent implements OnInit {
 
   showAddAttributeModal(categoryId: string): void {
     this.currentCategoryId = categoryId;
-    this.attributeOptions = this.getAvailableAttributes(categoryId).map(attr => ({
-      label: attr.name,
-      value: attr.id
-    }));
-    
-    if (this.attributeOptions.length > 0) {
-      this.selectedAttributeId = this.attributeOptions[0].value;
-    } else {
-      this.selectedAttributeId = '';
-    }
-    
+    this.prepareAvailableAttributes(categoryId);
+    this.selectAllChecked = false;
     this.displayAddDialog = true;
+  }
+
+  prepareAvailableAttributes(categoryId: string): void {
+    // Lấy danh sách thuộc tính đã thêm vào danh mục
+    const addedAttrIds = Object.keys(this.selectedData[categoryId] || {});
+    
+    // Lọc và tạo danh sách các thuộc tính có thể thêm với trạng thái selected = false
+    this.availableAttributes = this.attributes
+      .filter(attr => !addedAttrIds.includes(attr.id))
+      .map(attr => ({
+        ...attr,
+        selected: false
+      }));
+  }
+
+  toggleSelectAll(): void {
+    // Áp dụng trạng thái selectAllChecked cho tất cả các thuộc tính
+    this.availableAttributes.forEach(attr => {
+      attr.selected = this.selectAllChecked;
+    });
+  }
+
+  updateSelectAllState(): void {
+    // Cập nhật trạng thái selectAllChecked dựa trên danh sách thuộc tính
+    this.selectAllChecked = this.availableAttributes.length > 0 && 
+                           this.availableAttributes.every(attr => attr.selected);
   }
 
   getAvailableAttributes(categoryId: string): Attribute[] {
@@ -184,24 +205,35 @@ export class CategoryAttributeManagerComponent implements OnInit {
     return attribute ? attribute.name : 'Unknown';
   }
 
-  addAttributeToCategory(): void {
-    if (this.currentCategoryId && this.selectedAttributeId) {
-      // Thêm thuộc tính mới với trạng thái mặc định
-      if (!this.selectedData[this.currentCategoryId]) {
-        this.selectedData[this.currentCategoryId] = {};
+  hasSelectedAttributes(): boolean {
+    return this.availableAttributes.some(attr => attr.selected);
+  }
+
+  addSelectedAttributesToCategory(): void {
+    if (this.currentCategoryId) {
+      // Lọc ra các thuộc tính đã được chọn
+      const selectedAttrs = this.availableAttributes.filter(attr => attr.selected);
+      
+      if (selectedAttrs.length > 0) {
+        // Thêm các thuộc tính đã chọn
+        if (!this.selectedData[this.currentCategoryId]) {
+          this.selectedData[this.currentCategoryId] = {};
+        }
+        
+        selectedAttrs.forEach(attr => {
+          this.selectedData[this.currentCategoryId as string][attr.id] = { 
+            visible: false, 
+            display: false, 
+            filter: false 
+          };
+        });
+        
+        // Đóng dialog
+        this.displayAddDialog = false;
+        this.currentCategoryId = null;
+        
+        this.showSuccess(`Đã thêm ${selectedAttrs.length} thuộc tính thành công`);
       }
-      
-      this.selectedData[this.currentCategoryId][this.selectedAttributeId] = { 
-        visible: false, 
-        display: false, 
-        filter: false 
-      };
-      
-      // Đóng dialog
-      this.displayAddDialog = false;
-      this.currentCategoryId = null;
-      
-      this.showSuccess('Đã thêm thuộc tính thành công');
     }
   }
 
