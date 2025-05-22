@@ -118,6 +118,23 @@ export class HeaderComponent implements OnInit {
     this.showSearchResults = false;
   }
 
+  // Thêm method performSearch để xử lý tìm kiếm khi Enter hoặc click search icon
+  performSearch(): void {
+    const trimmedSearchTerm = this.searchTerm.trim();
+    
+    if (!trimmedSearchTerm) {
+      // Hiển thị alert nếu không có giá trị tìm kiếm
+      alert('Bạn phải nhập tham số tìm kiếm');
+      return;
+    }
+
+    // Ẩn dropdown search results
+    this.showSearchResults = false;
+    
+    // Chuyển đến trang search-product với query parameter
+    this.router.navigate(['/tim-kiem/' + trimmedSearchTerm]);
+  }
+
   // Hide search results when clicking outside
   @HostListener('document:click', ['$event'])
   clickOutside(event: MouseEvent) {

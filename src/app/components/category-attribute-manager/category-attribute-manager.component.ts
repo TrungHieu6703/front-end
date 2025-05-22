@@ -13,7 +13,7 @@ import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-
+import { API_URL } from '../../config/config';
 interface Category {
   id: string;
   name: string;
@@ -81,7 +81,7 @@ export class CategoryAttributeManagerComponent implements OnInit {
   }
 
   loadCategories(): void {
-    this.http.get<any>('http://localhost:8080/categories').subscribe({
+    this.http.get<any>(API_URL + 'categories').subscribe({
       next: (response) => {
         this.categories = response.data || [];
       },
@@ -93,7 +93,7 @@ export class CategoryAttributeManagerComponent implements OnInit {
   }
 
   loadAttributes(): void {
-    this.http.get<any>('http://localhost:8080/attributes').subscribe({
+    this.http.get<any>(API_URL + 'attributes').subscribe({
       next: (response) => {
         this.attributes = response.data || [];
       },
@@ -105,7 +105,7 @@ export class CategoryAttributeManagerComponent implements OnInit {
   }
 
   loadCategoryAttributes(): void {
-    this.http.get<any>('http://localhost:8080/category-attributes').subscribe({
+    this.http.get<any>(API_URL + 'category-attributes').subscribe({
       next: (response) => {
         this.categoryAttributes = response.data || [];
         
@@ -257,7 +257,7 @@ export class CategoryAttributeManagerComponent implements OnInit {
     });
     
     // Gửi dữ liệu lên API
-    this.http.post('http://localhost:8080/category-attributes/batch', dataToSave).subscribe({
+    this.http.post(API_URL + 'category-attributes/batch', dataToSave).subscribe({
       next: (response) => {
         console.log('Saved successfully:', response);
         this.loading = false;

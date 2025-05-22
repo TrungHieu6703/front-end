@@ -1,4 +1,4 @@
-    <app-header></app-header>
+<app-header></app-header>
     <div class="mb-4 p-8" style="margin-top: 20px">
       <p-card>
         <div class="card">
@@ -14,7 +14,9 @@
               <div class="grid grid-nogutter">
                 <div class="col-12 sm:col-6 md:col-3 lg:col-3 xl:col-3 p-2" *ngFor="let product of wishlistProducts">
                   <app-laptop-item 
-                    [product]="product" 
+                    [product]="product"
+                    [mode]="'wishlist'"
+                    (removeFromWishlist)="onRemoveFromWishlist($event)"
                   >
                   </app-laptop-item>
                 </div>

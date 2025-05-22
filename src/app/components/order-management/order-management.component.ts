@@ -18,7 +18,7 @@ import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { PaginatorModule } from 'primeng/paginator';
 import { MessageService, ConfirmationService } from 'primeng/api';
-
+import { API_URL } from '../../config/config';
 interface StatusOption {
   label: string;
   value: string;
@@ -83,7 +83,7 @@ export class OrderManagementComponent implements OnInit {
 
   loadOrders(): void {
     this.loading = true;
-    this.http.get('http://localhost:8080/orders').subscribe({
+    this.http.get(API_URL + 'orders').subscribe({
       next: (response: any) => {
         this.orders = response.data || [];
         this.applyFilters();
@@ -150,7 +150,7 @@ export class OrderManagementComponent implements OnInit {
 
   updateOrderStatus(orderId: string, newStatus: string): void {
     this.loading = true;
-    this.http.put(`http://localhost:8080/orders/${orderId}/status?status=${newStatus}`, {}).subscribe({
+    this.http.put(API_URL + `orders/${orderId}/status?status=${newStatus}`, {}).subscribe({
       next: (response: any) => {
         // Cập nhật lại đối tượng đơn hàng trong danh sách
         const index = this.orders.findIndex(order => order.id === orderId);
@@ -198,7 +198,7 @@ export class OrderManagementComponent implements OnInit {
 
   deleteOrder(orderId: string): void {
     this.loading = true;
-    this.http.delete(`http://localhost:8080/orders/${orderId}`).subscribe({
+    this.http.delete(API_URL + `orders/${orderId}`).subscribe({
       next: () => {
         // Xóa đơn hàng khỏi danh sách
         this.orders = this.orders.filter(order => order.id !== orderId);

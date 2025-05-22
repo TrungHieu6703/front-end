@@ -1,12 +1,21 @@
 <!-- update-product.component.html -->
-<p-card>
-  <ng-template pTemplate="header">
-    <div class="card-header">
-      <i class="pi pi-box"></i>
-      <h2 class="card-title">Cập nhật sản phẩm</h2>
+<div class="page-header">
+  <div class="header-content">
+    <button class="back-button" (click)="goBackToAdmin()">
+      <i class="pi pi-arrow-left"></i>
+      Quay lại Admin
+    </button>
+    
+    <div class="page-title-wrapper">
+      <div class="page-icon">
+        <i class="pi pi-box"></i>
+      </div>
+      <h1 class="page-title">Cập nhật phẩm mới</h1>
     </div>
-  </ng-template>
+  </div>
+</div>
 
+<p-card>
   <ng-template pTemplate="content">
 
 

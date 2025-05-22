@@ -147,10 +147,6 @@
     box-sizing: border-box;
 }
 
-.col-md-6 {
-    width: 50%;
-}
-
 .col-md-12 {
     width: 100%;
 }
@@ -180,85 +176,6 @@
 .form-control:disabled {
     background-color: #f9f9f9;
     color: #777;
-}
-
-/* Login field styles */
-.login-field {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-}
-
-.field-label {
-    margin-bottom: 5px;
-}
-
-.field-value {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-}
-
-.field-value span {
-    font-size: 15px;
-    color: #333;
-}
-
-.field-edit {
-    width: 100%;
-}
-
-/* Password fields */
-.password-fields {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: #555;
-    font-size: 14px;
-}
-
-/* Gender options */
-.gender-options {
-    display: flex;
-    gap: 20px;
-}
-
-.gender-options label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    margin-right: 15px;
-}
-
-.gender-options input {
-    margin-right: 5px;
-}
-
-/* Change button */
-.thaydoi {
-    display: inline-block;
-    color: #0066CC;
-    text-decoration: none;
-    padding: 5px 15px;
-    border: 1px solid #0066CC;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: all 0.2s ease;
-}
-
-.thaydoi:hover {
-    background-color: #f0f7ff;
 }
 
 /* Submit button */
@@ -298,7 +215,7 @@
     margin-top: 20px;
 }
 
-.order-table th, 
+.order-table th,
 .order-table td {
     padding: 12px 15px;
     text-align: left;
@@ -315,31 +232,6 @@
     background-color: #f5f9ff;
 }
 
-.status-pending {
-    color: #f39c12;
-    font-weight: 500;
-}
-
-.status-completed {
-    color: #27ae60;
-    font-weight: 500;
-}
-
-.status-cancelled {
-    color: #e74c3c;
-    font-weight: 500;
-}
-
-.action-btn {
-    color: #0066CC;
-    text-decoration: none;
-    margin-right: 10px;
-}
-
-.action-btn:hover {
-    text-decoration: underline;
-}
-
 /* Status badges */
 .status-pending,
 .status-completed,
@@ -353,16 +245,19 @@
 .status-pending {
     background-color: #fff3cd;
     color: #856404;
+    font-weight: 500; /* Combined from duplicate selector */
 }
 
 .status-completed {
     background-color: #d4edda;
     color: #155724;
+    font-weight: 500; /* Combined from duplicate selector */
 }
 
 .status-cancelled {
     background-color: #f8d7da;
     color: #721c24;
+    font-weight: 500; /* Combined from duplicate selector */
 }
 
 /* Action buttons */
@@ -376,6 +271,10 @@
     cursor: pointer;
     color: white;
     text-decoration: none;
+}
+
+.action-btn:hover { /* Added from a separate rule for .action-btn:hover */
+    text-decoration: underline;
 }
 
 .view-btn {
@@ -406,6 +305,7 @@
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    animation: fadeIn 0.3s ease; /* Added from @keyframes rule */
 }
 
 .modal-content {
@@ -561,23 +461,23 @@
         flex-direction: column;
         height: auto;
     }
-    
+
     .grid-members .grid-item:first-child {
         width: 100%;
         border-right: none;
         border-bottom: 1px solid #eee;
     }
-    
+
     .user-menu-side ul {
         display: flex;
         flex-wrap: wrap;
     }
-    
+
     .user-menu-side ul li {
         border-bottom: none;
         border-right: 1px solid #f5f5f5;
     }
-    
+
     .user-menu-side ul li a {
         padding: 10px 15px;
     }
@@ -587,22 +487,19 @@
     .user-menu-side ul {
         flex-direction: column;
     }
-    
+
     .user-menu-side ul li {
         border-right: none;
         border-bottom: 1px solid #f5f5f5;
     }
-    
-    .gender-options {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
+
+    /* .gender-options was here - removed as unused */
+
     .order-table th:nth-child(2),
     .order-table td:nth-child(2) {
         display: none;
     }
-    
+
     .modal-content {
         width: 95%;
     }
@@ -612,20 +509,20 @@
     .grid-members .grid-item:last-child {
         padding: 15px;
     }
-    
+
     .user-name {
         padding: 15px;
     }
-    
+
     .member-title {
         font-size: 20px;
     }
-    
+
     .order-table th:nth-child(4),
     .order-table td:nth-child(4) {
         display: none;
     }
-    
+
     .action-btn {
         padding: 4px 8px;
         font-size: 12px;
@@ -639,20 +536,20 @@
         box-shadow: none;
         width: 100%;
     }
-    
+
     .grid-members .grid-item:first-child {
         display: none;
     }
-    
+
     .grid-members .grid-item:last-child {
         width: 100%;
         padding: 0;
     }
-    
-    .submit-btn, .action-btn, .thaydoi {
+
+    .submit-btn, .action-btn { /* .thaydoi was here - removed */
         display: none;
     }
-    
+
     .member-title {
         text-align: left;
         margin-bottom: 15px;
@@ -663,10 +560,6 @@
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
-}
-
-.order-details-modal {
-    animation: fadeIn 0.3s ease;
 }
 
 /* Focus styles for accessibility */
@@ -682,8 +575,7 @@
 .form-control,
 .action-btn,
 .submit-btn,
-.close-modal-btn,
-.thaydoi {
+.close-modal-btn { /* .thaydoi was here - removed */
     transition: all 0.2s ease-in-out;
 }
 
@@ -695,7 +587,7 @@
     justify-content: center;
     padding: 10px 0;
   }
-  
+
   .spinner {
     border: 4px solid rgba(0, 0, 0, 0.1);
     width: 36px;
@@ -705,7 +597,7 @@
     animation: spin 1s linear infinite;
     margin-bottom: 10px;
   }
-  
+
   @keyframes spin {
     0% {
       transform: rotate(0deg);
@@ -715,78 +607,11 @@
     }
   }
 
-  .change-password-tab .form-group {
-  margin-bottom: 20px;
-}
-
-/* Styles for password input groups */
-.password-input-group {
-  position: relative;
-  margin-bottom: 15px;
-}
-
-.password-input-group .form-control {
-  padding-right: 40px;
-}
-
-.password-input-group .toggle-password {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #777;
-}
-
-.password-input-group .toggle-password:hover {
-  color: #333;
-}
-
-/* Password strength indicator */
-.password-strength {
-  margin-top: 5px;
-  height: 5px;
-  border-radius: 3px;
-  background-color: #eee;
-  overflow: hidden;
-}
-
-.password-strength-bar {
-  height: 100%;
-  border-radius: 3px;
-  transition: width 0.3s ease, background-color 0.3s ease;
-}
-
-.strength-weak {
-  width: 33.3%;
-  background-color: #ff4d4d;
-}
-
-.strength-medium {
-  width: 66.6%;
-  background-color: #ffa64d;
-}
-
-.strength-strong {
-  width: 100%;
-  background-color: #4CAF50;
-}
-
-/* Error messages */
+/* Error messages */ /* .success-message was here - removed */
 .error-message {
   padding: 15px;
   background-color: #f8d7da;
   color: #721c24;
-  border-radius: 4px;
-  margin-bottom: 20px;
-}
-
-.success-message {
-  padding: 15px;
-  background-color: #d4edda;
-  color: #155724;
   border-radius: 4px;
   margin-bottom: 20px;
 }

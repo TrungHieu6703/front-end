@@ -22,6 +22,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { HttpClient } from '@angular/common/http';
 import { CheckboxModule } from 'primeng/checkbox';
+import { API_URL } from '../../config/config';
 
 @Component({
   selector: 'app-update-product',
@@ -76,7 +77,7 @@ export class UpdateProductComponent implements OnInit {
     private http: HttpClient
   ) { }
 
-    ngOnInit() {
+  ngOnInit() {
     this.isLoading = true;
 
     // Lấy ID sản phẩm từ URL
@@ -85,7 +86,7 @@ export class UpdateProductComponent implements OnInit {
     });
 
     // Lấy dữ liệu backend theo thứ tự hợp lý để tránh vấn đề phụ thuộc dữ liệu
-    
+
     // Lấy danh sách brands
     this.dataService.getBrands().subscribe(data => {
       this.brands = data;
@@ -100,7 +101,7 @@ export class UpdateProductComponent implements OnInit {
     this.dataService.getProductLines().subscribe(data => {
       this.allProductLines = data;
       console.log("Đã tải xong danh sách dòng sản phẩm:", this.allProductLines.length);
-      
+
       // Sau khi tải xong product lines, mới tải dữ liệu sản phẩm
       this.loadProductData();
     });
@@ -108,8 +109,8 @@ export class UpdateProductComponent implements OnInit {
 
   productLoaded: boolean = false;
 
-   loadProductData() {
-    this.http.get<any>(`http://localhost:8080/products/${this.productId}`).subscribe({
+  loadProductData() {
+    this.http.get<any>(API_URL + `products/${this.productId}`).subscribe({
       next: (response) => {
         if (response.status === 200 && response.data) {
           const productData = response.data;
@@ -117,20 +118,20 @@ export class UpdateProductComponent implements OnInit {
           // Lấy dữ liệu từ server
           const brandId = productData.brand_id;
           const productLineId = productData.product_line_id;
-          
+
           console.log(`Sản phẩm có brandId: ${brandId}, productLineId: ${productLineId}`);
-          
+
           // Cập nhật danh sách dòng sản phẩm dựa trên brand
           if (brandId && this.allProductLines.length > 0) {
             // Lọc productLines theo brand
             this.productLines = this.allProductLines.filter(line => line.brandId === brandId);
             console.log(`Lọc được ${this.productLines.length} dòng sản phẩm cho brand ${brandId}`);
-            
+
             // Kiểm tra và log thông tin của productLine hiện tại
             if (productLineId) {
               const foundProductLine = this.productLines.find(pl => pl.id === productLineId);
-              console.log(foundProductLine ? 
-                `Tìm thấy dòng sản phẩm: ${foundProductLine.line_name}` : 
+              console.log(foundProductLine ?
+                `Tìm thấy dòng sản phẩm: ${foundProductLine.line_name}` :
                 `Không tìm thấy dòng sản phẩm với id ${productLineId}`);
             }
           }
@@ -190,15 +191,15 @@ export class UpdateProductComponent implements OnInit {
   onBrandChange(event: any) {
     const selectedBrandId = event.value;
     console.log(`Brand đã thay đổi thành: ${selectedBrandId}`);
-    
+
     // Lọc product lines theo brand đã chọn
     if (selectedBrandId && this.allProductLines.length > 0) {
       this.productLines = this.allProductLines.filter(line => line.brandId === selectedBrandId);
       console.log(`Đã tìm thấy ${this.productLines.length} dòng sản phẩm cho brand ${selectedBrandId}`);
-      
+
       // Nếu productLine hiện tại không thuộc brand mới, reset giá trị
-      if (this.product.productLine && 
-          !this.productLines.some(line => line.id === this.product.productLine)) {
+      if (this.product.productLine &&
+        !this.productLines.some(line => line.id === this.product.productLine)) {
         console.log(`ProductLine ${this.product.productLine} không thuộc brand mới, đặt lại giá trị`);
         this.product.productLine = '';
       }
@@ -319,5 +320,9 @@ export class UpdateProductComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  goBackToAdmin() {
+    this.router.navigate(['/admin/product']);
   }
 }

@@ -2,6 +2,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_URL } from '../config/config';
 
 interface FilterValue {
   id: string;
@@ -36,7 +37,7 @@ interface ProductsResponse {
 })
 export class ProductFilterService {
   private http = inject(HttpClient);
-  private apiBaseUrl = 'http://localhost:8080/api';
+  private apiBaseUrl = API_URL + 'api';
 
   getFilters(categoryId: string): Observable<FilterResponse> {
     return this.http.get<FilterResponse>(`${this.apiBaseUrl}/filters/category/${categoryId}`);

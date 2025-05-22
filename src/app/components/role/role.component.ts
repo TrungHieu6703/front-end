@@ -7,7 +7,7 @@ import { FileUploadModule, FileUploadHandlerEvent } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-
+import { API_URL } from '../../config/config';
 interface UploadEvent {
     originalEvent: Event;
     files: File[];
@@ -43,7 +43,7 @@ export class RoleComponent {
           formData.append("files1", file, file.name)
       }
       console.log(formData.getAll("files"))
-      this.http.post<any>("http://localhost:8080/products/upload-multiple", formData).subscribe(
+      this.http.post<any>(API_URL + "products/upload-multiple", formData).subscribe(
         (response) => this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Thêm sản phẩm thành công' }),
         
         (error) => console.error("Lỗi khi thêm sản phẩm:", error)

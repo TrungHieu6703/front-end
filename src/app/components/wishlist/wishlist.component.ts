@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { WishlistService } from '../../services/wishlist.service';
 import { LaptopItemComponent } from '../laptop-item/laptop-item.component';
 import { HeaderComponent } from '../header/header.component';
+
 @Component({
   selector: 'app-wishlist',
   standalone: true,
@@ -38,10 +39,21 @@ export class WishlistComponent implements OnInit {
 
   ngOnInit() {
     this.loadWishlist();
+    
+    // Subscribe to wishlist changes để tự động cập nhật khi có thay đổi
+    this.wishlistService.wishlist$.subscribe(products => {
+      this.wishlistProducts = products;
+    });
   }
 
   loadWishlist() {
     this.wishlistProducts = this.wishlistService.getWishlist();
   }
 
+  // Handle khi một item được xóa khỏi wishlist
+  onRemoveFromWishlist(product: any) {
+    // Không cần làm gì thêm vì wishlist service đã tự động cập nhật
+    // và component đã subscribe để nhận thông báo thay đổi
+    console.log('Đã xóa sản phẩm khỏi wishlist:', product.name);
+  }
 }

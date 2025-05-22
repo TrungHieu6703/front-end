@@ -29,7 +29,7 @@ export class ListProductComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private router: Router
-  ) {}
+  ) { }
 
   applyFilterGlobal($event: any, stringVal: any) {
     this.dt!.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
@@ -53,12 +53,9 @@ export class ListProductComponent implements OnInit {
       error: (err) => console.error('Lỗi khi lấy dữ liệu thuộc tính:', err),
     });
   }
-  
 
-  openNew() {
-    this.listproduct = {};
-    this.submitted = false;
-    this.listproductDialog = true;
+  goToCreateProduct() {
+    this.router.navigate(['/create-product']);
   }
 
   deleteSelectedListProducts() {
@@ -95,9 +92,7 @@ export class ListProductComponent implements OnInit {
   }
 
   editListProduct(listproduct: ListProduct) {
-    console.log('click')
-    this.router.navigate(['update-product'], {state: { product: listproduct}})
-    this.listproductDialog = true;
+    this.router.navigate(['/update-product/' + listproduct.id])
   }
 
   deleteListProduct(listproduct: ListProduct) {

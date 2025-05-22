@@ -37,7 +37,6 @@ import { FilterBoxComponent } from "../filter-box/filter-box.component";
     CompareButtonComponent,
     FilterBoxComponent
   ],
-  providers: [WishlistService],
   templateUrl: './category-page.component.html',
   styleUrl: './category-page.component.css'
 })

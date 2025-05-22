@@ -28,9 +28,9 @@ import { CheckboxModule } from 'primeng/checkbox';
   imports: [
     CardModule, TableModule, ToggleButtonModule, DynamicProductComponent,
     FormsModule, EditorModule, ButtonModule, TabViewModule,
-    InputTextModule, EditorComponent, ToastModule, 
-    CommonModule, ReactiveFormsModule, InputTextareaModule, 
-    DropdownModule, InputNumberModule, CheckboxModule 
+    InputTextModule, EditorComponent, ToastModule,
+    CommonModule, ReactiveFormsModule, InputTextareaModule,
+    DropdownModule, InputNumberModule, CheckboxModule
   ],
   templateUrl: './create-product.component.html',
   styleUrls: ['./create-product.component.css']
@@ -56,7 +56,7 @@ export class CreateProductComponent implements OnInit {
   categories: CategoryType[] = [];
   allProductLines: ProductLine[] = [];
   productLines: ProductLine[] = [];
-  
+
   selectedFiles: File[] = [];
   editorContent: string = '';
   isLoading = false;
@@ -67,7 +67,7 @@ export class CreateProductComponent implements OnInit {
     private dataService: DataService,
     private router: Router,
     private sanitizer: DomSanitizer
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Lấy danh sách brands
@@ -100,14 +100,14 @@ export class CreateProductComponent implements OnInit {
 
   onBrandChange(event: any) {
     const selectedBrandId = event.value;
-    
+
     // Lọc product lines theo brand đã chọn
     if (selectedBrandId) {
       this.productLines = this.allProductLines.filter(line => line.brandId === selectedBrandId);
     } else {
       this.productLines = [];
     }
-    
+
     // Reset giá trị product line đã chọn
     this.product.productLine = '';
   }
@@ -117,12 +117,12 @@ export class CreateProductComponent implements OnInit {
       this.selectedFiles = Array.from(event.target.files);
     }
   }
-  
+
   getSafeUrl(file: File) {
     const url = URL.createObjectURL(file);
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
-  
+
   removeFile(index: number) {
     this.selectedFiles = this.selectedFiles.filter((_, i) => i !== index);
   }
@@ -131,19 +131,19 @@ export class CreateProductComponent implements OnInit {
     if (!this.validateForm()) {
       return;
     }
-    
+
     this.isLoading = true;
-    
+
     // Lấy dữ liệu thuộc tính từ component động
     const attributesData = this.dynamicProductComponent.handleSubmit();
-    
+
     // Tạo FormData
     const formData = this.productEditorService.createFormData(
-      this.product, 
-      this.selectedFiles, 
+      this.product,
+      this.selectedFiles,
       attributesData
     );
-    
+
     // Xử lý nội dung editor
     this.productEditorService.processEditorContent(this.editorContent, formData)
       .subscribe({
@@ -170,11 +170,15 @@ export class CreateProductComponent implements OnInit {
   }
 
   validateForm(): boolean {
-    if (!this.product.name || !this.product.price || !this.product.quantity 
-        || !this.product.brand || !this.product.category || !this.product.productLine) {
+    if (!this.product.name || !this.product.price || !this.product.quantity
+      || !this.product.brand || !this.product.category || !this.product.productLine) {
       console.error("Vui lòng điền đầy đủ thông tin sản phẩm!");
       return false;
     }
     return true;
+  }
+
+  goBackToAdmin() {
+    this.router.navigate(['/admin/product']);
   }
 }

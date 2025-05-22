@@ -6,6 +6,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
+import { API_URL } from '../../config/config';
 
 interface FilterValue {
   id: string;
@@ -44,7 +45,7 @@ export class TestComponent implements OnInit {
   categoryId = '1e4de469-0280-11f0-8579-0242ac110002';
   
   // API endpoint
-  apiUrl = 'http://localhost:8080/api/filters/category';
+  apiUrl = API_URL + 'api/filters/category';
 
   ngOnInit() {
     // Đọc query params từ URL hiện tại

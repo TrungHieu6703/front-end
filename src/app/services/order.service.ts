@@ -42,7 +42,7 @@ interface OrderDetailRes {
 })
 export class OrderService {
   private apiUrl = API_URL + 'orders';
-  private vnpayApiUrl = 'http://localhost:8080/api/v1/pay';
+  private vnpayApiUrl = API_URL + 'api/v1/pay';
   constructor(private http: HttpClient) {}
 
   createOrder(orderData: OrderDTO): Observable<OrderRes> {

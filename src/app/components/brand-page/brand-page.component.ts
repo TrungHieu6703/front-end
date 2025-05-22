@@ -20,7 +20,7 @@ import { FilterBoxComponent } from "../filter-box/filter-box.component";
 import { HttpClient } from '@angular/common/http';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
-
+import { API_URL } from '../../config/config';
 interface Category {
   id: string;
   name: string;
@@ -88,7 +88,7 @@ export class BrandPageComponent implements OnInit {
   fetchCategories() {
     this.loadingCategories = true;
     
-    this.http.get<CategoryResponse>(`http://localhost:8080/categories`)
+    this.http.get<CategoryResponse>(API_URL + `categories`)
       .pipe(
         catchError(err => {
           console.error('Error fetching categories', err);

@@ -46,7 +46,7 @@ body {
 .title {
     box-shadow: rgba(99, 99, 99, 0.2) 0px -4px 8px -2px;
     position: absolute;
-    right: -10px; /* Điều chỉnh lại vị trí */
+    right: -22px; /* Điều chỉnh lại vị trí */
     top: -43px;
     background-color: #ffffff;
     width: 125px;

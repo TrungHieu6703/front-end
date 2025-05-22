@@ -2,7 +2,7 @@
     <p-toast></p-toast>
     <p-toolbar class="mb-4 gap-2">
         <ng-template pTemplate="left">
-            <p-button severity="success" label="Thêm mới" icon="pi pi-plus" class="mr-2" (click)="openNew()">
+            <p-button severity="success" label="Thêm mới" icon="pi pi-plus" class="mr-2" (click)="goToCreateProduct()">
             </p-button>
             <p-button severity="danger" label="Xóa" icon="pi pi-trash" (click)="deleteSelectedListProducts()"
                 [disabled]="!selectedListProducts || !selectedListProducts.length">
@@ -77,27 +77,6 @@
 
 
     </p-table>
-
-    <p-dialog [(visible)]="listproductDialog" [style]="{ width: '450px' }" header="Chi tiết thuộc tính" [modal]="true"
-        class="p-fluid">
-
-        <ng-template pTemplate="content">
-            <div class="field">
-                <label for="name">Tên thuộc tính</label>
-                <input type="text" pInputText id="name" [(ngModel)]="listproduct.name" required autofocus>
-                <small class="p-error" *ngIf="submitted && !listproduct.name">
-                    Tên không được để trống.
-                </small>
-            </div>
-        </ng-template>
-
-        <ng-template pTemplate="footer">
-            <p-button label="Hủy" icon="pi pi-times" (click)="hideDialog()">
-            </p-button>
-            <p-button label="Lưu" icon="pi pi-check">
-            </p-button>
-        </ng-template>
-    </p-dialog>
 
     <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
 </div>

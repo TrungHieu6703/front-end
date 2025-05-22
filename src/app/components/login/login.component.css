@@ -1,3 +1,4 @@
+
 .grid-members {
     display: flex;
     border-radius: 8px;
@@ -5,7 +6,7 @@
     overflow: hidden;
     width: 850px;
     height: 560px;
-    margin: 0 auto;
+    margin: 100px auto 0; /* Thêm margin-top 30px */
     background-color: #fff;
 }
 .grid-item:first-child {
@@ -55,4 +56,25 @@
 }
 .submit-btn:hover {
     background-color: #0055b3;
+}
+.error-text {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+
+.error-input {
+  border-color: #e74c3c !important;
+  background-color: rgba(231, 76, 60, 0.05);
+}
+
+.box {
+  margin-bottom: 15px;
+}
+
+/* Nút khi disabled */
+.submit-btn[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
 }

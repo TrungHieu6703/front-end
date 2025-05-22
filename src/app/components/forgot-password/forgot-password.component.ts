@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { HeaderComponent } from '../header/header.component';
-
+import { API_URL } from '../../config/config';
 interface EmailDTO {
   email: string;
 }
@@ -129,7 +129,7 @@ export class ForgotPasswordComponent implements OnInit {
     };
 
     // Gửi yêu cầu khôi phục mật khẩu đến server
-    this.http.post('http://localhost:8080/users/forgot-password', emailDTO, {
+    this.http.post(API_URL + 'users/forgot-password', emailDTO, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       }),

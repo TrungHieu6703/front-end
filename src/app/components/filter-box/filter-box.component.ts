@@ -6,7 +6,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { API_URL } from '../../config/config';
 interface FilterValue {
   id: string;
   value: string;
@@ -62,9 +62,7 @@ export class FilterBoxComponent implements OnInit, OnChanges {
   categories: Category[] = [];
   selectedCategoryId: string = '';
   loadingCategories = false;
-  
-  // API endpoints
-  private apiUrl = 'http://localhost:8080';
+
 
   ngOnInit() {
     // Khởi tạo giá trị cho product_line nếu cần
@@ -117,7 +115,7 @@ export class FilterBoxComponent implements OnInit, OnChanges {
   private fetchCategories() {
     this.loadingCategories = true;
     
-    this.http.get<CategoryResponse>(`${this.apiUrl}/categories`)
+    this.http.get<CategoryResponse>(API_URL +`/categories`)
       .pipe(
         catchError(err => {
           console.error('Error fetching categories', err);
@@ -156,7 +154,7 @@ export class FilterBoxComponent implements OnInit, OnChanges {
       return;
     }
     
-    this.http.get<any>(`${this.apiUrl}/api/filters/category/${this.categoryId}`)
+    this.http.get<any>(API_URL + `api/filters/category/${this.categoryId}`)
       .pipe(
         catchError(err => {
           console.error('Error fetching filters', err);

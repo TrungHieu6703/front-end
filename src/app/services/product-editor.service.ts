@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_URL } from '../config/config';
 
 export interface Product {
   id: string;
@@ -61,7 +62,7 @@ export class ProductEditorService {
 
       Promise.all(imagePromises).then(() => {
         if (formData1.has("files1")) {
-          this.http.post<any[]>("http://localhost:8080/products/upload-multiple", formData1)
+          this.http.post<any[]>(API_URL + "products/upload-multiple", formData1)
             .subscribe({
               next: (data) => {
                 let processedContent = content;
@@ -116,16 +117,16 @@ export class ProductEditorService {
 
   // Thêm sản phẩm mới
   createProduct(formData: FormData): Observable<any> {
-    return this.http.post<any>("http://localhost:8080/products/create", formData);
+    return this.http.post<any>(API_URL + "products/create", formData);
   }
 
   // Trong services/product-editor.service.ts, thêm phương thức updateProduct
   updateProduct(productId: string, formData: FormData): Observable<any> {
-    return this.http.put<any>(`http://localhost:8080/products/update/${productId}`, formData);
+    return this.http.put<any>(API_URL + `products/update/${productId}`, formData);
   }
 
   // Lấy thông tin sản phẩm 
   getProductById(id: string): Observable<Product> {
-    return this.http.get<Product>(`http://localhost:8080/products/${id}`);
+    return this.http.get<Product>(API_URL + `products/${id}`);
   }
 }

@@ -42,4 +42,8 @@ export class SearchService {
   search(term: string): void {
     this.searchTerms.next(term);
   }
+
+    searchProductByKeyword(term: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.searchUrl}?keyword=${term}`);
+  }
 }   

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_URL } from '../config/config';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +14,7 @@ export class ApiService {
   }
 
   GetAllBrands(): Observable<any>{
-    return this.http.get("http://localhost:8080/brands")
+    return this.http.get(API_URL + "brands")
   }
 
 }

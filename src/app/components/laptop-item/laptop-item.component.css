@@ -525,3 +525,8 @@
   background-color: #007bff;
   color: #fff;
 }
+
+.close-icon {
+  float: right;
+  cursor: pointer;
+}

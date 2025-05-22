@@ -13,7 +13,7 @@ import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DynamicProductComponent } from '../dynamic-product/dynamic-product.component';
-
+import { API_URL } from '../../config/config';
 interface Product {
   name: string;
   price: number;
@@ -132,7 +132,7 @@ export class ProductComponent implements AfterViewInit {
     // Đợi tất cả ảnh fetch xong trước khi gửi request
     Promise.all(imagePromises).then(() => {
       if (formData1.has("files1")) {
-        this.http.post<any[]>("http://localhost:8080/products/upload-multiple", formData1)
+        this.http.post<any[]>(API_URL + "products/upload-multiple", formData1)
           .subscribe({
             next: (data) => {
               this.image = data;
@@ -157,7 +157,7 @@ export class ProductComponent implements AfterViewInit {
   }
   
   createProduct(formData: FormData) {
-    this.http.post<any>("http://localhost:8080/products/create", formData).subscribe(
+    this.http.post<any>( API_URL + "products/create", formData).subscribe(
       (response) => console.log("Thêm sản phẩm thành công!", response),
       (error) => console.error("Lỗi khi thêm sản phẩm:", error)
     );

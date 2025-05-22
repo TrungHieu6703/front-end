@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_URL } from '../config/config';
 
 export interface ProductCompare {
   id: string;
@@ -17,7 +18,7 @@ export interface ProductCompare {
   providedIn: 'root'
 })
 export class CompareService {
-  private apiUrl = 'http://localhost:8080/api/laptops';
+  private apiUrl = API_URL + 'api/laptops';
 
   constructor(private http: HttpClient) { }
 

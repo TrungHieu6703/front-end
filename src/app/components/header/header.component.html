@@ -170,9 +170,9 @@
   </nav>
 
   <div class="search" (click)="onSearchContainerClick($event)">
-    <input type="text" placeholder="Tìm kiếm laptop và phụ kiện..." [(ngModel)]="searchTerm" (input)="onSearch()"
-      (focus)="onSearchInputFocus()" #searchBox />
-    <button>
+    <input type="text" placeholder="Tìm kiếm laptop và phụ kiện..." [(ngModel)]="searchTerm" 
+           (input)="onSearch()" (focus)="onSearchInputFocus()" (keydown.enter)="performSearch()" #searchBox />
+    <button (click)="performSearch()">
       <i class="pi pi-search" style="font-size: 1.3rem"></i>
     </button>
 

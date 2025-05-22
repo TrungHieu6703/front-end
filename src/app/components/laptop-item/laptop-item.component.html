@@ -54,13 +54,60 @@
     <p class="text_giamgia" *ngIf="product.discount">-{{product.discount}}<span>%</span></p>
     
     <div class="relative mx-auto">
-      <a [routerLink]="['/product', product.id]">
+      <a [routerLink]="['/product-detail', product.id]">
         <img class="border-round w-full" [src]="product.avatar" [alt]="product.name" style="max-width: 300px;" />
       </a>
     </div>
     
     <div class="pt-4">
-      <a [routerLink]="['/product', product.id]" class="product-name">
+      <a [routerLink]="['/product-detail', product.id]" class="product-name">
+        {{ product.name }}
+      </a>
+      
+      <div class="mt-3">
+        <span class="text-xl font-semibold" style="color: rgb(255,94,34)">{{ product.price | number }} đ</span> <span class="text-sm line-through ml-2" style="color: #999;" *ngIf="product.oldPrice">{{ product.oldPrice | number }} đ</span>
+      </div>
+      
+      <div class="love_same mt-2">
+        <p class="p-same" style="color: rgb(131,131,131); font-size: 12px;">1 phiên bản</p> <div class="right" (click)="love()">
+          <i *ngIf="!isInWishlist" class="pi pi-heart" style="color: #FF5E22;"></i>
+          <i *ngIf="isInWishlist" class="pi pi-heart-fill" style="color: #FF5E22;"></i>
+          <span class="yeu_thich">Yêu thích</span>
+        </div>
+      </div>
+      
+      <div class="ab">
+        <div class="thongso">
+          <p>{{ product.specs_summary }}</p>
+        </div>
+        
+        <div class="bnt_sp">
+          <a class="left" (click)="addToCart()">
+            <i class="pi pi-cart-plus"></i>
+          </a>
+          <a class="right" (click)="addToListCompare()">
+            <span *ngIf="isCompared; else notCompared">Đã thêm so sánh</span>
+            <ng-template #notCompared>
+              <span>So sánh</span>
+            </ng-template>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-4" *ngIf="mode === 'wishlist'">
+    <p class="text_xuhuong" *ngIf="product.is_hot">HOT</p>
+    <i class="pi pi-times close-icon" (click)="removeItem()" style="cursor: pointer; position: absolute; top: 10px; right: 10px; z-index: 10;"></i>
+    
+    <div class="relative mx-auto">
+      <a [routerLink]="['/product-detail', product.id]">
+        <img class="border-round w-full" [src]="product.avatar" [alt]="product.name" style="max-width: 300px;" />
+      </a>
+    </div>
+    
+    <div class="pt-4">
+      <a [routerLink]="['/product-detail', product.id]" class="product-name">
         {{ product.name }}
       </a>
       
@@ -99,7 +146,7 @@
   <div class="search-result-item" *ngIf="mode === 'search'">
     <div class="search-item-container">
       <div class="search-item-image">
-        <a [routerLink]="['/product', product.id]">
+        <a [routerLink]="['/product-detail', product.id]">
           <img [src]="product.avatar" [alt]="product.name" />
         </a>
         <p class="text_xuhuong search-hot-label" *ngIf="product.is_hot">HOT</p>
@@ -107,7 +154,7 @@
       </div>
       
       <div class="search-item-details">
-        <a [routerLink]="['/product', product.id]" class="search-product-name">
+        <a [routerLink]="['/product-detail', product.id]" class="search-product-name">
           {{ product.name }}
         </a>
         <div class="search-price-actions">
@@ -135,7 +182,7 @@
   <div class="search-result-item compare" *ngIf="mode === 'compare'">
     <div class="search-item-container compare">
       <div class="search-item-image compare">
-        <a [routerLink]="['/product', product.id]">
+        <a [routerLink]="['/product-detail', product.id]">
           <img [src]="product.avatar" [alt]="product.name" />
         </a>
         <p class="text_xuhuong search-hot-label compare" *ngIf="product.is_hot">HOT</p>
@@ -145,7 +192,7 @@
       </div>
       
       <div class="search-item-details compare">
-        <a [routerLink]="['/product', product.id]" class="search-product-name compare">
+        <a [routerLink]="['/product-detail', product.id]" class="search-product-name compare">
           {{ product.name }}
         </a>
 

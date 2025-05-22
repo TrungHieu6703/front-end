@@ -40,11 +40,12 @@ export class LaptopItemComponent implements OnInit {
 
   @Input() product: any;
   @Input() isCompared: boolean = false;
-  @Input() mode: 'default' | 'compare' | 'search' = 'default';
+  @Input() mode: 'default' | 'compare' | 'search' | 'wishlist'= 'default';
   @Input() loading: boolean = false; // New input for loading state
 
   @Output() addToCompare = new EventEmitter<any>();
   @Output() productSelectedForDetailCompare = new EventEmitter<any>();
+  @Output() removeFromWishlist = new EventEmitter<any>(); // Thêm output event mới
 
   ngOnInit() {
     // Only try to access product.id if product is not null and loading is false
@@ -78,6 +79,14 @@ export class LaptopItemComponent implements OnInit {
     if (this.product) {
       console.log('Product ID from laptop-item for detail compare:', this.product.id);
       this.productSelectedForDetailCompare.emit(this.product);
+    }
+  }
+
+  // Thêm method để xử lý xóa khỏi wishlist
+  removeItem() {
+    if (this.product) {
+      this.wishlistService.removeFromWishlistById(this.product.id);
+      this.removeFromWishlist.emit(this.product); // Emit event để parent component có thể cập nhật
     }
   }
 }

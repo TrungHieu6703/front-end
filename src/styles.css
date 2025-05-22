@@ -1,11 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 /* Reset toàn bộ margin, padding, box-sizing */
-/* * {
+html, body, header, footer, main, section, article, aside {
     margin: 0;
     padding: 0;
+}
+
+* {
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
-} */
+}
+
 
 /* Đảm bảo html, body full kích thước */
 html, body {

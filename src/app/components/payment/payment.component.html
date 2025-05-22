@@ -149,7 +149,8 @@
           </div>
         </p-card>
       </div>
-      <!-- Phần HTML cho giỏ hàng -->
+      
+      <!-- Phần HTML cho giỏ hàng với layout mới -->
       <div class="detail-right">
         <p-card>
           <div class="p-grid">
@@ -162,21 +163,26 @@
               <p>Không có sản phẩm nào trong giỏ hàng</p>
             </div>
 
-            <!-- Lặp qua các sản phẩm trong giỏ hàng -->
+            <!-- Lặp qua các sản phẩm trong giỏ hàng với layout mới -->
             <div class="cart-item" *ngFor="let item of cartItems; let i = index">
               <button class="remove-btn" (click)="removeItem(i)">×</button>
               <div class="cart-content">
-                <img [src]="item.avatar" [alt]="item.name">
+                <!-- Hình ảnh sản phẩm -->
+                <div class="cart-image">
+                  <img [src]="item.avatar" [alt]="item.name">
+                </div>
+                
+                <!-- Chi tiết sản phẩm -->
                 <div class="cart-details">
-                  <h2 class="product-title">{{ item.name }}</h2>
+                  <h3 class="product-title">{{ item.name }}</h3>
                   <div class="price">
                     <span class="discounted-price">{{ item.price | number:'1.0-0' }}đ</span>
                   </div>
-                </div>
-                <div class="quantity-selector">
-                  <button class="qty-btn" (click)="updateQuantity(item, -1)">−</button>
-                  <input type="number" [(ngModel)]="item.quantity" min="1" (change)="calculateTotalAmount()">
-                  <button class="qty-btn" (click)="updateQuantity(item, 1)">+</button>
+                  <div class="quantity-selector">
+                    <button class="qty-btn" (click)="updateQuantity(item, -1)">−</button>
+                    <input type="number" [(ngModel)]="item.quantity" min="1" (change)="calculateTotalAmount()">
+                    <button class="qty-btn" (click)="updateQuantity(item, 1)">+</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -197,7 +203,8 @@
             <!-- Nút đặt hàng -->
             <div class="btn-area">
               <a (click)="placeOrder()" id="cod-btn" class="payment-btn cod-btn-payment" title="Đặt hàng">
-                Đặt hàng </a>
+                Đặt hàng
+              </a>
             </div>
           </div>
         </p-card>

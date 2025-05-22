@@ -18,6 +18,7 @@ import { ListProductService } from '../../services/list-product.service';
 import { BrandComponent } from '../brand/brand.component';
 import { LaptopComponent } from '../laptop/laptop.component';
 import { BannerComponent } from '../banner/banner.component';
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-designation',
@@ -39,9 +40,8 @@ import { BannerComponent } from '../banner/banner.component';
     BannerComponent,
     BrandComponent,
     LaptopComponent,
-    
+    FooterComponent
   ],
-  providers: [WishlistService],
   templateUrl: './designation.component.html',
   styleUrl: './designation.component.css'
 })

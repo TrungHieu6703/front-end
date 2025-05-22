@@ -1,4 +1,5 @@
 <app-header></app-header>
+<p-toast></p-toast>
 <div class="grid-members">
     <!-- Cột trái: Ảnh + Quyền lợi -->
     <div class="grid-item">
@@ -18,42 +19,71 @@
         <a (click)="setTab('register')" [class.active]="!isLogin">Đăng ký</a>
       </div>
   
-      <!-- Hiển thị form tương ứng -->
-      <form *ngIf="isLogin">
+      <!-- Form đăng nhập -->
+      <form *ngIf="isLogin" #loginForm="ngForm" novalidate>
         <div class="box">
-          <input type="email" class="form-control" [(ngModel)]="login.email" name="email" placeholder="Email đăng nhập*">
+          <input type="email" class="form-control" 
+                [(ngModel)]="login.email" name="email" 
+                placeholder="Email đăng nhập*"
+                [class.error-input]="loginErrors.email">
+          <small class="error-text" *ngIf="loginErrors.email">{{ loginErrors.email }}</small>
         </div>
         <div class="box">
-          <input type="password" class="form-control" [(ngModel)]="login.password" name="password" placeholder="Mật khẩu*">
+          <input type="password" class="form-control" 
+                [(ngModel)]="login.password" name="password" 
+                placeholder="Mật khẩu*"
+                [class.error-input]="loginErrors.password">
+          <small class="error-text" *ngIf="loginErrors.password">{{ loginErrors.password }}</small>
         </div>
         <div class="box box-right">
           <a [routerLink]="['/forgot-password']" class="forgot-password">Quên mật khẩu?</a>
         </div>
         <div class="box">
-          <button class="submit-btn" (click)="onLogin()">Đăng nhập</button>
+          <button class="submit-btn" (click)="onLogin()" [disabled]="isSubmitting">
+            <span *ngIf="!isSubmitting">Đăng nhập</span>
+            <span *ngIf="isSubmitting">Đang xử lý...</span>
+          </button>
         </div>
       </form>
   
-      <form *ngIf="!isLogin">
+      <!-- Form đăng ký -->
+      <form *ngIf="!isLogin" #registerForm="ngForm" novalidate>
         <div class="box">
-          <input type="text" class="form-control" placeholder="Họ và tên*" [(ngModel)]="register.name" name="name">
+          <input type="text" class="form-control" 
+                placeholder="Họ và tên*" 
+                [(ngModel)]="register.name" name="name"
+                [class.error-input]="registerErrors.name">
+          <small class="error-text" *ngIf="registerErrors.name">{{ registerErrors.name }}</small>
         </div>
         <div class="box">
-          <input type="tel" class="form-control" placeholder="Số điện thoại*" [(ngModel)]="register.phone" name="phone">
+          <input type="tel" class="form-control" 
+                placeholder="Số điện thoại*" 
+                [(ngModel)]="register.phone" name="phone"
+                [class.error-input]="registerErrors.phone">
+          <small class="error-text" *ngIf="registerErrors.phone">{{ registerErrors.phone }}</small>
         </div>
         <div class="box">
-          <input type="email" class="form-control" placeholder="Email*" [(ngModel)]="register.email" name="email">
+          <input type="email" class="form-control" 
+                placeholder="Email*" 
+                [(ngModel)]="register.email" name="email"
+                [class.error-input]="registerErrors.email">
+          <small class="error-text" *ngIf="registerErrors.email">{{ registerErrors.email }}</small>
         </div>
         <div class="box">
-          <input type="password" class="form-control" placeholder="Mật khẩu*" [(ngModel)]="register.password" name="password">
+          <input type="password" class="form-control" 
+                placeholder="Mật khẩu*" 
+                [(ngModel)]="register.password" name="password"
+                [class.error-input]="registerErrors.password">
+          <small class="error-text" *ngIf="registerErrors.password">{{ registerErrors.password }}</small>
         </div>
         <div class="box">
-          <button class="submit-btn" type="button" (click)="onRegister()">Đăng ký</button>
+          <button class="submit-btn" type="button" (click)="onRegister()" [disabled]="isSubmitting">
+            <span *ngIf="!isSubmitting">Đăng ký</span>
+            <span *ngIf="isSubmitting">Đang xử lý...</span>
+          </button>
         </div>
       </form>
       
-  
       <p class="note">Trung Trần cam kết bảo mật thông tin của bạn.</p>
     </div>
   </div>
-  

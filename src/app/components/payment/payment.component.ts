@@ -309,7 +309,8 @@ export class PaymentComponent implements OnInit {
   // }
 
   placeOrder() {
-    let shippingInfo = `Họ tên: ${this.fullName}
+    let shippingInfo = 
+   `Họ tên: ${this.fullName}
     SĐT: ${this.phoneNumber}
     Giới tính: ${this.gender}
     Địa chỉ: ${this.street}, ${this.ward}, ${this.district}, ${this.province}
@@ -411,8 +412,8 @@ export class PaymentComponent implements OnInit {
           
           // Chuyển hướng đến trang xác nhận hoặc trang chủ sau 2 giây
           setTimeout(() => {
-            this.router.navigate(['/']);
-          }, 2000);
+            this.router.navigate(['/designation']);
+          }, 4000);
         }
       },
       error: (err) => {
